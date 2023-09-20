@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM nvidia/cuda:12.2.0-base-ubuntu22.04
 
 ARG AGX_VERSION
 ARG AGX_DISTRIBUTION
