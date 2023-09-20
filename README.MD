@@ -18,5 +18,5 @@ x11vnc -create &
 
 
 ## Maintained and Developed by
-- Davind Schwenke @ schwenkedavid@t-online.de
+- David Schwenke @ schwenkedavid@t-online.de
 - Marvin Fette @ fettemarvin@gmail.com
