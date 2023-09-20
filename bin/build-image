@@ -1,19 +1,20 @@
 #!/bin/bash
+dir=$(dirname `realpath -s "$0"`)
 
 # Found on: https://stackoverflow.com/a/20909045
-export $(grep -v '^#' ../.env | xargs -d '\n')
+export $(grep -v '^#' $dir/../.env | xargs -d '\n')
 
-if [ ! -f ../agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb ]; then
-    wget -O ../agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb \
+if [ ! -f $dir/../agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb ]; then
+    wget -O $dir/../agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb \
             https://www.algoryx.se/download/installers/agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb
     
     if [ $? -ne 0 ]; then
         echo -e "Fetching agx dynamic failed!"
-        rm ../agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb; exit 1
+        rm $dir/../agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb; exit 1
     fi
 fi 
 
-if [ ! -f ../*.lic ]; then
+if [ ! -f $dir/../*.lic ]; then
     echo -e "Missing lic file"; exit 1
 fi
 
@@ -21,4 +22,4 @@ docker buildx build --tag machine-boom-project \
                     --progress=plain \
                     --build-arg AGX_VERSION=$AGX_VERSION \
                     --build-arg AGX_DISTRIBUTION=$AGX_DISTRIBUTION \
-                    ../
+                    $dir/../
