@@ -4,7 +4,13 @@
 export $(grep -v '^#' ../.env | xargs -d '\n')
 
 if [ ! -f ../agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb ]; then
-    wget -P ../ https://www.algoryx.se/download/installers/agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb
+    wget -O ../agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb \
+            https://www.algoryx.se/download/installers/agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb
+    
+    if [ $? -ne 0 ]; then
+        echo -e "Fetching agx dynamic failed!"
+        rm ../agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb; exit 1
+    fi
 fi 
 
 if [ ! -f ../*.lic ]; then
