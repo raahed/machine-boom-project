@@ -1,0 +1,14 @@
+#!/bin/bash
+SOURCE=$(dirname `pwd`)/src
+
+docker run --detach \
+           --rm \
+           --privileged \
+           --user root \
+           --publish 5900:5900 \
+           --publish 22:22 \
+           --env-file ../.env \
+           --env USER=root \
+           --volume $SOURCE:/mnt/project \
+           --name mbp-runner \
+           machine-boom-project:latest
