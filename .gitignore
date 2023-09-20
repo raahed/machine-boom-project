@@ -1,0 +1,8 @@
+# ide's
+.idea/
+.vscode/
+.code/
+
+# project
+*.lic
+*.deb
