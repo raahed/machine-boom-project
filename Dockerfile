@@ -21,11 +21,11 @@ RUN apt-get install -y --no-install-recommends \
 RUN apt-get install -y python3.10 python3-pip build-essential cmake
 
 # Install AGX dynamics and place lic file
-COPY agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb ./
-RUN apt-get install -y ./agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb
+COPY agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb /
+RUN apt-get install -y /agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb
 COPY *.lic /opt/Algoryx/AGX-${AGX_VERSION}/
 RUN source /opt/Algoryx/AGX-${AGX_VERSION}/setup_env.bash
-RUN rm ./agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb
+RUN rm /agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb
 
 # Enable root login in ssh
 RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
