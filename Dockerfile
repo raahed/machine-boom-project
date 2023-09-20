@@ -31,7 +31,10 @@ RUN rm ./agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb
 RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 
 # Change passwd
-RUN echo 'root:default' | chpasswd
+RUN echo "root:default" | chpasswd
+
+# Load agx envs every time
+RUN echo "source /opt/Algoryx/AGX-${AGX_VERSION}/setup_env.bash" >> ~/.bashrc
 
 # Clean up
 RUN apt-get clean -y             && \
