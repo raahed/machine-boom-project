@@ -22,7 +22,9 @@ RUN apt-get install -y --no-install-recommends \
     # C and Cpp tools
     build-essential cmake \
     # Python
-    python3.10 python3-pip
+    python3.10 python3-pip \
+    # GL stuff
+    mesa-utils mesa-utils-extra glmark2 libgl1-mesa-dri libopengl-dev libgl1-mesa-dev
 
 # Install Python tools
 RUN pip3 install --upgrade pip && \
@@ -40,14 +42,14 @@ COPY *.lic /opt/Algoryx/AGX-${AGX_VERSION}/
 RUN source /opt/Algoryx/AGX-${AGX_VERSION}/setup_env.bash
 RUN rm /agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb
 
+# Load agx envs every time
+RUN echo "source /opt/Algoryx/AGX-${AGX_VERSION}/setup_env.bash" >> ~/.bashrc
+
 # Enable root login in ssh
 RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 
 # Change passwd
 RUN echo "root:default" | chpasswd
-
-# Load agx envs every time
-RUN echo "source /opt/Algoryx/AGX-${AGX_VERSION}/setup_env.bash" >> ~/.bashrc
 
 # Clean up
 RUN apt-get clean -y             && \

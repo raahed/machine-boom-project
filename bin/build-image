@@ -1,20 +1,28 @@
 #!/bin/bash
-dir=$(dirname `realpath -s "$0"`)
+DIR=$(dirname `realpath -s "$0"`)
 
 # Found on: https://stackoverflow.com/a/20909045
-export $(grep -v '^#' $dir/../.env | xargs -d '\n')
+export $(grep -v '^#' $DIR/../.env | xargs -d '\n')
 
-if [ ! -f $dir/../agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb ]; then
-    wget -O $dir/../agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb \
-            https://www.algoryx.se/download/installers/agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb
+FILENAME=agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb
+
+if [ ! -f $DIR/../${FILENAME} ]; then
+    wget -O $DIR/../${FILENAME} \
+            https://www.algoryx.se/download/installers/${FILENAME}
     
     if [ $? -ne 0 ]; then
-        echo -e "Fetching agx dynamic failed!"
-        rm $dir/../agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb; exit 1
+
+        wget -O $DIR/../${FILENAME} \
+            https://www.algoryx.se/download/installers/old/${FILENAME}
+
+        if [ $? -ne 0 ]; then
+            echo -e "Fetching agx dynamic failed!"
+            rm $DIR/../${FILENAME}; exit 1
+        fi
     fi
 fi 
 
-if [ ! -f $dir/../*.lic ]; then
+if [ ! -f $DIR/../*.lic ]; then
     echo -e "Missing lic file"; exit 1
 fi
 
@@ -22,4 +30,4 @@ docker buildx build --tag machine-boom-project \
                     --progress=plain \
                     --build-arg AGX_VERSION=$AGX_VERSION \
                     --build-arg AGX_DISTRIBUTION=$AGX_DISTRIBUTION \
-                    $dir/../
+                    $DIR/../
