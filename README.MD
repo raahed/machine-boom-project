@@ -17,7 +17,7 @@ However, the script passes thoses arguments to `docker buildx`. Image tag will b
 ### Run a container
 continued
 ```bash
-$ cd bin/ && ./container-start
+$ ./bin/container-start
 ```
 
 #### Exposed ports
