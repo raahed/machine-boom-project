@@ -1,8 +1,8 @@
-FROM nvidia/cuda:12.2.0-base-ubuntu22.04
+FROM nvidia/cuda:11.8.0-base-ubuntu22.04
 
 ARG AGX_VERSION
 ARG AGX_DISTRIBUTION
-ARG DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 SHELL [ "/bin/bash", "-c" ]
 
@@ -18,7 +18,20 @@ RUN apt-get install -y --no-install-recommends \
     openssh-server ssh x11vnc
 
 # Install development tools
-RUN apt-get install -y python3.10 python3-pip build-essential cmake
+RUN apt-get install -y --no-install-recommends \
+    # C and Cpp tools
+    build-essential cmake \
+    # Python
+    python3.10 python3-pip
+
+# Install Python tools
+RUN pip3 install --upgrade pip && \
+    # Baisc 
+    pip3 install numpy scikit-learn pandas jupyter matplotlib opencv-python && \
+    # Tensorflow
+    pip3 install tensorboard tensorflow && \
+    # PyTorch
+    pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 
 # Install AGX dynamics and place lic file
 COPY agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb /
@@ -41,6 +54,7 @@ RUN apt-get clean -y             && \
     apt-get autoremove -y        && \
     rm -rf /var/lib/apt/lists/*
 
-EXPOSE 5900 22
+
+EXPOSE 5900 22 8888
 
 ENTRYPOINT [ "/sbin/init", "-D" ]
