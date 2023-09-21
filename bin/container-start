@@ -7,6 +7,7 @@ docker run --detach \
            --user root \
            --publish 5900:2059 \
            --publish 22:2022 \
+           --publish 8888:2088 \
            --env-file ../.env \
            --env USER=root \
            --volume $SOURCE:/mnt/project \

@@ -4,18 +4,30 @@ Beside this README file the project documentation is stored in Overleaf --> http
 
 ## Docker Interface
 ### Build a Image
-The bash script runs based on the `.env` arguements. However, the script passes thoses arguments to `docker buildx`. Image tag will be `machine-boom-project` after all.
-
+The bash script runs based on the `.env` arguements.
 ```bash
 $ ./bin/build-image
 ```
+However, the script passes thoses arguments to `docker buildx`. Image tag will be `machine-boom-project` after all.
 
 #### Requirments before build a image
-- Place a license file in the project root folder. Note: Make sure the file the the correct extension. Each `.lic` file will be copied into the container
-- Specify agx version and distirbution in `.env`. Versions listed at [Algoryx website](https://www.algoryx.se/documentation/complete/agx/tags/latest/doc/UserManual/source/changelog.html)
+- Place a license file in the project root folder. Note: Make sure each license file has the correct extension. Each `.lic` file will be copied into the container
+- Specify agx version and distirbution in `.env`. All Versions are listed at Algoryxs [Changelog](https://www.algoryx.se/documentation/complete/agx/tags/latest/doc/UserManual/source/changelog.html) on the website.
 
 ### Run a container
 continued
+```bash
+$ cd bin/ && ./container-start
+```
+
+#### Exposed ports
+A running container instance offers a number of services through exposed ports:
+
+|Inner Port|Exposed Port|Service|Comment|
+|--|--|--|--|
+|22|2022|ssh||
+|5900|2029|vnc|by default not running|
+|8888|2088|jupyter|by default not running|
 
 ### Stop a container
 continued
