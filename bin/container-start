@@ -5,11 +5,11 @@ docker run --detach \
            --rm \
            --privileged \
            --user root \
-           --publish 5900:2059 \
-           --publish 22:2022 \
-           --publish 8888:2088 \
+           --publish 2059:5900 \
+           --publish 2022:22 \
+           --publish 2088:8888 \
            --env-file ../.env \
            --env USER=root \
-           --volume $dir/src:/mnt/project \
+           --volume $dir/../src:/mnt/project \
            --name mbp-runner \
            machine-boom-project:latest
