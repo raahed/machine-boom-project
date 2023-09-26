@@ -26,7 +26,7 @@ if [ ! -f $DIR/../*.lic ]; then
     echo -e "Missing lic file"; exit 1
 fi
 
-docker buildx build --tag machine-boom-project \
+docker build --tag machine-boom-project \
                     --progress=plain \
                     --build-arg AGX_VERSION=$AGX_VERSION \
                     --build-arg AGX_DISTRIBUTION=$AGX_DISTRIBUTION \
