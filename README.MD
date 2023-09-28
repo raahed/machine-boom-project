@@ -20,6 +20,11 @@ continued
 $ ./bin/container-start
 ```
 
+continued: Run Container on deep learning, pass additional docker flags
+```bash
+$ ./bin/container-start --gpu all
+```
+
 #### Exposed ports
 A running container instance offers a number of services through exposed ports:
 
