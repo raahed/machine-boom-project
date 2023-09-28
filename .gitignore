@@ -2,12 +2,23 @@
 .idea/
 .vscode/
 .code/
+.vs
 
-*.log
+# CMake and make
 *.cmake
 *.make
 *.deb
+
+# C++
+CppProperties.json
+CMakeCache.txt
+**/CMakeFiles
+
+# Project
+*.log
+*.csv
 *.lic
+
 
 # Fetched from https://github.com/github/gitignore/blob/main/C.gitignore
 
