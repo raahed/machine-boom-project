@@ -1,0 +1,108 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/ContactMaterialEntity.h>
+$ifile "../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    class ContactMaterialPtr : public agx::ReferencedPtr
+    {
+    public:
+
+      ContactMaterialPtr(agxData::EntityStorage *storage, size_t id);
+      agx::Bool getIsExplicit();
+      agx::Physics::MaterialPtr getMaterial1();
+      agx::Physics::MaterialPtr getMaterial2();
+      agx::Vec3 getRestitution();
+      agx::Vec3 getFriction();
+      agx::Real getAdhesion();
+      agx::Real getAdhesiveOverlap();
+      agx::Vec3 getViscosity();
+      agx::Bool getSurfaceFrictionEnabled();
+      agx::UInt8 getContactReductionMode();
+      agx::UInt8 getContactReductionBinResolution();
+      agx::Bool getUseContactAreaApproach();
+      agx::Vec3 getWireFriction();
+      agx::Real getYoungsModulus();
+      agx::Real getDamping();
+      agx::Real getMinElasticRestLength();
+      agx::Real getMaxElasticRestLength();
+      agx::Real getImpactCompliance();
+      agx::Real getRollingResistanceCoefficient();
+      agx::Real getTwistingResistanceCoefficient();
+      agx::Real getRollingResistanceCompliance();
+      agx::Real getTwistingResistanceCompliance();
+      agx::ContactMaterial* getModel();
+
+
+      void setIsExplicit(agx::Bool value);
+      void setMaterial1(agx::Physics::MaterialPtr value);
+      void setMaterial2(agx::Physics::MaterialPtr value);
+      void setRestitution(agx::Vec3 value);
+      void setFriction(agx::Vec3 value);
+      void setAdhesion(agx::Real value);
+      void setAdhesiveOverlap(agx::Real value);
+      void setViscosity(agx::Vec3 value);
+      void setSurfaceFrictionEnabled(agx::Bool value);
+      void setContactReductionMode(agx::UInt8 value);
+      void setContactReductionBinResolution(agx::UInt8 value);
+      void setUseContactAreaApproach(agx::Bool value);
+      void setWireFriction(agx::Vec3 value);
+      void setYoungsModulus(agx::Real value);
+      void setDamping(agx::Real value);
+      void setMinElasticRestLength(agx::Real value);
+      void setMaxElasticRestLength(agx::Real value);
+      void setImpactCompliance(agx::Real value);
+      void setRollingResistanceCoefficient(agx::Real value);
+      void setTwistingResistanceCoefficient(agx::Real value);
+      void setRollingResistanceCompliance(agx::Real value);
+      void setTwistingResistanceCompliance(agx::Real value);
+      void setModel(agx::ContactMaterial* value);
+    };
+
+
+    class ContactMaterialPtrVector {
+      ContactMaterialPtrVector();
+      void push_back(ContactMaterialPtr);
+      void clear();
+      ContactMaterialPtr at( unsigned int ) const;
+      ContactMaterialPtr front() const;
+      ContactMaterialPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+
+    class ContactMaterialPtrArray {
+      ContactMaterialPtrArray();
+      ContactMaterialPtr at( unsigned int ) const;
+      ContactMaterialPtr front() const;
+      ContactMaterialPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+  }
+}
+

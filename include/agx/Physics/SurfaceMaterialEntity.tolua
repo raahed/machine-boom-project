@@ -1,0 +1,74 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/SurfaceMaterialEntity.h>
+$ifile "../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    class SurfaceMaterialPtr : public agx::ReferencedPtr
+    {
+    public:
+
+      SurfaceMaterialPtr(agxData::EntityStorage *storage, size_t id);
+      agx::Real getRoughness();
+      agx::Real getAdhesion();
+      agx::Real getAdhesiveOverlap();
+      agx::Real getViscosity();
+      agx::Bool getFrictionEnabled();
+      agx::Bool getDirty();
+
+
+      void setRoughness(agx::Real value);
+      void setAdhesion(agx::Real value);
+      void setAdhesiveOverlap(agx::Real value);
+      void setViscosity(agx::Real value);
+      void setFrictionEnabled(agx::Bool value);
+      void setDirty(agx::Bool value);
+    };
+
+
+    class SurfaceMaterialPtrVector {
+      SurfaceMaterialPtrVector();
+      void push_back(SurfaceMaterialPtr);
+      void clear();
+      SurfaceMaterialPtr at( unsigned int ) const;
+      SurfaceMaterialPtr front() const;
+      SurfaceMaterialPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+
+    class SurfaceMaterialPtrArray {
+      SurfaceMaterialPtrArray();
+      SurfaceMaterialPtr at( unsigned int ) const;
+      SurfaceMaterialPtr front() const;
+      SurfaceMaterialPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+  }
+}
+

@@ -1,0 +1,74 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/ConstraintBaseEntity.h>
+$ifile "../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    class ConstraintBasePtr : public agx::Physics::InteractionPtr
+    {
+    public:
+
+      ConstraintBasePtr(agxData::EntityStorage *storage, size_t id);
+      agx::ConstraintImplementation* getModel();
+      agx::UInt getRowIndex();
+      agx::UInt getNumRows();
+      agx::UInt getJacobianIndex();
+      agx::UInt getBlockRowIndex();
+      agx::Bool getIsImpacting();
+
+
+      void setModel(agx::ConstraintImplementation* value);
+      void setRowIndex(agx::UInt value);
+      void setNumRows(agx::UInt value);
+      void setJacobianIndex(agx::UInt value);
+      void setBlockRowIndex(agx::UInt value);
+      void setIsImpacting(agx::Bool value);
+    };
+
+
+    class ConstraintBasePtrVector {
+      ConstraintBasePtrVector();
+      void push_back(ConstraintBasePtr);
+      void clear();
+      ConstraintBasePtr at( unsigned int ) const;
+      ConstraintBasePtr front() const;
+      ConstraintBasePtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+
+    class ConstraintBasePtrArray {
+      ConstraintBasePtrArray();
+      ConstraintBasePtr at( unsigned int ) const;
+      ConstraintBasePtr front() const;
+      ConstraintBasePtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+  }
+}
+

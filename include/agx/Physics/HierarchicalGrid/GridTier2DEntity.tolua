@@ -1,0 +1,73 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/HierarchicalGrid/GridTier2DEntity.h>
+$ifile "../../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    namespace HierarchicalGrid
+    {
+      class GridTier2DPtr : public agxData::EntityPtr
+      {
+      public:
+
+        GridTier2DPtr(agxData::EntityStorage *storage, size_t id);
+        agx::Real getSize();
+        agx::Real getInvSize();
+        agx::Real getBoundingRadius();
+        agx::GridCell2DTable* getCellTable();
+
+
+        void setSize(agx::Real value);
+        void setInvSize(agx::Real value);
+        void setBoundingRadius(agx::Real value);
+        void setCellTable(agx::GridCell2DTable* value);
+      };
+
+
+      class GridTier2DPtrVector {
+        GridTier2DPtrVector();
+        void push_back(GridTier2DPtr);
+        void clear();
+        GridTier2DPtr at( unsigned int ) const;
+        GridTier2DPtr front() const;
+        GridTier2DPtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+
+      class GridTier2DPtrArray {
+        GridTier2DPtrArray();
+        GridTier2DPtr at( unsigned int ) const;
+        GridTier2DPtr front() const;
+        GridTier2DPtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+    }
+  }
+}
+

@@ -1,0 +1,74 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/GeometryParticleContactListEntity.h>
+$ifile "../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    class GeometryParticleContactListPtr : public agx::Physics::InteractionPtr
+    {
+    public:
+
+      GeometryParticleContactListPtr(agxData::EntityStorage *storage, size_t id);
+      agx::Physics::GeometryPtr getGeometry();
+      agx::Physics::RigidBodyPtr getBody();
+      agx::Vec3 getBodyForce();
+      agx::Vec3 getBodyTorque();
+      agx::Bool getIsImpacting();
+      agx::Physics::ParticleGeometryContactPtrArray getContacts();
+
+
+      void setGeometry(agx::Physics::GeometryPtr value);
+      void setBody(agx::Physics::RigidBodyPtr value);
+      void setBodyForce(agx::Vec3 value);
+      void setBodyTorque(agx::Vec3 value);
+      void setIsImpacting(agx::Bool value);
+      void setContacts(agxData::Array< agx::Physics::ParticleGeometryContactPtr > value);
+    };
+
+
+    class GeometryParticleContactListPtrVector {
+      GeometryParticleContactListPtrVector();
+      void push_back(GeometryParticleContactListPtr);
+      void clear();
+      GeometryParticleContactListPtr at( unsigned int ) const;
+      GeometryParticleContactListPtr front() const;
+      GeometryParticleContactListPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+
+    class GeometryParticleContactListPtrArray {
+      GeometryParticleContactListPtrArray();
+      GeometryParticleContactListPtr at( unsigned int ) const;
+      GeometryParticleContactListPtr front() const;
+      GeometryParticleContactListPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+  }
+}
+

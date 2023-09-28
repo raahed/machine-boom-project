@@ -1,0 +1,26 @@
+var LineCollisionUtils_8h =
+[
+    [ "LineContactEdge", "classagxSDK_1_1LineContactEdge.html", "classagxSDK_1_1LineContactEdge" ],
+    [ "LineContactPosition", "classagxSDK_1_1LineContactPosition.html", "classagxSDK_1_1LineContactPosition" ],
+    [ "calculateBoxOffset", "LineCollisionUtils_8h.html#ad74c120b5c81fc87d6aa3204549ee13d", null ],
+    [ "calculateCylinderOffset", "LineCollisionUtils_8h.html#a70ce439248f44f5f1df6ffe813628c33", null ],
+    [ "calculateMeshOffset", "LineCollisionUtils_8h.html#a957fe147e6613a16e3f58eac51d9c43e", null ],
+    [ "copyVectors", "LineCollisionUtils_8h.html#a32302fddbd521a4846cf172a0243cbef", null ],
+    [ "fillEdgeVector", "LineCollisionUtils_8h.html#aa77e51516a1d26f4c57a2055d365a757", null ],
+    [ "findAdjustmentForMeshEdge", "LineCollisionUtils_8h.html#a8318ce3a2341b2a2349ee634257ccc4a", null ],
+    [ "findDistanceFromPointToLine", "LineCollisionUtils_8h.html#af28c7dc265b71e33a5c6d1d9a8f11abe", null ],
+    [ "findMostParallelEdgeAmongNeighboringTriangles", "LineCollisionUtils_8h.html#afb47d1f4bfed4899601f8d1eef1a74cb", null ],
+    [ "findPlaneLineSegmentIntersection", "LineCollisionUtils_8h.html#a54c79d69c65dbd0238139391d72896c0", null ],
+    [ "findSegmentCircleIntersection3D", "LineCollisionUtils_8h.html#a615f2f41bbb730b99321032e03dd621e", null ],
+    [ "findSegmentCircleIntersections2D", "LineCollisionUtils_8h.html#aa23f1e7fd0356a3f75ce5678c9787339", null ],
+    [ "getEdgeEndLocalVertexIndex", "LineCollisionUtils_8h.html#aa3a691bfc3f8cc343d33adf4230a5a63", null ],
+    [ "getEdgeStartLocalVertexIndex", "LineCollisionUtils_8h.html#a1e701ab59ea5376b94f700e22481b81d", null ],
+    [ "getFuturePosition", "LineCollisionUtils_8h.html#a5661a069d805fd542ab5639a4c28b8d3", null ],
+    [ "getLocalEdgeIndexFromVertexIndices", "LineCollisionUtils_8h.html#a63c5d372f89031742b8c4ef5aa8edf55", null ],
+    [ "getProjection", "LineCollisionUtils_8h.html#aac14c84dbe7e3151ed66d7d8e1eafeb2", null ],
+    [ "getSigned", "LineCollisionUtils_8h.html#ae20f6f21312239a4e9493f02a29f59ba", null ],
+    [ "getTotalAngleShapeCoordinates", "LineCollisionUtils_8h.html#ac654d2fdf563ed805d619bf83cbda85f", null ],
+    [ "inBound", "LineCollisionUtils_8h.html#a574e680299cac205649035078b61b563", null ],
+    [ "pointInsideCircle", "LineCollisionUtils_8h.html#a2e6ee333d7010d6d3d885b709d5fa20d", null ],
+    [ "scalarTripleProduct", "LineCollisionUtils_8h.html#aa74046ef2dee2cf153c65006dcb6fcc2", null ]
+];

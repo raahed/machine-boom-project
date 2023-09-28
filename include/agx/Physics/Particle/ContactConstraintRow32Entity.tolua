@@ -1,0 +1,81 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/Particle/ContactConstraintRow32Entity.h>
+$ifile "../../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    namespace Particle
+    {
+      class ContactConstraintRow32Ptr : public agxData::EntityPtr
+      {
+      public:
+
+        ContactConstraintRow32Ptr(agxData::EntityStorage *storage, size_t id);
+        agx::Real32 getLambda();
+        agx::Real32 getImpactLambda();
+        agx::Real32 getRhs();
+        agx::Real32 getEpsilon();
+        agx::Real32 getVelocity();
+        agx::Real32 getInvD();
+        agx::Real32 getViolation();
+        agx::Real getResidual();
+
+
+        void setLambda(agx::Real32 value);
+        void setImpactLambda(agx::Real32 value);
+        void setRhs(agx::Real32 value);
+        void setEpsilon(agx::Real32 value);
+        void setVelocity(agx::Real32 value);
+        void setInvD(agx::Real32 value);
+        void setViolation(agx::Real32 value);
+        void setResidual(agx::Real value);
+      };
+
+
+      class ContactConstraintRow32PtrVector {
+        ContactConstraintRow32PtrVector();
+        void push_back(ContactConstraintRow32Ptr);
+        void clear();
+        ContactConstraintRow32Ptr at( unsigned int ) const;
+        ContactConstraintRow32Ptr front() const;
+        ContactConstraintRow32Ptr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+
+      class ContactConstraintRow32PtrArray {
+        ContactConstraintRow32PtrArray();
+        ContactConstraintRow32Ptr at( unsigned int ) const;
+        ContactConstraintRow32Ptr front() const;
+        ContactConstraintRow32Ptr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+    }
+  }
+}
+

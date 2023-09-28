@@ -1,0 +1,84 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/EmitterEntity.h>
+$ifile "../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    class EmitterPtr : public agx::ReferencedPtr
+    {
+    public:
+
+      EmitterPtr(agxData::EntityStorage *storage, size_t id);
+      agx::UInt32 getId();
+      agx::Name getName();
+      agx::Physics::GeometryPtr getGeometry();
+      agx::Physics::CollisionGroupSetPtr getCollisionGroupSet();
+      agx::Vec3 getVelocity();
+      agx::Real getRate();
+      agx::Real getEmittedQuantity();
+      agx::Real getEmittedQuantityMaximum();
+      agx::UInt getEmittedCount();
+      agx::UInt32 getSeed();
+      agx::Emitter* getModel();
+
+
+      void setId(agx::UInt32 value);
+      void setName(agx::Name value);
+      void setGeometry(agx::Physics::GeometryPtr value);
+      void setCollisionGroupSet(agx::Physics::CollisionGroupSetPtr value);
+      void setVelocity(agx::Vec3 value);
+      void setRate(agx::Real value);
+      void setEmittedQuantity(agx::Real value);
+      void setEmittedQuantityMaximum(agx::Real value);
+      void setEmittedCount(agx::UInt value);
+      void setSeed(agx::UInt32 value);
+      void setModel(agx::Emitter* value);
+    };
+
+
+    class EmitterPtrVector {
+      EmitterPtrVector();
+      void push_back(EmitterPtr);
+      void clear();
+      EmitterPtr at( unsigned int ) const;
+      EmitterPtr front() const;
+      EmitterPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+
+    class EmitterPtrArray {
+      EmitterPtrArray();
+      EmitterPtr at( unsigned int ) const;
+      EmitterPtr front() const;
+      EmitterPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+  }
+}
+

@@ -1,0 +1,93 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/HierarchicalGrid/CellEntity.h>
+$ifile "../../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    namespace HierarchicalGrid
+    {
+      class CellPtr : public agxData::EntityPtr
+      {
+      public:
+
+        CellPtr(agxData::EntityStorage *storage, size_t id);
+        agx::UInt8 getTier();
+        agx::UInt8 getInvDepth();
+        agx::Vec3i getId();
+        agx::Vec3 getPosition();
+        agx::UInt8 getState();
+        agx::Real32 getEmptyTime();
+        agx::IndexRange32 getCollisionObjects();
+        agx::UInt32 getParent();
+        agx::UInt8 getNumChildren();
+        agx::UInt32 getSearchCost();
+        agx::UInt32 getSortedIndex();
+        agx::Physics::HierarchicalGrid::ContactZonePtr getInternalZone();
+        agx::UInt8 getZoneType();
+        agx::AtomicValue* getSolveBodyOffsets();
+
+
+        void setTier(agx::UInt8 value);
+        void setInvDepth(agx::UInt8 value);
+        void setId(agx::Vec3i value);
+        void setPosition(agx::Vec3 value);
+        void setState(agx::UInt8 value);
+        void setEmptyTime(agx::Real32 value);
+        void setCollisionObjects(agx::IndexRange32 value);
+        void setParent(agx::UInt32 value);
+        void setNumChildren(agx::UInt8 value);
+        void setSearchCost(agx::UInt32 value);
+        void setSortedIndex(agx::UInt32 value);
+        void setInternalZone(agx::Physics::HierarchicalGrid::ContactZonePtr value);
+        void setZoneType(agx::UInt8 value);
+        void setSolveBodyOffsets(agx::AtomicValue* value);
+      };
+
+
+      class CellPtrVector {
+        CellPtrVector();
+        void push_back(CellPtr);
+        void clear();
+        CellPtr at( unsigned int ) const;
+        CellPtr front() const;
+        CellPtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+
+      class CellPtrArray {
+        CellPtrArray();
+        CellPtr at( unsigned int ) const;
+        CellPtr front() const;
+        CellPtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+    }
+  }
+}
+

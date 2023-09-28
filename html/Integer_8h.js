@@ -1,0 +1,28 @@
+var Integer_8h =
+[
+    [ "AGX_LONG_IS_DEFAULT", "Integer_8h.html#a57618afb5bd7510c6046964eb0ad4e6e", null ],
+    [ "Bool", "Integer_8h.html#a3dfa91302ec1bbb0cbe857010349df76", null ],
+    [ "Index", "Integer_8h.html#afe13d4daf824474023960f273e24f977", null ],
+    [ "Int", "Integer_8h.html#a416775eb5fc2ab0475e617d732ad6c1d", null ],
+    [ "Int16", "Integer_8h.html#ae6346b4f4fff762afb13af9facccc034", null ],
+    [ "Int32", "Integer_8h.html#a08e6f28ffe6b6870d9addf8cc064b440", null ],
+    [ "Int64", "Integer_8h.html#a4a2078fde17d4256a8bc0d2f82ed44f4", null ],
+    [ "Int8", "Integer_8h.html#acaf7b45f947c30e2fbc48defdfb0a6ca", null ],
+    [ "Size", "Integer_8h.html#a770807ca09046224b5b44adfa24636f0", null ],
+    [ "UInt", "Integer_8h.html#a750ddefdefcf4b20a16567bb8ce482d6", null ],
+    [ "UInt16", "Integer_8h.html#a0774bc01bd23fa3c61ef5073540b384c", null ],
+    [ "UInt32", "Integer_8h.html#a2783e06e5687feaab081c61d202f77d6", null ],
+    [ "UInt64", "Integer_8h.html#a40e3fcacdec415a234d503f7084e03b5", null ],
+    [ "UInt8", "Integer_8h.html#aaad968474d17c9682c3f2285004079a7", null ],
+    [ "Int16Max", "Integer_8h.html#a87845af4f7f618957511876d5bbb822c", null ],
+    [ "Int32Max", "Integer_8h.html#afa29745cc93bd586e52584e78318c284", null ],
+    [ "Int64Max", "Integer_8h.html#af8c4a7245a2cbe25a2a6653600239f2b", null ],
+    [ "Int8Max", "Integer_8h.html#a27c15fd0a8c7bfe8d33417d8e45f0566", null ],
+    [ "IntMax", "Integer_8h.html#a13cfac8503f40120a24c090ae55fcaa7", null ],
+    [ "SizeMax", "Integer_8h.html#a4e0c7b3ce8bae8ee8e9179963fcf318a", null ],
+    [ "UInt16Max", "Integer_8h.html#ab3fc019ad59915a738c7a6978107153f", null ],
+    [ "UInt32Max", "Integer_8h.html#a06f36323ac4572cb6ea84f63fe296ab6", null ],
+    [ "UInt64Max", "Integer_8h.html#ad534c6cce7f049d17105b9348e57c330", null ],
+    [ "UInt8Max", "Integer_8h.html#a6e0948d4e0246eb8884bfca0021e51ef", null ],
+    [ "UIntMax", "Integer_8h.html#a0c6288adc5856e12bdfa01a51de167ce", null ]
+];

@@ -1,0 +1,144 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/RigidBodyEntity.h>
+$ifile "../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    class RigidBodyPtr : public agx::ReferencedPtr
+    {
+    public:
+
+      RigidBodyPtr(agxData::EntityStorage *storage, size_t id);
+      agx::UInt32 getId();
+      agx::RigidBodyState getState();
+      agx::Name getName();
+      agx::Real getMass();
+      agx::Real getInvMass();
+      agx::Vec3 getEffectiveMass();
+      agx::Vec3 getEffectiveMassCoefficients();
+      agx::Vec3 getEffectiveMassTransformDiagonal();
+      agx::SPDMatrix3x3 getInertia();
+      agx::SPDMatrix3x3 getEffectiveInertia();
+      agx::Vec3 getEffectiveInertiaCoefficients();
+      agx::Matrix3x3 getWorldMassMatrix();
+      agx::Matrix3x3 getInvWorldMassMatrix();
+      agx::Matrix3x3 getEffectiveWorldMassMatrix();
+      agx::Matrix3x3 getEffectiveInvWorldMassMatrix();
+      agx::Matrix3x3 getWorldInertia();
+      agx::Matrix3x3 getInvWorldInertia();
+      agx::Matrix3x3 getEffectiveWorldInertia();
+      agx::Matrix3x3 getEffectiveInvWorldInertia();
+      agx::Vec3 getForce();
+      agx::Vec3 getTorque();
+      agx::Vec3 getLastForce();
+      agx::Vec3 getLastTorque();
+      agx::AffineMatrix4x4 getModelTransform();
+      agx::AffineMatrix4x4 getLocalModelTransform();
+      agx::AffineMatrix4x4 getCmTransform();
+      agx::AffineMatrix4x4 getLocalCmTransform();
+      agx::Vec3 getVelocity();
+      agx::Vec3 getAngularVelocity();
+      agx::Vec3 getLinearAcceleration();
+      agx::Vec3 getAngularAcceleration();
+      agx::Vec3f getLinearVelocityDamping();
+      agx::Vec3f getAngularVelocityDamping();
+      agx::Vec3f getLinearVelocityZeroDamping();
+      agx::Vec3f getAngularVelocityZeroDamping();
+      agx::Physics::GeometryPtr getGeometry();
+      agx::Physics::GraphNodePtr getGraphNode();
+      agx::Range6 getVelocityRanges();
+      agx::RigidBody* getModel();
+      agx::UInt32 getSolveIndex();
+      agx::UInt16 getNumConstraints();
+
+
+      void setId(agx::UInt32 value);
+      void setState(agx::RigidBodyState value);
+      void setName(agx::Name value);
+      void setMass(agx::Real value);
+      void setInvMass(agx::Real value);
+      void setEffectiveMass(agx::Vec3 value);
+      void setEffectiveMassCoefficients(agx::Vec3 value);
+      void setEffectiveMassTransformDiagonal(agx::Vec3 value);
+      void setInertia(agx::SPDMatrix3x3 value);
+      void setEffectiveInertia(agx::SPDMatrix3x3 value);
+      void setEffectiveInertiaCoefficients(agx::Vec3 value);
+      void setWorldMassMatrix(agx::Matrix3x3 value);
+      void setInvWorldMassMatrix(agx::Matrix3x3 value);
+      void setEffectiveWorldMassMatrix(agx::Matrix3x3 value);
+      void setEffectiveInvWorldMassMatrix(agx::Matrix3x3 value);
+      void setWorldInertia(agx::Matrix3x3 value);
+      void setInvWorldInertia(agx::Matrix3x3 value);
+      void setEffectiveWorldInertia(agx::Matrix3x3 value);
+      void setEffectiveInvWorldInertia(agx::Matrix3x3 value);
+      void setForce(agx::Vec3 value);
+      void setTorque(agx::Vec3 value);
+      void setLastForce(agx::Vec3 value);
+      void setLastTorque(agx::Vec3 value);
+      void setModelTransform(agx::AffineMatrix4x4 value);
+      void setLocalModelTransform(agx::AffineMatrix4x4 value);
+      void setCmTransform(agx::AffineMatrix4x4 value);
+      void setLocalCmTransform(agx::AffineMatrix4x4 value);
+      void setVelocity(agx::Vec3 value);
+      void setAngularVelocity(agx::Vec3 value);
+      void setLinearAcceleration(agx::Vec3 value);
+      void setAngularAcceleration(agx::Vec3 value);
+      void setLinearVelocityDamping(agx::Vec3f value);
+      void setAngularVelocityDamping(agx::Vec3f value);
+      void setLinearVelocityZeroDamping(agx::Vec3f value);
+      void setAngularVelocityZeroDamping(agx::Vec3f value);
+      void setGeometry(agx::Physics::GeometryPtr value);
+      void setGraphNode(agx::Physics::GraphNodePtr value);
+      void setVelocityRanges(agx::Range6 value);
+      void setModel(agx::RigidBody* value);
+      void setSolveIndex(agx::UInt32 value);
+      void setNumConstraints(agx::UInt16 value);
+    };
+
+
+    class RigidBodyPtrVector {
+      RigidBodyPtrVector();
+      void push_back(RigidBodyPtr);
+      void clear();
+      RigidBodyPtr at( unsigned int ) const;
+      RigidBodyPtr front() const;
+      RigidBodyPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+
+    class RigidBodyPtrArray {
+      RigidBodyPtrArray();
+      RigidBodyPtr at( unsigned int ) const;
+      RigidBodyPtr front() const;
+      RigidBodyPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+  }
+}
+

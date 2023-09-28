@@ -1,0 +1,68 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/ContactConstraintEntity.h>
+$ifile "../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    class ContactConstraintPtr : public agx::Physics::BinaryConstraintPtr
+    {
+    public:
+
+      ContactConstraintPtr(agxData::EntityStorage *storage, size_t id);
+      agx::UInt32 getContactIndex();
+      agx::UInt32 getMaterialIndex();
+      agx::IndexRange getContactPointRange();
+
+
+      void setContactIndex(agx::UInt32 value);
+      void setMaterialIndex(agx::UInt32 value);
+      void setContactPointRange(agx::IndexRange value);
+    };
+
+
+    class ContactConstraintPtrVector {
+      ContactConstraintPtrVector();
+      void push_back(ContactConstraintPtr);
+      void clear();
+      ContactConstraintPtr at( unsigned int ) const;
+      ContactConstraintPtr front() const;
+      ContactConstraintPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+
+    class ContactConstraintPtrArray {
+      ContactConstraintPtrArray();
+      ContactConstraintPtr at( unsigned int ) const;
+      ContactConstraintPtr front() const;
+      ContactConstraintPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+  }
+}
+

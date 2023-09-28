@@ -1,0 +1,83 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/ThreadTimelineEntryEntity.h>
+$ifile "../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  class ThreadTimelineEntryPtr : public agxData::EntityPtr
+  {
+  public:
+
+    ThreadTimelineEntryPtr(agxData::EntityStorage *storage, size_t id);
+    agx::UInt32 getTaskId();
+    agx::Real64 getStartTimeGlobal();
+    agx::Real64 getEndTimeGlobal();
+    agx::Real64 getStartTimeFrame();
+    agx::Real64 getEndTimeFrame();
+    agx::String getDescription();
+    agx::UInt32 getCostEstimate();
+    agx::UInt32 getPoolSize();
+    agx::UInt8 getJobType();
+    agx::UInt64 getJobPtr();
+    agx::String getExtraDataTitle();
+    agx::Real64 getExtraData();
+
+
+    void setTaskId(agx::UInt32 value);
+    void setStartTimeGlobal(agx::Real64 value);
+    void setEndTimeGlobal(agx::Real64 value);
+    void setStartTimeFrame(agx::Real64 value);
+    void setEndTimeFrame(agx::Real64 value);
+    void setDescription(agx::String value);
+    void setCostEstimate(agx::UInt32 value);
+    void setPoolSize(agx::UInt32 value);
+    void setJobType(agx::UInt8 value);
+    void setJobPtr(agx::UInt64 value);
+    void setExtraDataTitle(agx::String value);
+    void setExtraData(agx::Real64 value);
+  };
+
+
+  class ThreadTimelineEntryPtrVector {
+    ThreadTimelineEntryPtrVector();
+    void push_back(ThreadTimelineEntryPtr);
+    void clear();
+    ThreadTimelineEntryPtr at( unsigned int ) const;
+    ThreadTimelineEntryPtr front() const;
+    ThreadTimelineEntryPtr back() const;
+    unsigned int size() const;
+    bool empty() const;
+  };
+
+
+  class ThreadTimelineEntryPtrArray {
+    ThreadTimelineEntryPtrArray();
+    ThreadTimelineEntryPtr at( unsigned int ) const;
+    ThreadTimelineEntryPtr front() const;
+    ThreadTimelineEntryPtr back() const;
+    unsigned int size() const;
+    bool empty() const;
+  };
+
+}
+

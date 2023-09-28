@@ -1,0 +1,73 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/HierarchicalGrid/OrientedGeometryBoundEntity.h>
+$ifile "../../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    namespace HierarchicalGrid
+    {
+      class OrientedGeometryBoundPtr : public agxData::EntityPtr
+      {
+      public:
+
+        OrientedGeometryBoundPtr(agxData::EntityStorage *storage, size_t id);
+        agx::Physics::GeometryPtr getGeometry();
+        agx::Bound3 getLocalBound();
+        agx::Vec3 getHalfExtents();
+        agx::AffineMatrix4x4 getInvTransform();
+
+
+        void setGeometry(agx::Physics::GeometryPtr value);
+        void setLocalBound(agx::Bound3 value);
+        void setHalfExtents(agx::Vec3 value);
+        void setInvTransform(agx::AffineMatrix4x4 value);
+      };
+
+
+      class OrientedGeometryBoundPtrVector {
+        OrientedGeometryBoundPtrVector();
+        void push_back(OrientedGeometryBoundPtr);
+        void clear();
+        OrientedGeometryBoundPtr at( unsigned int ) const;
+        OrientedGeometryBoundPtr front() const;
+        OrientedGeometryBoundPtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+
+      class OrientedGeometryBoundPtrArray {
+        OrientedGeometryBoundPtrArray();
+        OrientedGeometryBoundPtr at( unsigned int ) const;
+        OrientedGeometryBoundPtr front() const;
+        OrientedGeometryBoundPtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+    }
+  }
+}
+

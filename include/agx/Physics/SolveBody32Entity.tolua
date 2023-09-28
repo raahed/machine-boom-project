@@ -1,0 +1,76 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/SolveBody32Entity.h>
+$ifile "../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    class SolveBody32Ptr : public agxData::EntityPtr
+    {
+    public:
+
+      SolveBody32Ptr(agxData::EntityStorage *storage, size_t id);
+      agx::Vec3f getVelocity();
+      agx::Vec3f getAngularVelocity();
+      agx::Vec3f getOldVelocity();
+      agx::Vec3f getOldAngularVelocity();
+      agx::Real32 getInvMass();
+      agx::Real32 getInvInertia();
+      agx::SpinMutex getSolveMutex();
+
+
+      void setVelocity(agx::Vec3f value);
+      void setAngularVelocity(agx::Vec3f value);
+      void setOldVelocity(agx::Vec3f value);
+      void setOldAngularVelocity(agx::Vec3f value);
+      void setInvMass(agx::Real32 value);
+      void setInvInertia(agx::Real32 value);
+      void setSolveMutex(agx::SpinMutex value);
+    };
+
+
+    class SolveBody32PtrVector {
+      SolveBody32PtrVector();
+      void push_back(SolveBody32Ptr);
+      void clear();
+      SolveBody32Ptr at( unsigned int ) const;
+      SolveBody32Ptr front() const;
+      SolveBody32Ptr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+
+    class SolveBody32PtrArray {
+      SolveBody32PtrArray();
+      SolveBody32Ptr at( unsigned int ) const;
+      SolveBody32Ptr front() const;
+      SolveBody32Ptr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+  }
+}
+

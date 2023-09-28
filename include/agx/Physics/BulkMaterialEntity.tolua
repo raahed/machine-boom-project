@@ -1,0 +1,76 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/BulkMaterialEntity.h>
+$ifile "../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    class BulkMaterialPtr : public agx::ReferencedPtr
+    {
+    public:
+
+      BulkMaterialPtr(agxData::EntityStorage *storage, size_t id);
+      agx::Real getDensity();
+      agx::Real getYoungsModulus();
+      agx::Real getViscosity();
+      agx::Real getDamping();
+      agx::Real getMinElasticRestLength();
+      agx::Real getMaxElasticRestLength();
+      agx::Bool getDirty();
+
+
+      void setDensity(agx::Real value);
+      void setYoungsModulus(agx::Real value);
+      void setViscosity(agx::Real value);
+      void setDamping(agx::Real value);
+      void setMinElasticRestLength(agx::Real value);
+      void setMaxElasticRestLength(agx::Real value);
+      void setDirty(agx::Bool value);
+    };
+
+
+    class BulkMaterialPtrVector {
+      BulkMaterialPtrVector();
+      void push_back(BulkMaterialPtr);
+      void clear();
+      BulkMaterialPtr at( unsigned int ) const;
+      BulkMaterialPtr front() const;
+      BulkMaterialPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+
+    class BulkMaterialPtrArray {
+      BulkMaterialPtrArray();
+      BulkMaterialPtr at( unsigned int ) const;
+      BulkMaterialPtr front() const;
+      BulkMaterialPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+  }
+}
+

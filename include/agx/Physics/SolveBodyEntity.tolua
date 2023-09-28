@@ -1,0 +1,76 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/SolveBodyEntity.h>
+$ifile "../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    class SolveBodyPtr : public agxData::EntityPtr
+    {
+    public:
+
+      SolveBodyPtr(agxData::EntityStorage *storage, size_t id);
+      agx::Vec3 getVelocity();
+      agx::Vec3 getAngularVelocity();
+      agx::Vec3 getOldVelocity();
+      agx::Vec3 getOldAngularVelocity();
+      agx::Real getInvMass();
+      agx::Real getInvInertia();
+      agx::SpinMutex getSolveMutex();
+
+
+      void setVelocity(agx::Vec3 value);
+      void setAngularVelocity(agx::Vec3 value);
+      void setOldVelocity(agx::Vec3 value);
+      void setOldAngularVelocity(agx::Vec3 value);
+      void setInvMass(agx::Real value);
+      void setInvInertia(agx::Real value);
+      void setSolveMutex(agx::SpinMutex value);
+    };
+
+
+    class SolveBodyPtrVector {
+      SolveBodyPtrVector();
+      void push_back(SolveBodyPtr);
+      void clear();
+      SolveBodyPtr at( unsigned int ) const;
+      SolveBodyPtr front() const;
+      SolveBodyPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+
+    class SolveBodyPtrArray {
+      SolveBodyPtrArray();
+      SolveBodyPtr at( unsigned int ) const;
+      SolveBodyPtr front() const;
+      SolveBodyPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+  }
+}
+

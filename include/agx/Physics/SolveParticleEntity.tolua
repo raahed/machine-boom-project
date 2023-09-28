@@ -1,0 +1,76 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/SolveParticleEntity.h>
+$ifile "../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    class SolveParticlePtr : public agxData::EntityPtr
+    {
+    public:
+
+      SolveParticlePtr(agxData::EntityStorage *storage, size_t id);
+      agx::Vec3 getPosition();
+      agx::Vec3 getVelocity();
+      agx::Vec3 getForce();
+      agx::Real getDensity();
+      agx::UInt32 getSourceIndex();
+      agx::UInt32 getSolveIndex();
+      agxData::Array< agx::UInt32 > getContactList();
+
+
+      void setPosition(agx::Vec3 value);
+      void setVelocity(agx::Vec3 value);
+      void setForce(agx::Vec3 value);
+      void setDensity(agx::Real value);
+      void setSourceIndex(agx::UInt32 value);
+      void setSolveIndex(agx::UInt32 value);
+      void setContactList(agxData::Array< agx::UInt32 > value);
+    };
+
+
+    class SolveParticlePtrVector {
+      SolveParticlePtrVector();
+      void push_back(SolveParticlePtr);
+      void clear();
+      SolveParticlePtr at( unsigned int ) const;
+      SolveParticlePtr front() const;
+      SolveParticlePtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+
+    class SolveParticlePtrArray {
+      SolveParticlePtrArray();
+      SolveParticlePtr at( unsigned int ) const;
+      SolveParticlePtr front() const;
+      SolveParticlePtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+  }
+}
+

@@ -1,0 +1,81 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/Particle/ContactConstraintRowEntity.h>
+$ifile "../../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    namespace Particle
+    {
+      class ContactConstraintRowPtr : public agxData::EntityPtr
+      {
+      public:
+
+        ContactConstraintRowPtr(agxData::EntityStorage *storage, size_t id);
+        agx::Real getLambda();
+        agx::Real getImpactLambda();
+        agx::Real getRhs();
+        agx::Real getEpsilon();
+        agx::Real getVelocity();
+        agx::Real getInvD();
+        agx::Real getViolation();
+        agx::Real getResidual();
+
+
+        void setLambda(agx::Real value);
+        void setImpactLambda(agx::Real value);
+        void setRhs(agx::Real value);
+        void setEpsilon(agx::Real value);
+        void setVelocity(agx::Real value);
+        void setInvD(agx::Real value);
+        void setViolation(agx::Real value);
+        void setResidual(agx::Real value);
+      };
+
+
+      class ContactConstraintRowPtrVector {
+        ContactConstraintRowPtrVector();
+        void push_back(ContactConstraintRowPtr);
+        void clear();
+        ContactConstraintRowPtr at( unsigned int ) const;
+        ContactConstraintRowPtr front() const;
+        ContactConstraintRowPtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+
+      class ContactConstraintRowPtrArray {
+        ContactConstraintRowPtrArray();
+        ContactConstraintRowPtr at( unsigned int ) const;
+        ContactConstraintRowPtr front() const;
+        ContactConstraintRowPtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+    }
+  }
+}
+

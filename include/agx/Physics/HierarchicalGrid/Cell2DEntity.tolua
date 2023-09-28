@@ -1,0 +1,87 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/HierarchicalGrid/Cell2DEntity.h>
+$ifile "../../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    namespace HierarchicalGrid
+    {
+      class Cell2DPtr : public agxData::EntityPtr
+      {
+      public:
+
+        Cell2DPtr(agxData::EntityStorage *storage, size_t id);
+        agx::UInt8 getTier();
+        agx::Vec2i getId();
+        agx::Vec2f getPosition();
+        agx::UInt64 getLinearId();
+        agx::UInt8 getState();
+        agx::Real32 getEmptyTime();
+        agx::IndexRange32 getCollisionObjects();
+        agx::UInt8 getZoneType();
+        agx::UInt32 getParent();
+        agx::UInt8 getNumChildren();
+        agx::UInt32 getSearchCost();
+
+
+        void setTier(agx::UInt8 value);
+        void setId(agx::Vec2i value);
+        void setPosition(agx::Vec2f value);
+        void setLinearId(agx::UInt64 value);
+        void setState(agx::UInt8 value);
+        void setEmptyTime(agx::Real32 value);
+        void setCollisionObjects(agx::IndexRange32 value);
+        void setZoneType(agx::UInt8 value);
+        void setParent(agx::UInt32 value);
+        void setNumChildren(agx::UInt8 value);
+        void setSearchCost(agx::UInt32 value);
+      };
+
+
+      class Cell2DPtrVector {
+        Cell2DPtrVector();
+        void push_back(Cell2DPtr);
+        void clear();
+        Cell2DPtr at( unsigned int ) const;
+        Cell2DPtr front() const;
+        Cell2DPtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+
+      class Cell2DPtrArray {
+        Cell2DPtrArray();
+        Cell2DPtr at( unsigned int ) const;
+        Cell2DPtr front() const;
+        Cell2DPtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+    }
+  }
+}
+

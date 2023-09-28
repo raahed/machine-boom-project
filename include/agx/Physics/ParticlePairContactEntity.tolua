@@ -1,0 +1,96 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/ParticlePairContactEntity.h>
+$ifile "../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    class ParticlePairContactPtr : public agx::Physics::ContactPtr
+    {
+    public:
+
+      ParticlePairContactPtr(agxData::EntityStorage *storage, size_t id);
+      agx::UInt32 getParticle1();
+      agx::UInt32 getParticle2();
+      agx::UInt32 getParticleId1();
+      agx::UInt32 getParticleId2();
+      agx::Bool getEnabled();
+      agx::Vec3 getPoint();
+      agx::Vec3f getNormal();
+      agx::Vec3f getTangentU();
+      agx::Vec3f getTangentV();
+      agx::Real getDepth();
+      agx::Vec3f getVelocity();
+      agx::Vec3 getLocalForce();
+      agx::Real getImpactNormalForce();
+      agx::Real getContactEnergy();
+      agx::Bool getIsImpacting();
+      agx::Real32 getTimeStamp();
+      agx::Real32 getCharContactTime();
+
+
+      void setParticle1(agx::UInt32 value);
+      void setParticle2(agx::UInt32 value);
+      void setParticleId1(agx::UInt32 value);
+      void setParticleId2(agx::UInt32 value);
+      void setEnabled(agx::Bool value);
+      void setPoint(agx::Vec3 value);
+      void setNormal(agx::Vec3f value);
+      void setTangentU(agx::Vec3f value);
+      void setTangentV(agx::Vec3f value);
+      void setDepth(agx::Real value);
+      void setVelocity(agx::Vec3f value);
+      void setLocalForce(agx::Vec3 value);
+      void setImpactNormalForce(agx::Real value);
+      void setContactEnergy(agx::Real value);
+      void setIsImpacting(agx::Bool value);
+      void setTimeStamp(agx::Real32 value);
+      void setCharContactTime(agx::Real32 value);
+    };
+
+
+    class ParticlePairContactPtrVector {
+      ParticlePairContactPtrVector();
+      void push_back(ParticlePairContactPtr);
+      void clear();
+      ParticlePairContactPtr at( unsigned int ) const;
+      ParticlePairContactPtr front() const;
+      ParticlePairContactPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+
+    class ParticlePairContactPtrArray {
+      ParticlePairContactPtrArray();
+      ParticlePairContactPtr at( unsigned int ) const;
+      ParticlePairContactPtr front() const;
+      ParticlePairContactPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+  }
+}
+

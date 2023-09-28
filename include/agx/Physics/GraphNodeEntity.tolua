@@ -1,0 +1,78 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/GraphNodeEntity.h>
+$ifile "../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    class GraphNodePtr : public agxData::EntityPtr
+    {
+    public:
+
+      GraphNodePtr(agxData::EntityStorage *storage, size_t id);
+      agxData::EntityPtr getSource();
+      agx::UInt8 getType();
+      agx::UInt8 getState();
+      agx::UInt32 getColor();
+      agx::UInt32 getTag();
+      agxData::Array< agx::UInt > getEdges();
+      agx::UInt32 getIsland();
+      agx::UInt32 getSubindex();
+
+
+      void setSource(agxData::EntityPtr value);
+      void setType(agx::UInt8 value);
+      void setState(agx::UInt8 value);
+      void setColor(agx::UInt32 value);
+      void setTag(agx::UInt32 value);
+      void setEdges(agxData::Array< agx::UInt > value);
+      void setIsland(agx::UInt32 value);
+      void setSubindex(agx::UInt32 value);
+    };
+
+
+    class GraphNodePtrVector {
+      GraphNodePtrVector();
+      void push_back(GraphNodePtr);
+      void clear();
+      GraphNodePtr at( unsigned int ) const;
+      GraphNodePtr front() const;
+      GraphNodePtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+
+    class GraphNodePtrArray {
+      GraphNodePtrArray();
+      GraphNodePtr at( unsigned int ) const;
+      GraphNodePtr front() const;
+      GraphNodePtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+  }
+}
+

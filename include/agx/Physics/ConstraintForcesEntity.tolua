@@ -1,0 +1,94 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/ConstraintForcesEntity.h>
+$ifile "../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    class ConstraintForcesPtr : public agxData::EntityPtr
+    {
+    public:
+
+      ConstraintForcesPtr(agxData::EntityStorage *storage, size_t id);
+      agx::Name getName();
+      agx::Name getType();
+      agx::Vec3 getBody1Force();
+      agx::Vec3 getBody2Force();
+      agx::Vec3 getBody1Torque();
+      agx::Vec3 getBody2Torque();
+      agx::Real getMotor1Force();
+      agx::Real getMotor2Force();
+      agx::Real getLock1Force();
+      agx::Real getLock2Force();
+      agx::Real getRange1Force();
+      agx::Real getRange2Force();
+      agx::Real getAngle1();
+      agx::Real getAngle2();
+      agx::Real getCurrentSpeed1();
+      agx::Real getCurrentSpeed2();
+
+
+      void setName(agx::Name value);
+      void setType(agx::Name value);
+      void setBody1Force(agx::Vec3 value);
+      void setBody2Force(agx::Vec3 value);
+      void setBody1Torque(agx::Vec3 value);
+      void setBody2Torque(agx::Vec3 value);
+      void setMotor1Force(agx::Real value);
+      void setMotor2Force(agx::Real value);
+      void setLock1Force(agx::Real value);
+      void setLock2Force(agx::Real value);
+      void setRange1Force(agx::Real value);
+      void setRange2Force(agx::Real value);
+      void setAngle1(agx::Real value);
+      void setAngle2(agx::Real value);
+      void setCurrentSpeed1(agx::Real value);
+      void setCurrentSpeed2(agx::Real value);
+    };
+
+
+    class ConstraintForcesPtrVector {
+      ConstraintForcesPtrVector();
+      void push_back(ConstraintForcesPtr);
+      void clear();
+      ConstraintForcesPtr at( unsigned int ) const;
+      ConstraintForcesPtr front() const;
+      ConstraintForcesPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+
+    class ConstraintForcesPtrArray {
+      ConstraintForcesPtrArray();
+      ConstraintForcesPtr at( unsigned int ) const;
+      ConstraintForcesPtr front() const;
+      ConstraintForcesPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+  }
+}
+

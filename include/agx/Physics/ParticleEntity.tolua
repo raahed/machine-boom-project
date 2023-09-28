@@ -1,0 +1,109 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/ParticleEntity.h>
+$ifile "../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    class ParticlePtr : public agxData::EntityPtr
+    {
+    public:
+
+      ParticlePtr(agxData::EntityStorage *storage, size_t id);
+      agx::ParticleState getState();
+      agx::Vec3 getPosition();
+      agx::Vec3 getVelocity();
+      agx::Vec3 getOldVelocity();
+      agx::Vec3 getForce();
+      agx::Real getLife();
+      agx::Real getRadius();
+      agx::Real getMass();
+      agx::Real getInvMass();
+      agx::Physics::MaterialPtr getMaterial();
+      agx::Uuid getMaterialUuid();
+      agx::Physics::CollisionGroupSetPtr getCollisionGroupSet();
+      agx::UInt8 getTier();
+      agx::UInt32 getCellIndex();
+      agx::UInt16 getCellSlot();
+      agx::UInt32 getOldCell();
+      agx::UInt32 getGeometryContactList();
+      agx::UInt32 getSolveBodyIndex();
+      agx::Physics::GraphNodePtr getGraphNode();
+      agx::Vec4f getColor();
+      agx::Vec3 getGeometryContactVector();
+      agx::Real32 getEnableRendering();
+
+      void integrate(const agx::Real& clock_timeStep);
+      void integratePosition(const agx::Real& clock_timeStep);
+      void integrateVelocity(const agx::Real& clock_timeStep);
+      void setColor(const agx::Vec4f& color);
+      void setMass(const agx::Real& mass);
+      void setMaterial(const agx::Physics::MaterialPtr& material);
+      void setPosition(const agx::Vec3& position);
+      void setRadius(const agx::Real& radius);
+      void setVelocity(const agx::Vec3& velocity);
+
+      void setState(agx::ParticleState value);
+      void setOldVelocity(agx::Vec3 value);
+      void setForce(agx::Vec3 value);
+      void setLife(agx::Real value);
+      void setInvMass(agx::Real value);
+      void setMaterialUuid(agx::Uuid value);
+      void setCollisionGroupSet(agx::Physics::CollisionGroupSetPtr value);
+      void setTier(agx::UInt8 value);
+      void setCellIndex(agx::UInt32 value);
+      void setCellSlot(agx::UInt16 value);
+      void setOldCell(agx::UInt32 value);
+      void setGeometryContactList(agx::UInt32 value);
+      void setSolveBodyIndex(agx::UInt32 value);
+      void setGraphNode(agx::Physics::GraphNodePtr value);
+      void setGeometryContactVector(agx::Vec3 value);
+      void setEnableRendering(agx::Real32 value);
+    };
+
+
+    class ParticlePtrVector {
+      ParticlePtrVector();
+      void push_back(ParticlePtr);
+      void clear();
+      ParticlePtr at( unsigned int ) const;
+      ParticlePtr front() const;
+      ParticlePtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+
+    class ParticlePtrArray {
+      ParticlePtrArray();
+      ParticlePtr at( unsigned int ) const;
+      ParticlePtr front() const;
+      ParticlePtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+  }
+}
+

@@ -1,0 +1,77 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/HierarchicalGrid/CollisionObjectEntity.h>
+$ifile "../../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    namespace HierarchicalGrid
+    {
+      class CollisionObjectPtr : public agxData::EntityPtr
+      {
+      public:
+
+        CollisionObjectPtr(agxData::EntityStorage *storage, size_t id);
+        agx::UInt32 getSourceIndex();
+        agx::UInt16 getSubsystem();
+        agx::Real getRadius();
+        agx::Vec3 getPosition();
+        agx::UInt32 getObbIndex();
+        agx::UInt32 getCollisionGroupSet();
+
+
+        void setSourceIndex(agx::UInt32 value);
+        void setSubsystem(agx::UInt16 value);
+        void setRadius(agx::Real value);
+        void setPosition(agx::Vec3 value);
+        void setObbIndex(agx::UInt32 value);
+        void setCollisionGroupSet(agx::UInt32 value);
+      };
+
+
+      class CollisionObjectPtrVector {
+        CollisionObjectPtrVector();
+        void push_back(CollisionObjectPtr);
+        void clear();
+        CollisionObjectPtr at( unsigned int ) const;
+        CollisionObjectPtr front() const;
+        CollisionObjectPtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+
+      class CollisionObjectPtrArray {
+        CollisionObjectPtrArray();
+        CollisionObjectPtr at( unsigned int ) const;
+        CollisionObjectPtr front() const;
+        CollisionObjectPtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+    }
+  }
+}
+

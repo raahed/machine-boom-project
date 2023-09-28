@@ -1,0 +1,79 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/Geometry/ShapeEntity.h>
+$ifile "../../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    namespace Geometry
+    {
+      class ShapePtr : public agx::ReferencedPtr
+      {
+      public:
+
+        ShapePtr(agxData::EntityStorage *storage, size_t id);
+        agx::UInt8 getType();
+        agx::Bool getInGroup();
+        agxCollide::BoundingAABB getBoundingAABB();
+        agx::Physics::GeometryPtr getGeometry();
+        agx::AffineMatrix4x4 getTransform();
+        agx::UInt32 getModifiedCount();
+        agxCollide::Shape* getModel();
+
+
+        void setType(agx::UInt8 value);
+        void setInGroup(agx::Bool value);
+        void setBoundingAABB(agxCollide::BoundingAABB value);
+        void setGeometry(agx::Physics::GeometryPtr value);
+        void setTransform(agx::AffineMatrix4x4 value);
+        void setModifiedCount(agx::UInt32 value);
+        void setModel(agxCollide::Shape* value);
+      };
+
+
+      class ShapePtrVector {
+        ShapePtrVector();
+        void push_back(ShapePtr);
+        void clear();
+        ShapePtr at( unsigned int ) const;
+        ShapePtr front() const;
+        ShapePtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+
+      class ShapePtrArray {
+        ShapePtrArray();
+        ShapePtr at( unsigned int ) const;
+        ShapePtr front() const;
+        ShapePtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+    }
+  }
+}
+

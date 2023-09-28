@@ -1,0 +1,95 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/HierarchicalGrid/ContactZoneEntity.h>
+$ifile "../../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    namespace HierarchicalGrid
+    {
+      class ContactZonePtr : public agxData::EntityPtr
+      {
+      public:
+
+        ContactZonePtr(agxData::EntityStorage *storage, size_t id);
+        agxData::Array< agx::UInt32 > getParticleParticleContacts();
+        agxData::Array< agx::UInt32 > getParticleGeometryContacts();
+        agxData::Array< agx::UInt32 > getGeometryGeometryContacts();
+        agx::UInt32 getTotNumContacts();
+        agx::AtomicValue getNumParticleParticleContacts();
+        agx::AtomicValue getNumParticleGeometryContacts();
+        agx::AtomicValue getNumGeometryContacts();
+        agx::Physics::SolveGroupPtrArray getSolveGroups();
+        agx::Physics::HierarchicalGrid::CellPtr getSpatialCell();
+        agx::Physics::HierarchicalGrid::GridTierPtr getTier();
+        agx::Physics::HierarchicalGrid::ContactZoneDependencyPtr getInterTierDependencyList();
+        agx::UInt8 getType();
+        agx::Vec3i getId();
+        agx::Job* getJob();
+        agx::Vec4f getColor();
+
+
+        void setParticleParticleContacts(agxData::Array< agx::UInt32 > value);
+        void setParticleGeometryContacts(agxData::Array< agx::UInt32 > value);
+        void setGeometryGeometryContacts(agxData::Array< agx::UInt32 > value);
+        void setTotNumContacts(agx::UInt32 value);
+        void setNumParticleParticleContacts(agx::AtomicValue value);
+        void setNumParticleGeometryContacts(agx::AtomicValue value);
+        void setNumGeometryContacts(agx::AtomicValue value);
+        void setSolveGroups(agxData::Array< agx::Physics::SolveGroupPtr > value);
+        void setSpatialCell(agx::Physics::HierarchicalGrid::CellPtr value);
+        void setTier(agx::Physics::HierarchicalGrid::GridTierPtr value);
+        void setInterTierDependencyList(agx::Physics::HierarchicalGrid::ContactZoneDependencyPtr value);
+        void setType(agx::UInt8 value);
+        void setId(agx::Vec3i value);
+        void setJob(agx::Job* value);
+        void setColor(agx::Vec4f value);
+      };
+
+
+      class ContactZonePtrVector {
+        ContactZonePtrVector();
+        void push_back(ContactZonePtr);
+        void clear();
+        ContactZonePtr at( unsigned int ) const;
+        ContactZonePtr front() const;
+        ContactZonePtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+
+      class ContactZonePtrArray {
+        ContactZonePtrArray();
+        ContactZonePtr at( unsigned int ) const;
+        ContactZonePtr front() const;
+        ContactZonePtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+    }
+  }
+}
+

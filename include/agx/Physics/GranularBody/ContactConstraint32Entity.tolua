@@ -1,0 +1,103 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/GranularBody/ContactConstraint32Entity.h>
+$ifile "../../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    namespace GranularBody
+    {
+      class ContactConstraint32Ptr : public agxData::EntityPtr
+      {
+      public:
+
+        ContactConstraint32Ptr(agxData::EntityStorage *storage, size_t id);
+        agx::UInt32 getBody1();
+        agx::UInt32 getBody2();
+        agx::UInt32 getSolveBody1();
+        agx::UInt32 getSolveBody2();
+        agx::UInt32 getCachedContactId();
+        agx::UInt32 getContactIndex();
+        agx::UInt32 getJacobianIndex();
+        agx::UInt32 getRowIndex();
+        agx::UInt32 getMaterialIndex();
+        agx::UInt32 getIterationCount();
+        agx::Bool getIsImpacting();
+        agx::UInt getActiveCount();
+        agx::Real32 getRestingCompliance();
+        agx::Real32 getCharContactTime();
+        agx::Real32 getCharMass();
+        agx::JacobianMeta32 getGMeta();
+        agx::Real32 getNonlinearMultiplier();
+        agx::Real32 getRollingResistanceMu();
+        agx::Real32 getTwistLimitMultiplier();
+
+
+        void setBody1(agx::UInt32 value);
+        void setBody2(agx::UInt32 value);
+        void setSolveBody1(agx::UInt32 value);
+        void setSolveBody2(agx::UInt32 value);
+        void setCachedContactId(agx::UInt32 value);
+        void setContactIndex(agx::UInt32 value);
+        void setJacobianIndex(agx::UInt32 value);
+        void setRowIndex(agx::UInt32 value);
+        void setMaterialIndex(agx::UInt32 value);
+        void setIterationCount(agx::UInt32 value);
+        void setIsImpacting(agx::Bool value);
+        void setActiveCount(agx::UInt value);
+        void setRestingCompliance(agx::Real32 value);
+        void setCharContactTime(agx::Real32 value);
+        void setCharMass(agx::Real32 value);
+        void setGMeta(agx::JacobianMeta32 value);
+        void setNonlinearMultiplier(agx::Real32 value);
+        void setRollingResistanceMu(agx::Real32 value);
+        void setTwistLimitMultiplier(agx::Real32 value);
+      };
+
+
+      class ContactConstraint32PtrVector {
+        ContactConstraint32PtrVector();
+        void push_back(ContactConstraint32Ptr);
+        void clear();
+        ContactConstraint32Ptr at( unsigned int ) const;
+        ContactConstraint32Ptr front() const;
+        ContactConstraint32Ptr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+
+      class ContactConstraint32PtrArray {
+        ContactConstraint32PtrArray();
+        ContactConstraint32Ptr at( unsigned int ) const;
+        ContactConstraint32Ptr front() const;
+        ContactConstraint32Ptr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+    }
+  }
+}
+

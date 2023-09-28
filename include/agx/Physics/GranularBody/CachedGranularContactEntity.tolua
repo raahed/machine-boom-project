@@ -1,0 +1,75 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/GranularBody/CachedGranularContactEntity.h>
+$ifile "../../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    namespace GranularBody
+    {
+      class CachedGranularContactPtr : public agxData::EntityPtr
+      {
+      public:
+
+        CachedGranularContactPtr(agxData::EntityStorage *storage, size_t id);
+        agx::Bool getKeep();
+        agx::Bool getDuplicate();
+        agx::Physics::GranularBody::ContactLambda getContactLambdas();
+        agx::Vec3f getContactNormal();
+        agx::Bool getShouldWarmStart();
+
+
+        void setKeep(agx::Bool value);
+        void setDuplicate(agx::Bool value);
+        void setContactLambdas(agx::Physics::GranularBody::ContactLambda value);
+        void setContactNormal(agx::Vec3f value);
+        void setShouldWarmStart(agx::Bool value);
+      };
+
+
+      class CachedGranularContactPtrVector {
+        CachedGranularContactPtrVector();
+        void push_back(CachedGranularContactPtr);
+        void clear();
+        CachedGranularContactPtr at( unsigned int ) const;
+        CachedGranularContactPtr front() const;
+        CachedGranularContactPtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+
+      class CachedGranularContactPtrArray {
+        CachedGranularContactPtrArray();
+        CachedGranularContactPtr at( unsigned int ) const;
+        CachedGranularContactPtr front() const;
+        CachedGranularContactPtr back() const;
+        unsigned int size() const;
+        bool empty() const;
+      };
+
+    }
+  }
+}
+

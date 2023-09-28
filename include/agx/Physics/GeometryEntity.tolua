@@ -1,0 +1,102 @@
+/*
+Copyright 2007-2023. Algoryx Simulation AB.
+
+All AGX source code, intellectual property, documentation, sample code,
+tutorials, scene files and technical white papers, are copyrighted, proprietary
+and confidential material of Algoryx Simulation AB. You may not download, read,
+store, distribute, publish, copy or otherwise disseminate, use or expose this
+material unless having a written signed agreement with Algoryx Simulation AB, or
+having been advised so by Algoryx Simulation AB for a time limited evaluation,
+or having purchased a valid commercial license from Algoryx Simulation AB.
+
+Algoryx Simulation AB disclaims all responsibilities for loss or damage caused
+from using this software, unless otherwise stated in written agreements with
+Algoryx Simulation AB.
+*/
+
+//////////////////////////////////////////////////
+// AUTOMATICALLY GENERATED ENTITY, DO NOT EDIT! //
+//////////////////////////////////////////////////
+
+$#define AGX_GENERATED_TOLUA_WRAPPER
+$#include <agx/Physics/GeometryEntity.h>
+$ifile "../../../LuaPlugins/plugins/agx/tolua/agx/Math.tolua"
+
+namespace agx
+{
+  namespace Physics
+  {
+    class GeometryPtr : public agx::ReferencedPtr
+    {
+    public:
+
+      GeometryPtr(agxData::EntityStorage *storage, size_t id);
+      agx::Name getName();
+      agxCollide::GeometryState getState();
+      agx::Physics::Geometry::ShapePtr getShape();
+      agx::AffineMatrix4x4 getTransform();
+      agx::AffineMatrix4x4 getLocalTransform();
+      agxCollide::BoundingAABB getBoundingAABB();
+      agx::Real getBoundingRadius();
+      agx::Vec3 getLocalBoundCenter();
+      agx::UInt8 getTier();
+      agx::UInt32 getCellIndex();
+      agx::UInt16 getCellSlot();
+      agx::UInt32 getOldCell();
+      agx::UInt getOrientedBoundId();
+      agx::Physics::CollisionGroupSetPtr getCollisionGroupSet();
+      agx::UInt32 getSweepAndPruneIndex();
+      agx::Physics::RigidBodyPtr getBody();
+      agx::Vec3f getSurfaceVelocity();
+      agx::Physics::MaterialPtr getMaterial();
+      agxCollide::Geometry* getModel();
+      agx::Physics::GeometryPtr getNext();
+
+
+      void setName(agx::Name value);
+      void setState(agxCollide::GeometryState value);
+      void setShape(agx::Physics::Geometry::ShapePtr value);
+      void setTransform(agx::AffineMatrix4x4 value);
+      void setLocalTransform(agx::AffineMatrix4x4 value);
+      void setBoundingAABB(agxCollide::BoundingAABB value);
+      void setBoundingRadius(agx::Real value);
+      void setLocalBoundCenter(agx::Vec3 value);
+      void setTier(agx::UInt8 value);
+      void setCellIndex(agx::UInt32 value);
+      void setCellSlot(agx::UInt16 value);
+      void setOldCell(agx::UInt32 value);
+      void setOrientedBoundId(agx::UInt value);
+      void setCollisionGroupSet(agx::Physics::CollisionGroupSetPtr value);
+      void setSweepAndPruneIndex(agx::UInt32 value);
+      void setBody(agx::Physics::RigidBodyPtr value);
+      void setSurfaceVelocity(agx::Vec3f value);
+      void setMaterial(agx::Physics::MaterialPtr value);
+      void setModel(agxCollide::Geometry* value);
+      void setNext(agx::Physics::GeometryPtr value);
+    };
+
+
+    class GeometryPtrVector {
+      GeometryPtrVector();
+      void push_back(GeometryPtr);
+      void clear();
+      GeometryPtr at( unsigned int ) const;
+      GeometryPtr front() const;
+      GeometryPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+
+    class GeometryPtrArray {
+      GeometryPtrArray();
+      GeometryPtr at( unsigned int ) const;
+      GeometryPtr front() const;
+      GeometryPtr back() const;
+      unsigned int size() const;
+      bool empty() const;
+    };
+
+  }
+}
+
