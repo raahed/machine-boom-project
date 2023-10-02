@@ -22,7 +22,7 @@ $ ./bin/container-start
 
 continued: Run Container on deep learning, pass additional docker flags
 ```bash
-$ ./bin/container-start --gpu all
+$ ./bin/container-start --gpus all
 ```
 
 #### Exposed ports
@@ -31,11 +31,14 @@ A running container instance offers a number of services through exposed ports:
 |Inner Port|Exposed Port|Service|Comment|
 |--|--|--|--|
 |22|2022|ssh||
-|5900|2029|vnc|by default not running|
+|5900|2059|vnc|by default not running|
 |8888|2088|jupyter|by default not running|
 
 ### Stop a container
 continued
+```bash
+$ ./bin/container-stop
+```
 
 ## Start GUI Service with x11vnc
 By default the vnc and gui service isn't running. Log in with ssh credentials and run the program in the background if needed.
