@@ -2,6 +2,7 @@ FROM nvidia/cuda:11.8.0-base-ubuntu22.04
 
 ARG AGX_VERSION
 ARG AGX_DISTRIBUTION
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 SHELL [ "/bin/bash", "-c" ]
@@ -13,9 +14,9 @@ RUN apt-get install -y --no-install-recommends \
     # Install utils apt's
     curl git tmux vim nano \
     # Install desktop
-    xvfb \
+    xterm xauth \
     # Install connections
-    openssh-server ssh x11vnc
+    openssh-server ssh
 
 # Install development tools
 RUN apt-get install -y --no-install-recommends \
@@ -24,7 +25,7 @@ RUN apt-get install -y --no-install-recommends \
     # Python
     python3.10 python3-pip \
     # GL stuff
-    mesa-utils mesa-utils-extra glmark2 libgl1-mesa-dri libopengl-dev libgl1-mesa-dev
+    mesa-utils mesa-utils-extra glmark2 libgl1-mesa-dri libopengl-dev libgl1-mesa-dev libglvnd0
 
 # Install Python tools
 RUN pip3 install --upgrade pip && \
@@ -57,6 +58,6 @@ RUN apt-get clean -y             && \
     rm -rf /var/lib/apt/lists/*
 
 
-EXPOSE 5900 22 8888
+EXPOSE 22 8888
 
-ENTRYPOINT [ "/sbin/init", "-D" ]
+ENTRYPOINT [ "/bin/bash" ]
