@@ -48,7 +48,7 @@ set( CMAKE_MODULE_PATH "${AGX_INSTALL_DIRECTORY}/CMakeModules;${CMAKE_MODULE_PAT
 #
 include(AGXUtils)
 include(AGX${CMAKE_SYSTEM_NAME}Specific)
-include(AGXCompilerFlags )
+include(AGXCompilerFlags)
 
 # To make some macros compatible
 set(AGX_DYNAMIC TRUE)
