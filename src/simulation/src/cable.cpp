@@ -4,15 +4,15 @@
 const std::vector<double> Cable::getLowestNode()
 {
     std::size_t lowestNode;
-    double lowestY = std::numeric_limits<double>::infinity();
+    double lowestZ = std::numeric_limits<double>::infinity();
     int i = 0;
     for (auto itr = this->begin(); itr != this->end(); ++itr, ++i)
     {
         agx::Vec3 pos = itr->getCenterPosition();
-        double currentY = pos.y();
-        if (currentY < lowestY) 
+        double currentY = pos.z();
+        if (currentY < lowestZ) 
         {
-            lowestY = currentY;
+            lowestZ = currentY;
             lowestNode = i;
         }
     }

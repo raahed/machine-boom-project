@@ -70,7 +70,7 @@ const std::vector<double> Boom::getLowestCableNode()
     for (Cable cable : cables)
     {
         std::vector<double> cableLowestNode = cable.getLowestNode();
-        if (cableLowestNode[1] < lowestNode[1])
+        if (cableLowestNode[2] < lowestNode[2])
             lowestNode = cableLowestNode;
     }
     return lowestNode;
