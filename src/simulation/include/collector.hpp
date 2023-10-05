@@ -1,5 +1,5 @@
-#ifndef COLLECTOR_H
-#define COLLECTOR_H
+#ifndef COLLECTOR_HPP
+#define COLLECTOR_HPP
 
 #include <stdio.h>
 #include <string>
@@ -63,6 +63,7 @@ public:
 
 	void closeStream();
 
+	void append(const vector<vector<double>>& data);
 	void append(const vector<double>& data);
 	void append(const vector<string>& data);
 };
@@ -122,6 +123,19 @@ void Collector::closeStream() {
 	fileStreamOpen_ = false;
 }
 
+// FIXME: Create lists for each angle entry
+void Collector::append(const vector<vector<double>>& data) {
+	std::vector<double> flattened;
+	for (auto row : data) {
+		for (auto entry : row) {
+			flattened.push_back(entry);
+		}
+	}
+
+	append(flattened);
+}
+
+// FIXME: Create lists for each angle entry
 void Collector::append(const vector<double>& data) {
 	vector<string> row;
 	
@@ -157,4 +171,4 @@ void Collector::append(const vector<string>& data) {
 	closeStream();
 }
 
-#endif // !COLLECTOR_H
+#endif // !COLLECTOR_HPP
