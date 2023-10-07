@@ -2,6 +2,7 @@ FROM nvidia/cuda:11.8.0-base-ubuntu22.04
 
 ARG AGX_VERSION
 ARG AGX_DISTRIBUTION
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 SHELL [ "/bin/bash", "-c" ]
@@ -12,10 +13,8 @@ RUN apt-get update
 RUN apt-get install -y --no-install-recommends \
     # Install utils apt's
     curl git tmux vim nano \
-    # Install desktop
-    xvfb \
-    # Install connections
-    openssh-server ssh x11vnc
+    # Install desktop and connection
+    xvfb x11vnc
 
 # Install development tools
 RUN apt-get install -y --no-install-recommends \
@@ -45,18 +44,12 @@ RUN rm /agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb
 # Load agx envs every time
 RUN echo "source /opt/Algoryx/AGX-${AGX_VERSION}/setup_env.bash" >> ~/.bashrc
 
-# Enable root login in ssh
-RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-
-# Change passwd
-RUN echo "root:default" | chpasswd
-
 # Clean up
 RUN apt-get clean -y             && \
     apt-get autoremove -y        && \
     rm -rf /var/lib/apt/lists/*
 
 
-EXPOSE 5900 22 8888
+EXPOSE 5900 8888
 
 ENTRYPOINT [ "/sbin/init", "-D" ]
