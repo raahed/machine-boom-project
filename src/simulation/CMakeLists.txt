@@ -108,7 +108,7 @@ set(TARGET_NAME hoses_test)
 include_directories ( ${AGXOSG_DIR} include/ )
 
 # Add the application
-agx_add_executable(${TARGET_NAME}  src/data_collect.cpp  )
+agx_add_executable(${TARGET_NAME} src/main.cpp)
 
 # Link to AGX targets
 target_link_libraries(${TARGET_NAME} AGX::agxCore AGX::agxPhysics AGX::agxModel AGX::agxCable AGX::agxTerrain AGX::agxHydraulics AGX::agxOSG AGX::agxVehicle)

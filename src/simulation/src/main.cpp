@@ -128,7 +128,7 @@ osg::Group *loadHosesScene(agxSDK::Simulation *simulation, agxOSG::ExampleApplic
 
   simulation->setUniformGravity(agx::Vec3(0, 0, -9.81));
 
-  Collector::instance().setup(".", filename, convertNameVector(jointNames));
+  Collector::instance().setup("data", filename, convertNameVector(jointNames));
 
   std::cerr << "Assembly loaded: " << assembly->getName().str() << std::endl;
   for (auto itr = assembly->getAssemblies().begin(); itr != assembly->getAssemblies().end(); itr++)
