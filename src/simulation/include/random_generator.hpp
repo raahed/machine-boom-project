@@ -7,10 +7,12 @@ class UniformRandomGenerator {
     std::mt19937_64 rng;
     uint64_t initialSeed;
 
-    public:
+public:
     UniformRandomGenerator();
+
     UniformRandomGenerator(uint64_t _initialSeed);
-    template <typename T>
+
+    template<typename T>
     T generateRandomNumber(const int &intervalStart, const int &intervalEnd);
 };
 

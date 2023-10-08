@@ -15,57 +15,65 @@ class Collector {
 
 private:
     /* class */
-	string basepath_;
+    string basepath_;
     string uniqueIdentifier_;
     time_t constructStamp_;
     string filename_;
 
     /* file */
-	vector<string> headers_;
-	bool setup_;
+    vector <string> headers_;
+    bool setup_;
 
     /* stream */
-	ofstream fileStream_;
-	bool fileStreamOpen_;
+    ofstream fileStream_;
+    bool fileStreamOpen_;
 
     /* stream performance */
     int writeCounterMax;
     int writeCounter;
 
-	Collector();
+    Collector();
 
-	void initFile();
+    void initFile();
 
-	string rowBuilder(vector<string> elements);
+    string rowBuilder(vector <string> elements);
 
-	Collector(const Collector&);
-	Collector& operator=(const Collector&);
+    Collector(const Collector &);
+
+    Collector &operator=(const Collector &);
 
 protected:
-	char delimiter_;
+    char delimiter_;
 
 public:
-	~Collector();
+    ~Collector();
 
-	/* singleton */
-	static Collector& instance();
+    /* singleton */
+    static Collector &instance();
 
-	void setup(string basepath, string identifierSuffix, vector<string> label);
+    void setup(string basepath, string identifierSuffix, vector <string> label);
 
-	/* getter and setter methods */
-	char getDelimiter();
-	void setDelimiter(char value);
-	string getUniqueIdentifier();
-	string getFileName();
-	string getFilePath();
+    /* getter and setter methods */
+    char getDelimiter();
+
+    void setDelimiter(char value);
+
+    string getUniqueIdentifier();
+
+    string getFileName();
+
+    string getFilePath();
+
     int getWriteCounterMax();
 
-	void closeStream();
+    void closeStream();
 
     /* append methods */
-	void append(const vector<vector<double>>& data);
-	void append(const vector<double>& data);
-	void append(const vector<string>& data);
+    void append(const vector <vector<double>> &data);
+
+    void append(const vector<double> &data);
+
+    void append(const vector <string> &data);
 };
 
 

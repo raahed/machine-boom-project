@@ -10,14 +10,14 @@ UniformRandomGenerator::UniformRandomGenerator() {
     rng.seed(seedSequence);
 }
 
-UniformRandomGenerator::UniformRandomGenerator(uint64_t _initialSeed): initialSeed(_initialSeed) {
+UniformRandomGenerator::UniformRandomGenerator(uint64_t _initialSeed) : initialSeed(_initialSeed) {
     uint32_t full = -1;
     std::seed_seq seedSequence{uint32_t(initialSeed & full), std::uint32_t(initialSeed >> sizeof(uint32_t))};
     rng.seed(seedSequence);
 }
 
-template <typename T>
+template<typename T>
 T UniformRandomGenerator::generateRandomNumber(const int &intervalStart, const int &intervalEnd) {
-    std::uniform_real_distribution<T> unif(intervalStart, intervalEnd);
+    std::uniform_real_distribution <T> unif(intervalStart, intervalEnd);
     return unif(rng);
 }

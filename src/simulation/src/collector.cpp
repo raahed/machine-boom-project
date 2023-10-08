@@ -26,7 +26,7 @@ Collector::Collector() {
 
 Collector::~Collector() { closeStream(); }
 
-static Collector& Collector::instance() {
+static Collector &Collector::instance() {
 
     // Based on https ://stackoverflow.com/a/1008289
     static Collector instance;
@@ -44,7 +44,7 @@ void Collector::initFile() {
 };
 
 
-string Collector::rowBuilder(vector<string> elements) {
+string Collector::rowBuilder(vector <string> elements) {
 
     stringstream row;
 
@@ -56,14 +56,14 @@ string Collector::rowBuilder(vector<string> elements) {
     return row.str();
 }
 
-void Collector::setup(string basepath, string identifierSuffix, vector<string> label) {
+void Collector::setup(string basepath, string identifierSuffix, vector <string> label) {
 
     if (setup_)
         return;
 
     basepath_ = basepath;
 
-    tm* lm = localtime(&constructStamp_);
+    tm *lm = localtime(&constructStamp_);
     uniqueIdentifier_ = to_string(lm->tm_year + 1900) + to_string(lm->tm_mon + 1) +
                         to_string(lm->tm_mday) + '_' + to_string(lm->tm_hour) +
                         to_string(lm->tm_min) + to_string(lm->tm_sec) + '_' +
@@ -71,7 +71,7 @@ void Collector::setup(string basepath, string identifierSuffix, vector<string> l
 
     filename_ = uniqueIdentifier_ + "_collection.csv";
 
-    headers_ = { "Timestamp" };
+    headers_ = {"Timestamp"};
     headers_.insert(headers_.end(), label.begin(), label.end());
 
     initFile();
@@ -89,12 +89,11 @@ void Collector::closeStream() {
     fileStreamOpen_ = false;
 }
 
-void Collector::append(const vector<vector<double>>& data) {
+void Collector::append(const vector <vector<double>> &data) {
 
-    std::vector<string> flattend;
+    std::vector <string> flattend;
 
-    for (auto elements : data)
-    {
+    for (auto elements: data) {
         stringstream row = '[';
 
         for (int i = 0; i < (elements.size() - 1); i++)
@@ -107,21 +106,21 @@ void Collector::append(const vector<vector<double>>& data) {
     append(flattened);
 }
 
-void Collector::append(const vector<double>& data) {
+void Collector::append(const vector<double> &data) {
 
-    vector<string> row;
+    vector <string> row;
 
     /* Based on https://stackoverflow.com/a/25371915 */
     transform(begin(data),
               end(data),
               back_inserter(row),
-              [](double d) { return to_string(d)}
+              [](double d) { return to_string(d) }
     );
 
     append(row);
 }
 
-void Collector::append(const vector<string>& data) {
+void Collector::append(const vector <string> &data) {
 
     /* init checks */
     if (data.size() + 1 != headers_.size())
@@ -134,27 +133,32 @@ void Collector::append(const vector<string>& data) {
     }
 
     /* prepare */
-    vector<string> row;
+    vector <string> row;
 
     /* set timestamp */
     time_t now = time(0);
 
-    row = { to_string(now) };
+    row = {to_string(now)};
     row.insert(row.end(), data.begin(), data.end());
 
     /* write */
     fileStream_ << rowBuilder(row);
 
     /* performance: let stream open */
-    if(++writeCounter == writeCounterMax) {
+    if (++writeCounter == writeCounterMax) {
         closeStream();
         writeCounter = 0;
     }
 }
 
 char Collector::getDelimiter() { return delimiter_; }
+
 void Collector::setDelimiter(char value) { delimiter_ = value; }
+
 string Collector::getUniqueIdentifier() { return uniqueIdentifier_; }
+
 string Collector::getFileName() { return filename_; }
+
 string Collector::getFilePath() { return basepath_ + '/' + filename_; }
+
 int Collector::getWriteCounterMax() { return writeCounterMax; }
