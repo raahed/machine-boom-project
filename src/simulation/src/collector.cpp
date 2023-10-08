@@ -18,20 +18,13 @@ Collector::Collector() {
     delimiter_ = ';';
 
     writeCounter = 0;
-    const writeCounterMax = 10;
+    writeCounterMax = 10;
 
     setup_ = false;
     fileStreamOpen_ = false;
 }
 
 Collector::~Collector() { closeStream(); }
-
-static Collector &Collector::instance() {
-
-    // Based on https ://stackoverflow.com/a/1008289
-    static Collector instance;
-    return instance;
-}
 
 void Collector::initFile() {
 
@@ -94,28 +87,27 @@ void Collector::append(const vector <vector<double>> &data) {
     std::vector <string> flattend;
 
     for (auto elements: data) {
-        stringstream row = '[';
+        stringstream row;
+
+        row << "]";
 
         for (int i = 0; i < (elements.size() - 1); i++)
-            row << elements[i] << ',';
+            row << elements[i] << ",";
 
-        row << elements[elements.size() - 1] << ']' << endl;
+        row << elements[elements.size() - 1] << "]" << endl;
 
-        flattend.push_back(row.str())
+        flattend.push_back(row.str());
     }
-    append(flattened);
+
+    append(flattend);
 }
 
 void Collector::append(const vector<double> &data) {
 
     vector <string> row;
 
-    /* Based on https://stackoverflow.com/a/25371915 */
-    transform(begin(data),
-              end(data),
-              back_inserter(row),
-              [](double d) { return to_string(d) }
-    );
+    for (auto item: data)
+        row.push_back(to_string(item));
 
     append(row);
 }

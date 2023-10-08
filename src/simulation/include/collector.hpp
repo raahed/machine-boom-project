@@ -49,7 +49,12 @@ public:
     ~Collector();
 
     /* singleton */
-    static Collector &instance();
+    static Collector &instance() {
+
+        // Based on https ://stackoverflow.com/a/1008289
+        static Collector instance;
+        return instance;
+    }
 
     void setup(string basepath, string identifierSuffix, vector <string> label);
 
