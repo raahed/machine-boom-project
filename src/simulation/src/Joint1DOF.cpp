@@ -22,6 +22,6 @@ const std::vector<double> Joint1DOF<T>::getAngles() {
 };
 
 template<class T>
-const std::string Joint1DOF<T>::getName() {
+const agx::String Joint1DOF<T>::getName() {
     return name;
 };

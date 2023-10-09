@@ -7,46 +7,46 @@
 #include "cable.hpp"
 
 void Boom::setJointVelocities(const std::map <std::string, std::vector<double>> &velocityMap) {
-    for (auto joint: joints) {
-        auto jointName = joint.getName();
+    for (auto& joint : joints) {
+        auto jointName = joint->getName();
         if (velocityMap.find(jointName) != velocityMap.end())
-            joint.setVelocities(velocityMap.at(jointName));
+            joint->setVelocities(velocityMap.at(jointName));
     }
 }
 
 void Boom::setJointVelocity(const std::string &name, const std::vector<double> &velocities) {
-    for (auto joint: joints) {
-        if (name == joint.getName()) {
-            joint.setVelocities(velocities);
+    for (auto& joint : joints) {
+        if (name == joint->getName()) {
+            joint->setVelocities(velocities);
             break;
         }
     }
 }
 
 void Boom::setJointVelocity(const std::size_t &jointIndex, const std::vector<double> &velocity) {
-    joints[jointIndex].setVelocities(velocity);
+    joints[jointIndex]->setVelocities(velocity);
 }
 
 const std::vector <std::vector<double>> Boom::getJointPositions() {
     std::vector <std::vector<double>> jointPositions;
-    for (auto joint: joints) {
-        jointPositions.push_back(joint.getAngles());
+    for (auto& joint : joints) {
+        jointPositions.push_back(joint->getAngles());
     }
     return jointPositions;
 }
 
-const std::vector <std::string> Boom::getJointNames() {
-    std::vector <std::string> names;
-    for (auto joint: joints) {
-        names.push_back(joint.getName());
+const std::vector <agx::String> Boom::getJointNames() {
+    std::vector <agx::String> names;
+    for (auto& joint : joints) {
+        names.push_back(joint->getName());
     }
     return names;
 }
 
 Joint *const Boom::getJoint(const std::string &name) {
-    for (auto joint: joints) {
-        if (joint.getName() == name)
-            return &joint;
+    for (auto& joint : joints) {
+        if (joint->getName() == name)
+            return joint;
     }
     std::stringstream errorStream;
     errorStream << "The name: " << name
@@ -104,12 +104,12 @@ Boom *Boom::Builder::build() {
 }
 
 template<typename T>
-Joint Boom::Builder::createJoint(std::string &name, T *constraintReference) {
-    Joint joint;
+Joint* Boom::Builder::createJoint(agx::String name, T *constraintReference) {
+    Joint* joint;
     if (std::is_base_of<agx::Constraint1DOF, T>::value) {
-        joint = Joint1DOF<T>(name.str(), *constraintReference);
+        joint = new Joint1DOF<T>(name, *constraintReference);
     } else {
-        joint = Joint2DOF<T>(name.str(), *constraintReference);
+        joint = new Joint2DOF<T>(name, *constraintReference);
     }
     return joint;
 }

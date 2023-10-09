@@ -9,11 +9,12 @@
 #include <agxCable/Cable.h>
 #include <agxOSG/ExampleApplication.h>
 
+#include "boom.hpp"
 #include "joints.hpp"
 #include "cable.hpp"
 
 class Boom : public agxSDK::Assembly {
-    std::vector <Joint> joints;
+    std::vector <Joint*> joints;
     std::vector <Cable> cables;
 
     Boom();
@@ -31,17 +32,17 @@ public:
 
     const std::vector<double> getLowestCableNode();
 
-    const std::vector <std::string> getJointNames();
+    const std::vector <agx::String> getJointNames();
 
     class Builder {
         agxSDK::AssemblyRef assemblyReference;
-        std::vector <Joint> joints;
+        std::vector <Joint*> joints;
         std::vector <Cable> cables;
 
         bool isInitialized();
 
         template<typename T>
-        Joint createJoint(std::string &name, T *constraintReference);
+        Joint* createJoint(agx::String name, T *constraintReference);
 
     public:
         Builder(agxSDK::AssemblyRef _assemblyReference) : assemblyReference(_assemblyReference) {};

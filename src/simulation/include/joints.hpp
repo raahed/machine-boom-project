@@ -5,6 +5,7 @@
 #include <vector>
 #include <tuple>
 #include <agx/Constraint.h>
+#include <agx/String.h>
 #include "constraints.hpp"
 
 class Joint {
@@ -15,16 +16,16 @@ public:
 
     virtual const std::vector<double> getAngles() = 0;
 
-    virtual const std::string getName() = 0;
+    virtual const agx::String getName() = 0;
 };
 
 template<class T>
 class Joint1DOF : Joint, Convertible_to<T, agx::Constraint1DOF> {
-    std::string name;
+    agx::String name;
     T constraint;
 
 public:
-    Joint1DOF(std::string _name, T _constraint) : name(_name), constraint(_constraint) {};
+    Joint1DOF(agx::String _name, T _constraint) : name(_name), constraint(_constraint) {};
 
     ~Joint1DOF() {
         delete name;
@@ -37,12 +38,12 @@ public:
 
     const std::vector<double> getAngles();
 
-    const std::string getName();
+    const agx::String getName();
 };
 
 template<class T>
 class Joint2DOF : Joint, Convertible_to<T, agx::Constraint2DOF> {
-    std::string name;
+    agx::String name;
     T constraint;
 
     void setVelocity(agx::Constraint2DOF::DOF dof, const double &newVelocity);
@@ -52,7 +53,7 @@ class Joint2DOF : Joint, Convertible_to<T, agx::Constraint2DOF> {
     const double getAngle(agx::Constraint2DOF::DOF dof);
 
 public:
-    Joint2DOF(std::string _name, T _constraint) : name(_name), constraint(_constraint) {
+    Joint2DOF(agx::String _name, T _constraint) : name(_name), constraint(_constraint) {
         constraint.getMotor1D(agx::Constraint2DOF::DOF::FIRST)->setEnable(true);
         constraint.getMotor1D(agx::Constraint2DOF::DOF::FIRST)->setLocked(true);
         constraint.getMotor1D(agx::Constraint2DOF::DOF::SECOND)->setEnable(true);
@@ -70,7 +71,7 @@ public:
 
     const std::vector<double> getAngles();
 
-    const std::string getName();
+    const agx::String getName();
 };
 
 #endif

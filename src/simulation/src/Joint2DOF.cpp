@@ -41,6 +41,6 @@ const double Joint2DOF<T>::getAngle(agx::Constraint2DOF::DOF dof) {
 }
 
 template<class T>
-const std::string Joint2DOF<T>::getName() {
+const agx::String Joint2DOF<T>::getName() {
     return name;
 }
