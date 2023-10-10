@@ -64,10 +64,16 @@ $ start-jupyter [<juypter notebook args>]
 **Note:** Jupyter web-service root directory is `/mnt`. However, all changes will be lost outside of the given volume folders.
 
 ### Stop a container
-Therefore, that the container runs detached, you need to stop the container session.
-The container will be rested excepted the mounted volumes.
+Therefore, the container runs detached, you need to stop the container session.
+The container is reset with the exception of the mounted volumes.
 ```bash
 $ ./bin/container-stop
+```
+
+## Work with jupyter notebooks trough a SSH tunnel
+If the container instance runs on one of the university's deep gear machines, port forwarding via `ssh` allows to edit the notebooks on a local machine.
+```bash
+$ ssh -L 2088:<remote ip>:2088 student@<remote ip>
 ```
 
 ## Maintained and Developed by
