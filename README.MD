@@ -7,8 +7,9 @@ Beside this README file the project documentation is stored in Overleaf --> http
 Inside the docker container there are several mounted directories:
 - `/mnt/simulation` mounted from `./src/simulation`: Contains the hose simulation
 - `/mnt/data` mounted from `./data`: Destination of all simulation exports
+- `/mnt/notebooks` mounted from `./data`: Jupyter notebook collection
 
-### Build a Image
+### Build an image
 The bash script runs based on the `.env` arguements.
 ```bash
 $ ./bin/build-image
@@ -36,25 +37,31 @@ A running container instance offers a number of services through exposed ports:
 
 |Inner Port|Exposed Port|Service|Comment|
 |--|--|--|--|
-|5900|2059|vnc|by default not running|
-|8888|2088|jupyter|by default not running|
+|2059|2059|vnc|by default not running|
+|2088|2088|jupyter|by default not running|
 
 
 ### Connect to a container
 Do not connect with the `docker exec` cmd directly to the container. Some environment variables needs to be set! Instead,
-use the proper
+use the following proper command.
 ```bash
 $ ./bin/container-connect [<docker exec args>]
 ```
-command.
+
+### Services and Commands
+Starting a container with `./container-start` makes all argument-scripts, located in `bin/arguments` avalibale as generell commands inside the container.
 
 #### Start GUI Service with x11vnc
-By default, the vnc and gui service isn't running. Log into the container and run the program in the background if needed.
-`-create` Flag is required to create a virtual display.
-
+By default, the vnc and gui service isn't running. Connect your terminal and run the following command. Runs the `x11vnc` service in foreground.
 ```bash
-$ x11vnc -create -once &
+$ start-vnc [<x11vnc args>]
 ```
+#### Start jupyter Server
+By default, jupyter isn't running. Connect your terminal and run the following command. Runs the `jupyter notebook` service in foreground.
+```bash
+$ start-jupyter [<juypter notebook args>]
+```
+**Note:** Jupyter web-service root directory is `/mnt`. However, all changes will be lost outside of the given volume folders.
 
 ### Stop a container
 Therefore, that the container runs detached, you need to stop the container session.
