@@ -13,6 +13,7 @@
 CppProperties.json
 CMakeCache.txt
 **/CMakeFiles
+Makefile
 
 # Project
 *.log
