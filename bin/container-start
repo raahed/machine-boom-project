@@ -9,7 +9,7 @@ docker run --detach \
            --rm \
            --privileged \
            --user root \
-           --publish 2059:5900 \
+           --publish 2059:2059 \
            --publish 2088:2088 \
            --env-file $DIR/../.env \
            --env USER=root \
