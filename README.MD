@@ -49,7 +49,7 @@ $ ./bin/container-connect [<docker exec args>]
 ```
 
 ### Services and Commands
-Starting a container with `./container-start` makes all argument-scripts, located in `bin/arguments` avalibale as generell commands inside the container.
+Starting a container with `./container-start` makes all argument-scripts, located in `bin/arguments` avalibale as generell commands inside the container. Make sure you applied executable permissions to all scripts in `bin/` and its subfolders with `chmod -R +x bin/`.
 
 #### Start GUI Service with x11vnc
 By default, the vnc and gui service isn't running. Connect your terminal and run the following command. Runs the `x11vnc` service in foreground.
@@ -73,7 +73,7 @@ $ ./bin/container-stop
 ## Work with jupyter notebooks trough a SSH tunnel
 If the container instance runs on one of the university's deep gear machines, port forwarding via `ssh` allows to edit the notebooks on a local machine.
 ```bash
-$ ssh -L 2088:<remote ip>:2088 student@<remote ip>
+$ ssh -L 2088:<remote ip>:2088 <username>@<remote ip>
 ```
 
 ## Maintained and Developed by
