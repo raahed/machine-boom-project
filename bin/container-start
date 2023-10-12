@@ -9,11 +9,14 @@ docker run --detach \
            --rm \
            --privileged \
            --user root \
-           --publish 2059:5900 \
-           --publish 2088:8888 \
+           --publish 2059:2059 \
+           --publish 2088:2088 \
            --env-file $DIR/../.env \
            --env USER=root \
+           --volume $DIR/../bin/arguments:/root/bin \
            --volume $DIR/../src/simulation:/mnt/simulation \
+           --volume $DIR/../data:/mnt/data \
+           --volume $DIR/../notebooks:/mnt/notebooks \
            --name mbp-runner \
            $@ \
            machine-boom-project:latest

@@ -19,6 +19,9 @@ CMakeCache.txt
 *.csv
 *.lic
 
+# Jupyter
+**/.ipynb_checkpoints/*
+
 
 # Fetched from https://github.com/github/gitignore/blob/main/C.gitignore
 

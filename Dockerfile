@@ -44,12 +44,15 @@ RUN rm /agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb
 # Load agx envs every time
 RUN echo "source /opt/Algoryx/AGX-${AGX_VERSION}/setup_env.bash" >> ~/.bashrc
 
+# Add local arguments
+RUN echo "PATH=~/bin:\$PATH" >> ~/.bashrc
+
 # Clean up
 RUN apt-get clean -y             && \
     apt-get autoremove -y        && \
     rm -rf /var/lib/apt/lists/*
 
 
-EXPOSE 5900 8888
+EXPOSE 2059 2088
 
 ENTRYPOINT [ "/sbin/init", "-D" ]
