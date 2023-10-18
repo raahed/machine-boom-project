@@ -16,7 +16,7 @@ docker run --detach \
            --volume $DIR/../bin/arguments:/root/bin \
            --volume $DIR/../src/simulation:/mnt/simulation \
            --volume $DIR/../data:/mnt/data \
-           --volume $DIR/../notebooks:/mnt/notebooks \
+           --volume $DIR/../models/notebooks:/mnt/notebooks \
            --name mbp-runner \
            $@ \
            machine-boom-project:latest
