@@ -70,9 +70,24 @@ public:
         }
     }
 
-    void getLowestCablePosition(std::vector<double> &ref) {
-        ref.clear();
-        // TODO
+    std::vector<double> getLowestCablePosition() {
+        std::vector<double> result;
+        result.reserve(3);
+        double lowest_z = std::numeric_limits<double>::infinity();
+        agx::Vec3 lowest_pos;
+        for (auto cable : cables) {
+            for(agxCable::CableIterator itr = cable->begin(); itr != cable->end(); ++itr) {
+                auto pos = itr->getCenterPosition();
+                if (pos.z() < lowest_z) {
+                    lowest_z = pos.z();
+                    lowest_pos = pos;
+                }
+            }
+        }
+        result.push_back(lowest_pos.x());
+        result.push_back(lowest_pos.y());
+        result.push_back(lowest_pos.z());
+        return result;
     }
 
     void getJointPosition(std::vector<std::vector<double>> &ref) {
@@ -195,10 +210,7 @@ public:
         vector<vector<double>> joint_angles;
         m_boom->getJointPosition(joint_angles);
 
-        vector<double> lowest;
-        m_boom->getLowestCablePosition(lowest);
-
-        joint_angles.push_back(lowest);
+        joint_angles.push_back(m_boom->getLowestCablePosition());
 
         /* write csv */
         Collector::instance().append(joint_angles);
