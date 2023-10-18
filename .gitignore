@@ -22,6 +22,9 @@ CMakeCache.txt
 # Jupyter
 **/.ipynb_checkpoints/*
 
+# Virtual enviroments
+**/.venv/*
+
 
 # Fetched from https://github.com/github/gitignore/blob/main/C.gitignore
 
