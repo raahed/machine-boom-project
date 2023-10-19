@@ -6,8 +6,8 @@ Beside this README file the project documentation is stored in Overleaf --> http
 ### Volume folders
 Inside the docker container there are several mounted directories:
 - `/mnt/simulation` mounted from `./src/simulation`: Contains the hose simulation
+- `/mnt/models` mounted from `./src/models`: Models and jupyter notebook collection
 - `/mnt/data` mounted from `./data`: Destination of all simulation exports
-- `/mnt/notebooks` mounted from `./data`: Jupyter notebook collection
 
 ### Build an image
 The bash script runs based on the `.env` arguements.
