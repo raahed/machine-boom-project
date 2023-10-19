@@ -8,6 +8,7 @@
 *.cmake
 *.make
 *.deb
+Makefile
 
 # C++
 CppProperties.json
