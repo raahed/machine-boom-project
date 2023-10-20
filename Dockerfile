@@ -7,8 +7,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 SHELL [ "/bin/bash", "-c" ]
 
-COPY requirements.txt /mnt/
-
 # Update dependency lists
 RUN apt-get update
 
@@ -27,10 +25,13 @@ RUN apt-get install -y --no-install-recommends \
     # GL stuff
     mesa-utils mesa-utils-extra glmark2 libgl1-mesa-dri libopengl-dev libgl1-mesa-dev
 
+# Copy python3 modules list
+COPY requirements.txt /
+
 # Install Python tools
 RUN pip3 install --upgrade pip && \
     # Install Requirements 
-    pip3 install -r /nmt/requirements.txt
+    pip3 install -r /requirements.txt
 
 # Install AGX dynamics and place lic file
 COPY agx-${AGX_VERSION}-${AGX_DISTRIBUTION}.deb /
