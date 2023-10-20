@@ -6,6 +6,7 @@
 #include <sstream>
 #include <vector>
 #include <ctime>
+#include <chrono>
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
@@ -195,7 +196,9 @@ public:
         vector <string> row;
 
         /* set timestamp */
-        time_t now = time(0);
+        /* Based on: https://codereview.stackexchange.com/a/132863 */
+        uint64_t now = chrono::duration_cast<chrono::nanoseconds>
+              (chrono::high_resolution_clock::now().time_since_epoch()).count();
 
         row = {to_string(now)};
         row.insert(row.end(), data.begin(), data.end());
