@@ -1,2 +1,3 @@
 # Checkout with LF on windows machines
 bin/** text=auto eol=lf
+.env text=auto eol=lf
