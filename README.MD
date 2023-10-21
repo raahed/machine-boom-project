@@ -3,11 +3,16 @@
 Beside this README file the project documentation is stored in Overleaf --> https://www.overleaf.com/read/ftppxzzkjsmf
 
 ## Docker Interface
-### Volume folders
+### Mounted volume folders
 Inside the docker container there are several mounted directories:
-- `/mnt/simulation` mounted from `./src/simulation`: Contains the hose simulation
-- `/mnt/models` mounted from `./src/models`: Models and jupyter notebook collection
-- `/mnt/data` mounted from `./data`: Destination of all simulation exports
+|volume|mounted folder|comment|
+|--|--|--|
+| `/mnt/simulation` | `src/simulation/` | Contains the hose simulation |
+| `/mnt/models` | `models/` | Saved models storage |
+| `/mnt/notebooks` | `src/notebooks/` | Jupyter notebook collection |
+| `/mnt/data` | `data/` | Destination of all simulation exports |
+
+Volumes are specified in `bin/container-start`.
 
 ### Build an image
 The bash script runs based on the `.env` arguements.
