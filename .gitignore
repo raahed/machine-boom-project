@@ -29,6 +29,9 @@ CMakeCache.txt
 # Saved Models
 **/saved/*
 
+# Python cache
+**/__pycache__/*
+
 # Fetched from https://github.com/github/gitignore/blob/main/C.gitignore
 
 # Prerequisites

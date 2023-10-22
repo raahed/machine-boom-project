@@ -53,21 +53,6 @@ use the following proper command.
 $ ./bin/container-connect [<docker exec args>]
 ```
 
-### Services and Commands
-Starting a container with `./container-start` makes all argument-scripts, located in `bin/arguments` avalibale as generell commands inside the container. Make sure you applied executable permissions to all scripts in `bin/` and its subfolders with `chmod -R +x bin/`.
-
-#### Start GUI Service with x11vnc
-By default, the vnc and gui service isn't running. Connect your terminal and run the following command. Runs the `x11vnc` service in foreground.
-```bash
-$ start-vnc [<x11vnc args>]
-```
-#### Start jupyter Server
-By default, jupyter isn't running. Connect your terminal and run the following command. Runs the `jupyter notebook` service in foreground.
-```bash
-$ start-jupyter [<juypter notebook args>]
-```
-**Note:** Jupyter web-service root directory is `/mnt`. However, all changes will be lost outside of the given volume folders.
-
 ### Stop a container
 Therefore, the container runs detached, you need to stop the container session.
 The container is reset with the exception of the mounted volumes.
@@ -75,10 +60,35 @@ The container is reset with the exception of the mounted volumes.
 $ ./bin/container-stop
 ```
 
+## Services and Commands
+Starting a container with `./container-start` makes all argument-scripts, located in `bin/arguments` avalibale as generell commands inside the container. Make sure you applied executable permissions to all scripts in `bin/` and its subfolders with `chmod -R +x bin/`. 
+
+### Start GUI Service with x11vnc
+By default, the vnc and gui service isn't running. Connect your terminal and run the following command. Runs the `x11vnc` service in foreground.
+```bash
+$ start-vnc [<x11vnc args>]
+```
+### Start jupyter Server
+By default, jupyter isn't running. Connect your terminal and run the following command. Runs the `jupyter notebook` service in foreground.
+```bash
+$ start-jupyter [<juypter notebook args>]
+```
+**Note:** Jupyter web-service root directory is `/mnt`. However, all changes will be lost outside of the given volume folders.
+
 ## Work with jupyter notebooks trough a SSH tunnel
 If the container instance runs on one of the university's deep gear machines, port forwarding via `ssh` allows to edit the notebooks on a local machine.
 ```bash
 $ ssh -L 2088:<remote ip>:2088 <username>@<remote ip>
+```
+
+## Python modules and jupyter notebooks
+### Project modules and namespace path
+Some core functionalities are moved outside the jupypter notebooks. Modules, classes and as well functions located in `src/python` are available under the python namespace name `project`. 
+
+**Note:** `project` is just a namespace. If you wanna use a module from the `project` namespace, you need to import each module separately like the following code example. The `*`-operator is not defined!
+```python
+# Import module specified in './src/pyhton' 
+from project import xyz
 ```
 
 ## Maintained and Developed by
