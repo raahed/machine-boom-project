@@ -47,7 +47,7 @@ RUN echo "source /opt/Algoryx/AGX-${AGX_VERSION}/setup_env.bash" >> ~/.bashrc
 RUN echo "PATH=~/bin:\$PATH" >> ~/.bashrc
 
 # Add costume python module load path
-RUN echo "PYTHONPATH=~/python_modules:\$PATH" >> ~/.bashrc
+RUN echo "PYTHONPATH=~/python_modules:\$PYTHONPATH" >> ~/.bashrc
 
 # Clean up
 RUN apt-get clean -y             && \
