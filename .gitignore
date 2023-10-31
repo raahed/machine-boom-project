@@ -37,6 +37,9 @@ CMakeCache.txt
 # Prerequisites
 *.d
 
+# Python C files
+*.pyc
+
 # Compiled Object files
 *.slo
 *.lo
