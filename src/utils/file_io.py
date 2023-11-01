@@ -10,7 +10,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 from .preprocessing import reshape_dataframe_for_learning
-from .AngleDataset import AngleDataset
+from .angle_dataset import AngleDataset
 
 
 def read_angle_datasets(data_folder: Path, train_split: float) -> AngleDataset:
