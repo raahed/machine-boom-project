@@ -19,6 +19,7 @@ CMakeCache.txt
 *.log
 *.csv
 *.lic
+*.tmp
 
 # Jupyter
 **/.ipynb_checkpoints/*
