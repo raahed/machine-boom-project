@@ -31,7 +31,7 @@ CMakeCache.txt
 **/saved/*
 
 # Python cache
-**/__pycache__/*
+**/__pycache__
 
 # Fetched from https://github.com/github/gitignore/blob/main/C.gitignore
 
