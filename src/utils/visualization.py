@@ -3,6 +3,9 @@ import matplotlib.animation as anim
 
 
 def create_trace_animation(predictions, ground_truths):
+    """
+    Create a 3d-animation containing the ground truth trace and prediction trace of the lowest cable point.
+    """
     fig = plt.figure()
     ax = fig.add_subplot(projection="3d")
     prediction_line = ax.plot([], [], [], label="predictions")[0]

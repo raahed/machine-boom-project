@@ -5,6 +5,16 @@ if [ ! "$(docker ps -a | grep mbp-runner)" ]; then
   echo "Project container is not running!"; exit 1
 fi
 
+# ~start Consistency check for python packages
+docker cp --quiet mbp-runner:/requirements.txt $DIR/../~.requirements.txt.tmp
+
+if ! cmp -s $DIR/../~.requirements.txt.tmp $DIR/../requirements.txt; then
+  echo -e "[Warning]\trequirements.txt is different. Maybe update the docker image!\n"
+fi 
+
+rm $DIR/../~.requirements.txt.tmp
+# ~end check
+
 docker exec --interactive \
             --tty \
             --privileged \

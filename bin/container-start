@@ -14,7 +14,7 @@ docker run --detach \
            --env-file $DIR/../.env \
            --env USER=root \
            --volume $DIR/../bin/arguments:/root/bin \
-           --volume $DIR/../src/python:/root/python_modules/project \
+           --volume $DIR/../src/utils:/root/python_modules/utils \
            --volume $DIR/../src/simulation:/mnt/simulation \
            --volume $DIR/../src/notebooks/:/mnt/notebooks \
            --volume $DIR/../models/:/mnt/models \

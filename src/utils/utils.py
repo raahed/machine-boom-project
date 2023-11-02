@@ -45,6 +45,7 @@ def read_data_files(folder: str, delimiter: str = ';'):
     # Concat csv files
     return pd.concat(tmp_pandas_list, axis=0, ignore_index=True)
 
+
 def flatten_dataset(dataset: pd.DataFrame):
     """ Flattens a given dataset by split of a column """
 
