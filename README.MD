@@ -83,12 +83,12 @@ $ ssh -L 2088:<remote ip>:2088 <username>@<remote ip>
 
 ## Python modules and jupyter notebooks
 ### Project modules and namespace path
-Some core functionalities are moved outside the jupypter notebooks. Modules, classes and as well functions located in `src/python` are available under the python namespace name `project`. 
+Some core functionalities are moved outside the jupypter notebooks. Modules, classes and as well functions located in `src/utils` are available under the python namespace name `utils`. 
 
-**Note:** `project` is just a namespace. If you wanna use a module from the `project` namespace, you need to import each module separately like the following code example. The `*`-operator is not defined!
+**Note:** `utils` is just a namespace. If you wanna use a module from the `utils` namespace, you need to import each module separately like the following code example. The `*`-operator is not defined!
 ```python
-# Import module specified in './src/pyhton' 
-from project import xyz
+# Import module specified in './src/utils' 
+from utils import xyz
 ```
 
 ## Maintained and Developed by
