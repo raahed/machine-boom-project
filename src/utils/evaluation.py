@@ -4,6 +4,9 @@ from torch.utils.data import DataLoader
 
 
 def compute_loss_on(dataloader: DataLoader, model, loss_function):
+    """
+    Compute the loss on a torch DataLoader using a torch model and torch loss function.
+    """
     running_loss = 0
     with torch.no_grad():
         for i, data in enumerate(dataloader):
@@ -14,6 +17,10 @@ def compute_loss_on(dataloader: DataLoader, model, loss_function):
 
 
 def compute_predictions(test_dataloader: DataLoader, model):
+    """
+    Compute the predictions on a dataloader using a model.
+    The model is switched to eval mode in this function.
+    """
     prediction_batches = []
     ground_truth_batches = []
     model.eval()
@@ -26,4 +33,7 @@ def compute_predictions(test_dataloader: DataLoader, model):
 
 
 def compute_losses_from(predictions, ground_truths, loss_function):
+    """
+    Compute the losses from model predictions and the ground truth using a predefined torch loss function.
+    """
     return loss_function(predictions, ground_truths)  
