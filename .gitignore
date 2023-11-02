@@ -29,6 +29,7 @@ CMakeCache.txt
 
 # Saved Models
 **/saved/*
+*.pt
 
 # Python cache
 **/__pycache__
