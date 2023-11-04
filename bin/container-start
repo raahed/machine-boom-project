@@ -14,9 +14,7 @@ docker run --detach \
            --env-file $DIR/../.env \
            --env USER=root \
            --volume $DIR/../bin/arguments:/root/bin \
-           --volume $DIR/../src/utils:/root/python_modules/utils \
-           --volume $DIR/../src/simulation:/mnt/simulation \
-           --volume $DIR/../src/notebooks/:/mnt/notebooks \
+           --volume $DIR/../src:/mnt/src \
            --volume $DIR/../models/:/mnt/models \
            --volume $DIR/../data:/mnt/data \
            --name mbp-runner \

@@ -86,9 +86,11 @@ $ ssh -L 2088:<remote ip>:2088 <username>@<remote ip>
 Some core functionalities are moved outside the jupypter notebooks. Modules, classes and as well functions located in `src/utils` are available under the python namespace name `utils`. 
 
 **Note:** `utils` is just a namespace. If you wanna use a module from the `utils` namespace, you need to import each module separately like the following code example. The `*`-operator is not defined!
+
+Include the following import statement above your code:
 ```python
-# Import module specified in './src/utils' 
-from utils import xyz
+# Import local modules from 'src/utils' as package 'utils'
+import sys; sys.path.insert(0, '../')
 ```
 
 ## Maintained and Developed by
