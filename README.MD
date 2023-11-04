@@ -7,9 +7,9 @@ Beside this README file the project documentation is stored in Overleaf --> http
 Inside the docker container there are several mounted directories:
 |volume|mounted folder|comment|
 |--|--|--|
-| `/mnt/simulation` | `src/simulation/` | Contains the hose simulation |
+| `/mnt/src/simulation` | `src/simulation/` | Contains the hose simulation |
 | `/mnt/models` | `models/` | Saved models storage |
-| `/mnt/notebooks` | `src/notebooks/` | Jupyter notebook collection |
+| `/mnt/src/notebooks` | `src/notebooks/` | Jupyter notebook collection |
 | `/mnt/data` | `data/` | Destination of all simulation exports |
 
 Volumes are specified in `bin/container-start`.
