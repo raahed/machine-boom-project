@@ -21,15 +21,15 @@ CMakeCache.txt
 *.lic
 *.tmp
 
-# Torch models
-.pt
-.model
-
 # Jupyter
 **/.ipynb_checkpoints/*
 
 # Virtual enviroments
-.venv/
+**/.venv/*
+
+# Saved Models
+**/saved/*
+*.pt
 
 # Python cache
 **/__pycache__

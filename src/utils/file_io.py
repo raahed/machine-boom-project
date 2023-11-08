@@ -1,7 +1,7 @@
 import re
 
 from pathlib import Path
-from datetime import datetime
+from typing import Tuple
 
 import torch
 import pandas as pd
@@ -9,11 +9,11 @@ import numpy as np
 
 from sklearn.model_selection import train_test_split
 
-from .preprocessing import reshape_dataframe_for_learning
-from .angle_dataset import AngleDataset
+from preprocessing import reshape_dataframe_for_learning
+from angle_dataset import AngleDataset
 
 
-def read_angle_datasets(data_folder: Path, train_split: float) -> AngleDataset:
+def read_angle_datasets(data_folder: Path, train_split: float) -> Tuple[AngleDataset, AngleDataset]:
     """
     Creates a train and test dataset of the data contained in data_folder.
     @param data_folder: The path to the parent folder of the collected data.
