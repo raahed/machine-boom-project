@@ -1,23 +1,42 @@
 import re
 
 from pathlib import Path
-from typing import Tuple
+from typing import Tuple, List
 
 import torch
 import pandas as pd
 import numpy as np
 
 from sklearn.model_selection import train_test_split
+from torch.utils.data import random_split, Subset
 
-from preprocessing import reshape_dataframe_for_learning
-from angle_dataset import AngleDataset
+from .preprocessing import reshape_dataframe_for_learning
+from .angle_dataset import AngleDataset
+from .trajectory_dataset import TrajectoryDataset
+
+
+def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: float, validation_split: float,
+                             trajectory_length: int = 5000) -> List[Subset]:
+    """
+
+    :param data_folder: path to data
+    :param train_split: A float between 0 and 1 describing the relative size of the training dataset compared to the whole dataset.
+    :param test_split: A float between 0 and 1 describing the relative size of the test dataset compared to the whole dataset.
+    :param validation_split: A float between 0 and 1 describing the relative size of the validation dataset compared to the whole dataset.
+    :param trajectory_length: The length of the trajectories in the dataset.
+    :return:
+    """
+    data = read_all_data_dumps_in(data_folder)
+    preprocessed = reshape_dataframe_for_learning(data)
+    complete_dataset = TrajectoryDataset(preprocessed, trajectory_length)
+    return random_split(complete_dataset, [train_split, test_split, validation_split])
 
 
 def read_angle_datasets(data_folder: Path, train_split: float) -> Tuple[AngleDataset, AngleDataset]:
     """
     Creates a train and test dataset of the data contained in data_folder.
-    @param data_folder: The path to the parent folder of the collected data.
-    @param train_split: A float between 0 and 1 describing the relative size of the training dataset compared to the test dataset. 
+    :param data_folder: The path to the parent folder of the collected data.
+    :param train_split: A float between 0 and 1 describing the relative size of the training dataset compared to the test dataset.
     """
     data = read_all_data_dumps_in(data_folder)
     preprocessed = reshape_dataframe_for_learning(data)
