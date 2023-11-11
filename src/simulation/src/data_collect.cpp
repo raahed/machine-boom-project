@@ -214,6 +214,12 @@ public:
 
         /* write csv */
         Collector::instance().append(joint_angles);
+
+        if(Collector::instance().endOfCollection())
+        {
+            std::cout << "Collection ended!" << endl;
+            exit(0);
+        }
     }
 
 private:
@@ -252,6 +258,10 @@ osg::Group *loadHosesScene(agxSDK::Simulation *simulation, agxOSG::ExampleApplic
     std::vector <std::string> config = joint_names;
     config.push_back("Lowest-Cable-Position");
     Collector::instance().setup("/mnt/data", filename, config);
+
+    /* set data size 'partlyMax times sizeCounterMax' */
+    Collector::instance().setPartlyMax(atoi(getenv("SIMULATION_EXPORT_NUMBER_OF_FILES")));
+    Collector::instance().setSizeCounterMax(atoi(getenv("SIMULATION_EXPORT_FILE_SIZE")));
 
     simulation->setUniformGravity(agx::Vec3(0, 0, -9.81));
 

@@ -25,14 +25,18 @@ private:
     /* file */
     vector <string> headers_;
     bool setup_;
-
+    int partly_;
+    int partlyMax_;
+    int sizeCounterMax_;
+    int sizeCounter_;
+    
     /* stream */
     ofstream fileStream_;
     bool fileStreamOpen_;
 
     /* stream performance */
-    int writeCounterMax;
-    int writeCounter;
+    int writeCounterMax_;
+    int writeCounter_;
 
     Collector() {
         /* intern */
@@ -42,8 +46,14 @@ private:
         /*      python arrays inside a single cell */
         delimiter_ = ';';
 
-        writeCounter = 0;
-        writeCounterMax = 10;
+        writeCounter_ = 0;
+        writeCounterMax_ = 50;
+
+        sizeCounter_ = 0;
+        sizeCounterMax_ = 500000;
+
+        partly_ = 0;
+        partlyMax_ = 50;
 
         setup_ = false;
         fileStreamOpen_ = false;
@@ -105,12 +115,10 @@ public:
                             to_string(lm->tm_min) + to_string(lm->tm_sec) + '_' +
                             identifierSuffix;
 
-        filename_ = uniqueIdentifier_ + "_collection.csv";
+        filename_ = uniqueIdentifier_ + "_collection";
 
         headers_ = {"Timestamp"};
         headers_.insert(headers_.end(), label.begin(), label.end());
-
-        initFile();
 
         setup_ = true;
     }
@@ -123,12 +131,21 @@ public:
 
     string getUniqueIdentifier() { return uniqueIdentifier_; }
 
-    string getFileName() { return filename_; }
+    string getFileName() { return filename_ + "_part-" + to_string(partly_) + ".csv"; }
 
-    string getFilePath() { return basepath_ + '/' + filename_; }
+    string getFilePath() { return basepath_ + '/' + getFileName(); }
 
-    int getWriteCounterMax() { return writeCounterMax; }
+    int getwriteCounterMax() { return writeCounterMax_; }
 
+    int getsizeCounterMax() { return sizeCounterMax_; }
+
+    void setSizeCounterMax(int num) { sizeCounterMax_ = num; }
+
+    int getPartlyMax() { return partlyMax_; }
+
+    void setPartlyMax(int num) { partlyMax_ = num; }
+
+    bool endOfCollection() { return (partly_ == partlyMax_); }
 
     void closeStream() {
 
@@ -182,12 +199,22 @@ public:
 
     void append(vector <string> &data) {
 
+        /* stop writing */
+        if(partly_ == partlyMax_) {
+            if(fileStreamOpen_) closeStream();
+            return;
+        }
+
         /* init checks */
         if (data.size() + 1 != headers_.size())
             throw invalid_argument("Data count doesn't match label count!");
 
         /* open stream */
         if (!fileStreamOpen_) {
+
+            /* ensure that each file has a header */
+            initFile();
+
             fileStream_.open(getFilePath(), ios::app);
             fileStreamOpen_ = true;
         }
@@ -207,12 +234,17 @@ public:
         fileStream_ << rowBuilder(row);
 
         /* performance: let stream open */
-        if (++writeCounter == writeCounterMax) {
+        if (++writeCounter_ == writeCounterMax_) {
             closeStream();
-            writeCounter = 0;
+            writeCounter_ = 0;
+        }
+
+        /* strip in partly files */
+        if(++sizeCounter_ == sizeCounterMax_) {
+            partly_++;
+            sizeCounter_ = 0;
         }
     }
-
 };
 
 #endif // !COLLECTOR_HPP

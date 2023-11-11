@@ -103,7 +103,7 @@ set(CMAKE_SKIP_BUILD_RPATH FALSE)
 set(CMAKE_INSTALL_RPATH "${AGX_LIBRARY_DIR}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
-set(TARGET_NAME hoses_test)
+set(TARGET_NAME hose_collector)
 
 include_directories ( ${AGXOSG_DIR} include/ )
 
