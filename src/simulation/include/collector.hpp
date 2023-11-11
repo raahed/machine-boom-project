@@ -35,8 +35,8 @@ private:
     bool fileStreamOpen_;
 
     /* stream performance */
-    unsigned long writeCounterMax_;
-    unsigned long writeCounter_;
+    int writeCounterMax_;
+    int writeCounter_;
 
     Collector() {
         /* intern */
@@ -120,8 +120,6 @@ public:
         headers_ = {"Timestamp"};
         headers_.insert(headers_.end(), label.begin(), label.end());
 
-        initFile();
-
         setup_ = true;
     }
 
@@ -139,9 +137,9 @@ public:
 
     int getwriteCounterMax() { return writeCounterMax_; }
 
-    unsigned long getsizeCounterMax() { return sizeCounterMax_; }
+    int getsizeCounterMax() { return sizeCounterMax_; }
 
-    void setSizeCounterMax(unsigned long num) { sizeCounterMax_ = num; }
+    void setSizeCounterMax(int num) { sizeCounterMax_ = num; }
 
     int getPartlyMax() { return partlyMax_; }
 
@@ -213,6 +211,10 @@ public:
 
         /* open stream */
         if (!fileStreamOpen_) {
+
+            /* ensure that each file has a header */
+            initFile();
+
             fileStream_.open(getFilePath(), ios::app);
             fileStreamOpen_ = true;
         }
