@@ -1,6 +1,8 @@
 # Machine Boom Lowest Point Prediction
-## Project Documentation
-Beside this README file the project documentation is stored in Overleaf --> https://www.overleaf.com/read/ftppxzzkjsmf
+## Project spaces
+- Git repository:  [Gitlab NT](https://gitsvn-nt.oru.se/mnfe/machine-boom-project)
+- Project report: [Overleaf project](https://www.overleaf.com/read/ftppxzzkjsmf)
+- Data drive: [Oru Cloud](https://cloud.oru.se/s/sC4BxzntTFNqxZB)
 
 ## Docker Interface
 ### Mounted volume folders
@@ -91,6 +93,12 @@ Include the following import statement above your code:
 ```python
 # Import local modules from 'src/utils' as package 'utils'
 import sys; sys.path.insert(0, '../')
+```
+
+Import a util with:
+```python
+# Import a method from 'src/utils/xyz.py' 
+from utils.xyz import method
 ```
 
 ## Maintained and Developed by
