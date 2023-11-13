@@ -7,6 +7,7 @@ import torch
 import pandas as pd
 import numpy as np
 
+from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from torch.utils.data import random_split, Subset
 
@@ -15,21 +16,36 @@ from .angle_dataset import AngleDataset
 from .trajectory_dataset import TrajectoryDataset
 
 
-def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: float, validation_split: float,
-                             trajectory_length: int = 5000) -> List[Subset]:
+def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: float, validation_split: float, 
+                             visualization_split: float = 0.0, trajectory_length: int = 5000) -> List[Subset]:
     """
 
     :param data_folder: path to data
     :param train_split: A float between 0 and 1 describing the relative size of the training dataset compared to the whole dataset.
     :param test_split: A float between 0 and 1 describing the relative size of the test dataset compared to the whole dataset.
     :param validation_split: A float between 0 and 1 describing the relative size of the validation dataset compared to the whole dataset.
+    :param visualization_split: A float between 0 and 1 describing the relative size of the visualization dataset compared to the whole dataset.
     :param trajectory_length: The length of the trajectories in the dataset.
     :return:
     """
+    sum_of_splits = train_split + test_split + validation_split + visualization_split
+    if not sum_of_splits <= 1:
+        raise ValueError(f"The sum of all splits should be smaller than 1.0, given {sum_of_splits}!")
+    
     data = read_all_data_dumps_in(data_folder)
     preprocessed = reshape_dataframe_for_learning(data)
     complete_dataset = TrajectoryDataset(preprocessed, trajectory_length)
-    return random_split(complete_dataset, [train_split, test_split, validation_split])
+
+    dataset_length = len(complete_dataset)
+    train_length = int(dataset_length * train_split)
+    test_length = int(dataset_length * test_split)
+    validation_length = int(dataset_length * validation_split)
+    shuffled_split_len = train_length + test_length + validation_length
+
+    shuffled_split = Subset(complete_dataset, list(range(0, shuffled_split_len)))
+    contigous_split = Subset(complete_dataset, list(range(shuffled_split_len, dataset_length)))
+
+    return random_split(shuffled_split, [train_length, test_length, validation_length]) + [contigous_split]
 
 
 def read_angle_datasets(data_folder: Path, train_split: float) -> Tuple[AngleDataset, AngleDataset]:
@@ -75,12 +91,20 @@ def read_all_data_dumps_in(data_folder: Path) -> pd.DataFrame:
     """
     Read all .csv data dumps in data_folder and concatenate them into one pandas DataFrame.
     """
-    dataframes = [read_data_csv(data_file) for data_file in data_folder.glob("*.csv")]
-    return pd.concat(dataframes)
+    dataframes = [None, None]
+    for data_file in tqdm(data_folder.glob("*.csv"), "Reading .csv files"):
+        if dataframes[0] is None:
+            dataframes[0] = read_data_csv(data_file)
+        else:
+            dataframes[1] = read_data_csv(data_file)
+            dataframes[0] = pd.concat(dataframes)
+ 
+    return dataframes[0]
 
 
 def read_data_csv(filepath: Path, separator: str = ";") -> pd.DataFrame:
-    dataframe = pd.read_csv(filepath, sep=separator, parse_dates=["Timestamp"])
+    dataframe = pd.read_csv(filepath, sep=separator)
+    dataframe["Timestamp"] = pd.to_datetime(dataframe["Timestamp"], unit="ns")  
     convert_list_columns(dataframe)
     return dataframe
 
@@ -89,7 +113,8 @@ def convert_list_columns(dataframe: pd.DataFrame):
     """
     Convert string columns to np.ndarrays.
     """
-    for column in dataframe.columns:
+    convertible_columns = [column for column in dataframe.columns if column != "Timestamp"]
+    for column in convertible_columns:
         # do not convert columns that do not contain a list
         if dataframe[column][0][0] == "[":
             dataframe[column] = dataframe[column].apply(convert_list)
