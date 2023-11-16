@@ -1,11 +1,16 @@
 from matplotlib import pyplot as plt
 import matplotlib.animation as anim
+import numpy as np
 
-
-def create_trace_animation(predictions, ground_truths):
+def create_trace_animation(predictions: np.ndarray, ground_truths: np.ndarray):
     """
     Create a 3d-animation containing the ground truth trace and prediction trace of the lowest cable point.
     """
+
+    # y is given as the height dimension, plt expecting z to be the height. swapping the axis 
+    predictions.T[[1, 2]] = predictions.T[[2, 1]]
+    ground_truths.T[[1, 2]] = ground_truths.T[[2, 1]]
+    
     fig = plt.figure()
     ax = fig.add_subplot(projection="3d")
     prediction_line = ax.plot([], [], [], label="predictions")[0]
@@ -17,8 +22,8 @@ def create_trace_animation(predictions, ground_truths):
     min_x, min_y, min_z = min(min_pred[0], min_true[0]), min(min_pred[1], min_true[1]), min(min_pred[2], min_true[2])
     max_x, max_y, max_z = max(max_pred[0], max_true[0]), max(max_pred[1], max_true[1]), max(max_pred[2], max_true[2])
     ax.set(xlim3d=(min_x, max_x), xlabel='X')
-    ax.set(ylim3d=(min_y, max_y), ylabel='Y')
-    ax.set(zlim3d=(min_z, max_z), zlabel='Z')
+    ax.set(ylim3d=(min_y, max_y), ylabel='Z')
+    ax.set(zlim3d=(min_z, max_z), zlabel='Y')
     
     animation = anim.FuncAnimation(
         fig, update_lines, predictions.shape[0], fargs=(predictions, ground_truths, lines), interval=300
