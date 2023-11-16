@@ -80,7 +80,7 @@ public:
                 auto pos = itr->getCenterPosition();
 
                 /* determ the lowest cable point */
-                if (pos.z() < lowest_pos.z()) {
+                if (pos.y() < lowest_pos.y()) {
                     lowest_pos = pos;
                 }
             }
