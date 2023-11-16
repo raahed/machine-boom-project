@@ -145,7 +145,7 @@ public:
 
     void setPartlyMax(int num) { partlyMax_ = num; }
 
-    bool endOfCollection() { return (partly_ == partlyMax_); }
+    bool endOfCollection() { return (partly_ >= partlyMax_); }
 
     void closeStream() {
 
@@ -198,12 +198,6 @@ public:
 
 
     void append(vector <string> &data) {
-
-        /* stop writing */
-        if(partly_ == partlyMax_) {
-            if(fileStreamOpen_) closeStream();
-            return;
-        }
 
         /* init checks */
         if (data.size() + 1 != headers_.size())
