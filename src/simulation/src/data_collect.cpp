@@ -78,12 +78,14 @@ public:
         for (auto cable : cables) {
             for(agxCable::CableIterator itr = cable->begin(); itr != cable->end(); ++itr) {
                 auto pos = itr->getCenterPosition();
-                if (pos.z() < lowest_z) {
-                    lowest_z = pos.z();
+
+                /* determ the lowest cable point */
+                if (pos.z() < lowest_pos.z()) {
                     lowest_pos = pos;
                 }
             }
         }
+
         result.push_back(lowest_pos.x());
         result.push_back(lowest_pos.y());
         result.push_back(lowest_pos.z());
@@ -212,14 +214,14 @@ public:
 
         joint_angles.push_back(m_boom->getLowestCablePosition());
 
-        /* write csv */
-        Collector::instance().append(joint_angles);
-
         if(Collector::instance().endOfCollection())
         {
             std::cout << "Collection ended!" << endl;
             exit(0);
         }
+
+        /* write csv */
+        Collector::instance().append(joint_angles);
     }
 
 private:
