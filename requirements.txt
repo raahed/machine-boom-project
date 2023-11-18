@@ -10,3 +10,4 @@ scikit-learn
 opencv-python
 python-dotenv
 tqdm
+ray[tune]
