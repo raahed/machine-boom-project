@@ -58,6 +58,16 @@ def read_angle_datasets(data_folder: Path, train_split: float) -> Tuple[AngleDat
     train, test = train_test_split(preprocessed, train_size=train_split, shuffle=False)
     return AngleDataset(train), AngleDataset(test)
 
+def define_dataloader_from_subset(train_set: Subset, validation_set: Subset, test_set: Subset, batch_size: int, shuffle: bool = False) -> List[DataLoader]:
+    """
+    Create a train, test and validation dataloader from given Subset.   
+    """
+    train_dataloader = DataLoader(train_set, batch_size=batch_size, shuffle=shuffle)
+    validation_dataloader = DataLoader(validation_set, batch_size=batch_size, shuffle=shuffle)
+    test_dataloader = DataLoader(test_set, batch_size=batch_size, shuffle=shuffle)
+
+    return train_dataloader, validation_dataloader, test_dataloader
+
 def define_dataloader_from_angle_dataset(train_data: AngleDataset, test_data: AngleDataset, batch_size: int, split_size: float = 0.95, shuffle: bool = False) -> List[DataLoader]:
     """
     Create a train, test and validation dataloader from given AngleDatasets.    
