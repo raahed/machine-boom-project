@@ -9,12 +9,11 @@ import numpy as np
 
 from tqdm import tqdm
 from sklearn.model_selection import train_test_split
-from torch.utils.data import random_split, Subset
+from torch.utils.data import random_split, Subset, DataLoader, Dataset
 
 from .preprocessing import reshape_dataframe_for_learning
 from .angle_dataset import AngleDataset
 from .trajectory_dataset import TrajectoryDataset
-
 
 def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: float, validation_split: float, 
                              visualization_split: float = 0.0, trajectory_length: int = 5000) -> List[Subset]:
@@ -59,6 +58,20 @@ def read_angle_datasets(data_folder: Path, train_split: float) -> Tuple[AngleDat
     train, test = train_test_split(preprocessed, train_size=train_split, shuffle=False)
     return AngleDataset(train), AngleDataset(test)
 
+def define_dataloader_from_angle_dataset(train_data: AngleDataset, test_data: AngleDataset, batch_size: int, split_size: float = 0.95, shuffle: bool = False) -> List[DataLoader]:
+    """
+    Create a train, test and validation dataloader from given AngleDatasets.    
+    """
+    split_count = int(split_size * len(train_data))
+
+    train_set = Subset(train_data, range(split_count))
+    validation_set = Subset(train_data, range(split_count, len(train_data)))
+
+    train_dataloader = DataLoader(train_set, batch_size=batch_size, shuffle=shuffle)
+    validation_dataloader = DataLoader(validation_set, batch_size=batch_size, shuffle=shuffle)
+    test_dataloader = DataLoader(test_data, batch_size=batch_size, shuffle=shuffle)
+
+    return train_dataloader, validation_dataloader, test_dataloader
 
 def save_model(model, model_path: Path):
     """
