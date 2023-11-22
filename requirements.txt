@@ -10,4 +10,5 @@ scikit-learn
 opencv-python
 python-dotenv
 tqdm
+optuna
 ray[tune]
