@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Tuple
 
 import numpy as np
 import pandas as pd
@@ -16,7 +16,7 @@ class TrajectoryDataset(Dataset):
         dataframe_len = len(self.dataframe.index)
         return int(dataframe_len / self.trajectory_length)
 
-    def __getitem__(self, index) -> Any:
+    def __getitem__(self, index) -> Tuple[torch.Tensor, torch.Tensor]:
         dataframe_length = len(self.dataframe.index)
         start_index = index * self.trajectory_length
         end_index = start_index + self.trajectory_length if start_index + self.trajectory_length < dataframe_length else dataframe_length
