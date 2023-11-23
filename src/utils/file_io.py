@@ -17,7 +17,7 @@ from .trajectory_dataset import TrajectoryDataset
 
 
 def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: float, validation_split: float, 
-                             visualization_split: float = 0.0, trajectory_length: int = 5000, 
+                             visualization_split: float = 0.0, window_size: int = 5000, 
                              standardize_features: bool = False, normalize_features = False) -> List[Subset]:
     """
 
@@ -34,9 +34,8 @@ def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: 
         raise ValueError(f"The sum of all splits should be smaller than 1.0, given {sum_of_splits}!")
     
     data = read_all_data_dumps_in(data_folder)
-    print("Preprocessing dataframe.")
     preprocessed = reshape_dataframe_for_learning(data, standardize_features, normalize_features)
-    complete_dataset = TrajectoryDataset(preprocessed, trajectory_length)
+    complete_dataset = TrajectoryDataset(preprocessed, window_size)
 
     dataset_length = len(complete_dataset)
     train_length = int(dataset_length * train_split)
