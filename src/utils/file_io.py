@@ -9,14 +9,16 @@ import numpy as np
 
 from tqdm import tqdm
 from sklearn.model_selection import train_test_split
-from torch.utils.data import random_split, Subset, DataLoader, Dataset
+from torch.utils.data import random_split, Subset, DataLoader
 
 from .preprocessing import reshape_dataframe_for_learning
 from .angle_dataset import AngleDataset
-from .trajectory_dataset import TrajectoryDataset
+from .trajectory_dataset import TrajectoryDataset, SlidingWindowTrajectoryDataset
+
 
 def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: float, validation_split: float, 
-                             visualization_split: float = 0.0, trajectory_length: int = 5000) -> List[Subset]:
+                             visualization_split: float = 0.0, window_size: int = 128, 
+                             standardize_features: bool = False, normalize_features = False) -> Tuple[Subset, SlidingWindowTrajectoryDataset, Subset, SlidingWindowTrajectoryDataset]:
     """
 
     :param data_folder: path to data
@@ -32,8 +34,8 @@ def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: 
         raise ValueError(f"The sum of all splits should be smaller than 1.0, given {sum_of_splits}!")
     
     data = read_all_data_dumps_in(data_folder)
-    preprocessed = reshape_dataframe_for_learning(data)
-    complete_dataset = TrajectoryDataset(preprocessed, trajectory_length)
+    preprocessed = reshape_dataframe_for_learning(data, standardize_features, normalize_features)
+    complete_dataset = TrajectoryDataset(preprocessed, window_size)
 
     dataset_length = len(complete_dataset)
     train_length = int(dataset_length * train_split)
@@ -42,21 +44,23 @@ def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: 
     shuffled_split_len = train_length + test_length + validation_length
 
     shuffled_split = Subset(complete_dataset, list(range(0, shuffled_split_len)))
-    contigous_split = Subset(complete_dataset, list(range(shuffled_split_len, dataset_length)))
+    contigous_split = SlidingWindowTrajectoryDataset(Subset(complete_dataset, list(range(shuffled_split_len, dataset_length))), window_size, contigous=True)
+    train_set, test_set, validation_set = random_split(shuffled_split, [train_length, test_length, validation_length])
+    test_set = SlidingWindowTrajectoryDataset(test_set, window_size)
+    return train_set, test_set, validation_set, contigous_split
 
-    return random_split(shuffled_split, [train_length, test_length, validation_length]) + [contigous_split]
 
-
-def read_angle_datasets(data_folder: Path, train_split: float) -> Tuple[AngleDataset, AngleDataset]:
+def read_angle_datasets(data_folder: Path, train_split: float, standardize_features: bool = False, normalize_features = False) -> Tuple[AngleDataset, AngleDataset]:
     """
     Creates a train and test dataset of the data contained in data_folder.
     :param data_folder: The path to the parent folder of the collected data.
     :param train_split: A float between 0 and 1 describing the relative size of the training dataset compared to the test dataset.
     """
     data = read_all_data_dumps_in(data_folder)
-    preprocessed = reshape_dataframe_for_learning(data)
+    preprocessed = reshape_dataframe_for_learning(data, standardize_features, normalize_features)
     train, test = train_test_split(preprocessed, train_size=train_split, shuffle=False)
     return AngleDataset(train), AngleDataset(test)
+
 
 def define_dataloader_from_subset(train_set: Subset, validation_set: Subset, test_set: Subset, batch_size: int, shuffle: bool = False) -> List[DataLoader]:
     """
@@ -67,6 +71,7 @@ def define_dataloader_from_subset(train_set: Subset, validation_set: Subset, tes
     test_dataloader = DataLoader(test_set, batch_size=batch_size, shuffle=shuffle)
 
     return train_dataloader, validation_dataloader, test_dataloader
+
 
 def define_dataloader_from_angle_dataset(train_data: AngleDataset, test_data: AngleDataset, batch_size: int, split_size: float = 0.95, shuffle: bool = False) -> List[DataLoader]:
     """
@@ -82,6 +87,7 @@ def define_dataloader_from_angle_dataset(train_data: AngleDataset, test_data: An
     test_dataloader = DataLoader(test_data, batch_size=batch_size, shuffle=shuffle)
 
     return train_dataloader, validation_dataloader, test_dataloader
+
 
 def save_model(model, model_path: Path):
     """
@@ -120,7 +126,7 @@ def read_all_data_dumps_in(data_folder: Path) -> pd.DataFrame:
             dataframes[0] = read_data_csv(data_file)
         else:
             dataframes[1] = read_data_csv(data_file)
-            dataframes[0] = pd.concat(dataframes)
+            dataframes[0] = pd.concat(dataframes, ignore_index=True)
  
     return dataframes[0]
 
