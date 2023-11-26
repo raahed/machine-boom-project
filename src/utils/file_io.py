@@ -13,12 +13,12 @@ from torch.utils.data import random_split, Subset, DataLoader
 
 from .preprocessing import reshape_dataframe_for_learning
 from .angle_dataset import AngleDataset
-from .trajectory_dataset import TrajectoryDataset
+from .trajectory_dataset import TrajectoryDataset, SlidingWindowTrajectoryDataset
 
 
 def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: float, validation_split: float, 
-                             visualization_split: float = 0.0, window_size: int = 5000, 
-                             standardize_features: bool = False, normalize_features = False) -> List[Subset]:
+                             visualization_split: float = 0.0, window_size: int = 128, 
+                             standardize_features: bool = False, normalize_features = False) -> Tuple[Subset, SlidingWindowTrajectoryDataset, Subset, SlidingWindowTrajectoryDataset]:
     """
 
     :param data_folder: path to data
@@ -44,9 +44,10 @@ def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: 
     shuffled_split_len = train_length + test_length + validation_length
 
     shuffled_split = Subset(complete_dataset, list(range(0, shuffled_split_len)))
-    contigous_split = Subset(complete_dataset, list(range(shuffled_split_len, dataset_length)))
-
-    return random_split(shuffled_split, [train_length, test_length, validation_length]) + [contigous_split]
+    contigous_split = SlidingWindowTrajectoryDataset(Subset(complete_dataset, list(range(shuffled_split_len, dataset_length))), window_size, contigous=True)
+    train_set, test_set, validation_set = random_split(shuffled_split, [train_length, test_length, validation_length])
+    test_set = SlidingWindowTrajectoryDataset(test_set, window_size)
+    return train_set, test_set, validation_set, contigous_split
 
 
 def read_angle_datasets(data_folder: Path, train_split: float, standardize_features: bool = False, normalize_features = False) -> Tuple[AngleDataset, AngleDataset]:
