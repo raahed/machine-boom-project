@@ -33,7 +33,7 @@ def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: 
     if not sum_of_splits <= 1:
         raise ValueError(f"The sum of all splits should be smaller than 1.0, given {sum_of_splits}!")
     
-    data = read_all_data_dumps_in(data_folder)
+    data = concatenate_data_dumps_in(data_folder)
     preprocessed = reshape_dataframe_for_learning(data, standardize_features, normalize_features)
     complete_dataset = TrajectoryDataset(preprocessed, window_size)
 
@@ -56,7 +56,7 @@ def read_angle_datasets(data_folder: Path, train_split: float, standardize_featu
     :param data_folder: The path to the parent folder of the collected data.
     :param train_split: A float between 0 and 1 describing the relative size of the training dataset compared to the test dataset.
     """
-    data = read_all_data_dumps_in(data_folder)
+    data = concatenate_data_dumps_in(data_folder)
     preprocessed = reshape_dataframe_for_learning(data, standardize_features, normalize_features)
     train, test = train_test_split(preprocessed, train_size=train_split, shuffle=False)
     return AngleDataset(train), AngleDataset(test)
@@ -116,7 +116,7 @@ def load_model(checkpointing_path: Path):
     raise ValueError(f"No model checkpoints found at: {checkpointing_path}")
 
 
-def read_all_data_dumps_in(data_folder: Path) -> pd.DataFrame:
+def concatenate_data_dumps_in(data_folder: Path) -> pd.DataFrame:
     """
     Read all .csv data dumps in data_folder and concatenate them into one pandas DataFrame.
     """

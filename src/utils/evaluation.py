@@ -6,7 +6,7 @@ from typing import Tuple
 from torch.utils.data import DataLoader
 
 
-def compute_loss_on(dataloader: DataLoader, model: nn.Module, loss_function, device: torch.device = 'cpu'):
+def compute_loss_on(dataloader: DataLoader, model: nn.Module, loss_function, reshape: bool = False, device: torch.device = 'cpu'):
     """
     Compute the loss on a torch DataLoader using a torch model and torch loss function.
     """
@@ -19,8 +19,12 @@ def compute_loss_on(dataloader: DataLoader, model: nn.Module, loss_function, dev
             inputs = inputs.to(device)
             true_values = true_values.to(device)
 
+            if reshape:
+                inputs_shape, true_values_shape = inputs.size(), true_values.size()
+                inputs = inputs.view(inputs_shape[1], inputs_shape[2], inputs_shape[0], inputs_shape[3])
+                true_values = true_values.view(true_values_shape[1], true_values_shape[2], true_values_shape[0], true_values_shape[3])
+        
             outputs = model(inputs)
-
             running_loss += loss_function(outputs, true_values)
     return running_loss / (i + 1)
 
