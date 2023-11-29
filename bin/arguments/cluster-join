@@ -1,0 +1,31 @@
+#!/bin/bash
+
+if [[ "$(hostname)" == "$CLUSTER_HEAD_NAME" ]] || [[ "$@" == *"--head"* ]]; then
+  echo -e "Creating a new cluster!\n";
+
+  ray start --head \
+            --include-dashboard=false \
+            --temp-dir /tmp/ray/session_dir \
+            --disable-usage-stats \
+            --min-worker-port 10000 \
+            --max-worker-port 20000 \
+            --port 2099 \
+            --redis-shard-ports 2094 \
+            --node-manager-port 2098 \
+            --object-manager-port 2097 \
+            --runtime-env-agent-port 2096 \
+            --ray-client-server-port 2093
+else
+  echo -e "Try to join an existing cluster.!\n";
+
+  ray start --address $CLUSTER_HEAD_NAME:2099 \
+            --min-worker-port 10000 \
+            --max-worker-port 20000 \
+            --node-manager-port 2098 \
+            --object-manager-port 2097 \
+            --runtime-env-agent-port 2096 \
+            --ray-client-server-port 2099 \
+            --metrics-export-port 2092
+fi
+
+echo -e "\nRun \`ray stop\` or \`cluster-stop\` to shutdown ray. Cli documentation at https://docs.ray.io/en/latest/cluster/cli.html \n"

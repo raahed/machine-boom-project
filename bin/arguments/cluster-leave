@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ray stop --force --grace-period 60
