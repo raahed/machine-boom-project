@@ -17,7 +17,7 @@ def attach_ray(manager: bool = False) -> None:
 
     disconnect_ray()
 
-    if manager and is_node_head():
+    if manager and not is_node_head():
         print("Caution: Assign node as manager different from project .env file.")
 
     if manager:
