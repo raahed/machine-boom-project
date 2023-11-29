@@ -1,7 +1,9 @@
 #!/bin/bash
 
-if [ ! "$(docker ps -a | grep mbp-runner)" ]; then
+CONTAINER_NAME="$(hostname)-mbp-runner"
+
+if [ ! "$(docker ps -a | grep $CONTAINER_NAME)" ]; then
   echo "Project container not running!"; exit 1
 fi
 
-docker stop mbp-runner
+docker stop $CONTAINER_NAME
