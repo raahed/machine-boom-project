@@ -51,7 +51,4 @@ RUN apt-get clean -y             && \
     apt-get autoremove -y        && \
     rm -rf /var/lib/apt/lists/*
 
-
-EXPOSE 2059 2088
-
 ENTRYPOINT [ "/sbin/init", "-D" ]
