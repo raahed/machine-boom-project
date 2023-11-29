@@ -6,7 +6,7 @@ import utils
 import socket
 import ray
 
-def attach_ray(manger: bool = False) -> None:
+def attach_ray(manager: bool = False) -> None:
     """
     Start or connect the API to a ray instance.
 
@@ -17,10 +17,10 @@ def attach_ray(manger: bool = False) -> None:
 
     disconnect_ray()
 
-    if manger and is_node_head():
+    if manager and is_node_head():
         print("Caution: Assign node as manager different from project .env file.")
 
-    if manger:
+    if manager:
         ray.init(address='localhost:2099', runtime_env={ "py_modules": [utils] })
     else:
         ray.init(runtime_env={ "py_modules": [utils] })
