@@ -9,9 +9,8 @@
 Inside the docker container there are several mounted directories:
 |volume|mounted folder|comment|
 |--|--|--|
-| `/mnt/src/simulation` | `src/simulation/` | Contains the hose simulation |
+| `/mnt/src/` | `src/` | Contains main sources 
 | `/mnt/models` | `models/` | Saved models storage |
-| `/mnt/src/notebooks` | `src/notebooks/` | Jupyter notebook collection |
 | `/mnt/data` | `data/` | Destination of all simulation exports |
 
 Volumes are specified in `bin/container-start`.
@@ -78,10 +77,7 @@ By default, jupyter isn't running. Connect your terminal and run the following c
 ```bash
 $ start-jupyter [<juypter notebook args>]
 ```
-**Note:** Jupyter web-service root directory is `/mnt`. However, all changes will be lost outside of the given volume folders.
-
-### Ray engine wrapper commands
-`cluster-join [--head]` and `cluster-leave` wrapping th
+**Note:** Jupyter web-service root directory is `/mnt/src/notebooks`. However, all changes will be lost outside of the given volume folders.
 
 ## Work with jupyter notebooks trough a SSH tunnel
 If the container instance runs on one of the university's deep gear machines, port forwarding via `ssh` allows to edit the notebooks on a local machine.
