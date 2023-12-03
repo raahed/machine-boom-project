@@ -18,7 +18,7 @@ from .trajectory_datasets import *
 
 def read_parallel_trajectory_datasets(data_folder: Path, train_split: float, test_split: float, validation_split: float, 
                              visualization_split: float = 0.0, window_size: int = 128, feature_columns: List[str] = None, label_columns: List[str] = None, label_dims: List[int] = None,
-                             standardize_features: bool = False, normalize_features = False) -> Tuple[Subset, SlidingWindowTrajectoryDataset, Subset, SlidingWindowTrajectoryDataset]:
+                             standardize_features: bool = False, normalize_features = False, sample_size: float = 1) -> Tuple[Subset, SlidingWindowTrajectoryDataset, Subset, SlidingWindowTrajectoryDataset]:
     """
 
     :param data_folder: The path to the folder containing the data.
@@ -39,7 +39,7 @@ def read_parallel_trajectory_datasets(data_folder: Path, train_split: float, tes
     if not sum_of_splits <= 1:
         raise ValueError(f"The sum of all splits should be smaller than 1.0, given {sum_of_splits}!")
     
-    dataframes = read_all_data_dumps_in(data_folder)
+    dataframes = read_all_data_dumps_in(data_folder, sample_size)
     preprocessed = preprocess_dataframes_for_parallel_training(dataframes, feature_columns=feature_columns, label_columns=label_columns, label_dims=label_dims, standardize_features=standardize_features, normalize_feature_columns=normalize_features)
     complete_datasets = [TrajectoryDataset(dataframe, window_size) for dataframe in preprocessed]
     dataset_length = len(complete_datasets[0])
@@ -58,7 +58,7 @@ def read_parallel_trajectory_datasets(data_folder: Path, train_split: float, tes
 
 def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: float, validation_split: float, 
                              visualization_split: float = 0.0, window_size: int = 128, 
-                             standardize_features: bool = False, normalize_features = False) -> Tuple[Subset, SlidingWindowTrajectoryDataset, Subset, SlidingWindowTrajectoryDataset]:
+                             standardize_features: bool = False, normalize_features = False, sample_size: float = 1) -> Tuple[Subset, SlidingWindowTrajectoryDataset, Subset, SlidingWindowTrajectoryDataset]:
     """
 
     :param data_folder: path to data
@@ -73,7 +73,7 @@ def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: 
     if not sum_of_splits <= 1:
         raise ValueError(f"The sum of all splits should be smaller than 1.0, given {sum_of_splits}!")
     
-    data = concatenate_data_dumps_in(data_folder)
+    data = concatenate_data_dumps_in(data_folder, sample_size)
     preprocessed = reshape_dataframe_for_learning(data, standardize_features, normalize_features)
     complete_dataset = TrajectoryDataset(preprocessed, window_size)
     dataset_length = len(complete_dataset)
@@ -87,13 +87,13 @@ def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: 
     return train_set, test_set, validation_set, contigous_split
 
 
-def read_angle_datasets(data_folder: Path, train_split: float, standardize_features: bool = False, normalize_features = False) -> Tuple[AngleDataset, AngleDataset]:
+def read_angle_datasets(data_folder: Path, train_split: float, standardize_features: bool = False, normalize_features = False, sample_size: float = 1) -> Tuple[AngleDataset, AngleDataset]:
     """
     Creates a train and test dataset of the data contained in data_folder.
     :param data_folder: The path to the parent folder of the collected data.
     :param train_split: A float between 0 and 1 describing the relative size of the training dataset compared to the test dataset.
     """
-    data = concatenate_data_dumps_in(data_folder)
+    data = concatenate_data_dumps_in(data_folder, sample_size)
     preprocessed = reshape_dataframe_for_learning(data, standardize_features, normalize_features)
     train, test = train_test_split(preprocessed, train_size=train_split, shuffle=False)
     return AngleDataset(train), AngleDataset(test)
@@ -126,28 +126,29 @@ def define_dataloader_from_angle_dataset(train_data: AngleDataset, test_data: An
     return train_dataloader, validation_dataloader, test_dataloader
 
 
-def concatenate_data_dumps_in(data_folder: Path) -> pd.DataFrame:
+def concatenate_data_dumps_in(data_folder: Path, sample_size: float) -> pd.DataFrame:
     """
     Read all .csv data dumps in data_folder and concatenate them into one pandas DataFrame.
     """
     dataframes = [None, None]
     for data_file in tqdm(data_folder.glob("*.csv"), "Reading .csv files"):
         if dataframes[0] is None:
-            dataframes[0] = read_data_csv(data_file)
+            dataframes[0] = read_data_csv(data_file, sample_size)
         else:
-            dataframes[1] = read_data_csv(data_file)
+            dataframes[1] = read_data_csv(data_file, sample_size)
             dataframes[0] = pd.concat(dataframes, ignore_index=True)
- 
+     
     return dataframes[0]
 
 
-def read_all_data_dumps_in(data_folder: Path) -> List[pd.DataFrame]:
+def read_all_data_dumps_in(data_folder: Path, sample_size: float) -> List[pd.DataFrame]:
     """
     Read all .csv data dumps in data_folder and put them into one List.
     """
     dataframes = []
     for data_file in tqdm(data_folder.glob("*.csv"), "Reading .csv files"):
-        dataframes.append(read_data_csv(data_file))
+        dataframes.append(read_data_csv(data_file, sample_size))
+    
     return dataframes
 
 
@@ -159,8 +160,16 @@ def compute_split_lengths(dataset_length: int, train_split: float, test_split: f
     return train_length, test_length, validation_length, shuffled_split_len
 
 
-def read_data_csv(filepath: Path, separator: str = ";") -> pd.DataFrame:
+def read_data_csv(filepath: Path, separator: str = ";", sample_size: float = 1) -> pd.DataFrame:
+    """
+    Reads a csv file into a pandas dataframe.
+    :param sample_size: Set the percentage amount of data that should be loaded 
+    """
     dataframe = pd.read_csv(filepath, sep=separator)
+
+    if sample_size < 1:
+        dataframe = dataframe.sample(frac=sample_size, random_state=1)
+
     dataframe["Timestamp"] = pd.to_datetime(dataframe["Timestamp"], unit="ns")  
     convert_list_columns(dataframe)
     return dataframe
