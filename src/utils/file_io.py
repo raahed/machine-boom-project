@@ -88,34 +88,6 @@ def define_dataloader_from_angle_dataset(train_data: AngleDataset, test_data: An
 
     return train_dataloader, validation_dataloader, test_dataloader
 
-
-def save_model(model, model_path: Path):
-    """
-    Save the input model's parameters in model_path.
-    """
-    if not model_path.parent.exists():
-        model_path.parent.mkdir(parents=True)
-    torch.save(model, model_path)
-
-
-def load_model(checkpointing_path: Path):
-    """
-    Load the most recent model from checkpointing_path.
-    """
-    highest_epoch = 0
-    path_to_best = None
-    for item in checkpointing_path.iterdir():
-        match = re.search("[0-9]+", item.name)
-        if match is not None:
-            save_epoch = int(match[0])
-            if save_epoch > highest_epoch:
-                highest_epoch = save_epoch
-                path_to_best = item
-    if path_to_best is not None:
-        return torch.load(path_to_best) 
-    raise ValueError(f"No model checkpoints found at: {checkpointing_path}")
-
-
 def read_all_data_dumps_in(data_folder: Path) -> pd.DataFrame:
     """
     Read all .csv data dumps in data_folder and concatenate them into one pandas DataFrame.
