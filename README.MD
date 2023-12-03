@@ -38,10 +38,10 @@ The Image based on a `nvidia/cuda` on `ubuntu`. However, to accelerate and use g
 $ ./bin/container-start --gpus all
 ```
 
-#### Exposed ports
+#### Published ports
 A running container instance offers a number of services through exposed ports:
 
-|Inner Port|Exposed Port|Service|Comment|
+|Inner Port|Outer Port|Service|Comment|
 |--|--|--|--|
 |2059|2059|vnc|by default not operating|
 |2088|2088|jupyter|by default not operating|
@@ -79,7 +79,7 @@ $ start-jupyter [<juypter notebook args>]
 ```
 **Note:** Jupyter web-service root directory is `/mnt/src/notebooks`. However, all changes will be lost outside of the given volume folders.
 
-## Work with jupyter notebooks trough a SSH tunnel
+## Work with jupyter notebooks through a SSH tunnel
 If the container instance runs on one of the university's deep gear machines, port forwarding via `ssh` allows to edit the notebooks on a local machine.
 ```bash
 $ ssh -L 2088:<remote ip>:2088 <username>@<remote ip>
