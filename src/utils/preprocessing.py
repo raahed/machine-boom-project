@@ -25,17 +25,16 @@ def preprocess_dataframe_for_training(dataframe: pd.DataFrame, feature_columns: 
     return dataframe
 
 
-def reshape_dataframe_for_learning(dataframe: pd.DataFrame, feature_columns: List[str] = None, label_columns: List[str] = None, label_dims: List[np.ndarray] = None) -> pd.DataFrame:
+def reshape_dataframe_for_learning(dataframe: pd.DataFrame, feature_columns: List[str] = None, label_columns: List[str] = None) -> pd.DataFrame:
     """
     Flattens the arm's angle columns into one feature column and creates a view on the original dataframe 
     which only contains the flattened angle vector and lowest point. 
     """
     print("Reshaping dataframe for learning")
-    dataframe["features"] = create_feature_column()
-    dataframe["labels"] = create_label_column()
-    data_columns = ["features", "labels"]
+    dataframe["features"] = create_feature_column(dataframe, feature_columns)
+    dataframe["labels"] = create_label_column(dataframe, label_columns)
     
-    return dataframe[data_columns]
+    return dataframe[["features", "labels"]]
 
 
 def convert_list_columns(dataframe: pd.DataFrame):
@@ -61,7 +60,7 @@ def create_feature_column(dataframe:pd.DataFrame, feature_columns: List[str] = N
     return concatenate_columns(dataframe, feature_columns)
 
 
-def create_label_column(dataframe: pd.DataFrame, label_columns: List[str] = None, label_dims: List[np.ndarray] = None) -> np.typing.ArrayLike:
+def create_label_column(dataframe: pd.DataFrame, label_columns: List[str] = None, label_dims: List[np.ndarray] = None):
     return dataframe[dataframe.columns[-1]] if label_columns is None else concatenate_columns(dataframe, label_columns, label_dims)
 
 

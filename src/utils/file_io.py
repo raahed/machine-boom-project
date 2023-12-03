@@ -87,14 +87,14 @@ def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: 
     return train_set, test_set, validation_set, contigous_split
 
 
-def read_angle_datasets(data_folder: Path, train_split: float, standardize_features: bool = False, normalize_features = False, sample_size: float = 1) -> Tuple[AngleDataset, AngleDataset]:
+def read_angle_datasets(data_folder: Path, train_split: float, feature_columns: List[str], label_columns: List[str], standardize_features: bool = False, normalize_features: bool = False, label_transformation: Callable[[pd.DataFrame], pd.DataFrame] = None, sample_size: float = 1) -> Tuple[AngleDataset, AngleDataset]:
     """
     Creates a train and test dataset of the data contained in data_folder.
     :param data_folder: The path to the parent folder of the collected data.
     :param train_split: A float between 0 and 1 describing the relative size of the training dataset compared to the test dataset.
     """
     data = concatenate_data_dumps_in(data_folder, sample_size)
-    preprocessed = reshape_dataframe_for_learning(data, standardize_features, normalize_features)
+    preprocessed = reshape_dataframe_for_learning(data, feature_columns, label_columns, label_transformation)
     train, test = train_test_split(preprocessed, train_size=train_split, shuffle=False)
     return AngleDataset(train), AngleDataset(test)
 
@@ -133,9 +133,9 @@ def concatenate_data_dumps_in(data_folder: Path, sample_size: float) -> pd.DataF
     dataframes = [None, None]
     for data_file in tqdm(data_folder.glob("*.csv"), "Reading .csv files"):
         if dataframes[0] is None:
-            dataframes[0] = read_data_csv(data_file, sample_size)
+            dataframes[0] = read_data_csv(data_file, sample_size=sample_size)
         else:
-            dataframes[1] = read_data_csv(data_file, sample_size)
+            dataframes[1] = read_data_csv(data_file, sample_size=sample_size)
             dataframes[0] = pd.concat(dataframes, ignore_index=True)
      
     return dataframes[0]
@@ -147,7 +147,7 @@ def read_all_data_dumps_in(data_folder: Path, sample_size: float) -> List[pd.Dat
     """
     dataframes = []
     for data_file in tqdm(data_folder.glob("*.csv"), "Reading .csv files"):
-        dataframes.append(read_data_csv(data_file, sample_size))
+        dataframes.append(read_data_csv(data_file, sample_size=sample_size))
     
     return dataframes
 
@@ -166,10 +166,10 @@ def read_data_csv(filepath: Path, separator: str = ";", sample_size: float = 1) 
     :param sample_size: Set the percentage amount of data that should be loaded 
     """
     dataframe = pd.read_csv(filepath, sep=separator)
-
-    if sample_size < 1:
-        dataframe = dataframe.sample(frac=sample_size, random_state=1)
-
     dataframe["Timestamp"] = pd.to_datetime(dataframe["Timestamp"], unit="ns")  
     convert_list_columns(dataframe)
+
+    if sample_size < 1:
+        dataframe = dataframe.sample(frac=sample_size, random_state=None)
+    
     return dataframe

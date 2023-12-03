@@ -9,11 +9,34 @@ from pathlib import Path
 from ray import train as ray_train
 from typing import List
 
+feature_columns = [
+    'left_boom_base_yaw_joint', 
+    'left_boom_base_pitch_joint',
+    'left_boom_main_prismatic_joint',
+    'left_boom_second_roll_joint',
+    'left_boom_second_yaw_joint',
+    'left_boom_top_pitch_joint'
+]
+
+label_columns = [
+    'cable1_lowest_point',
+    'cable2_lowest_point',
+    'cable3_lowest_point'
+]
+
 class FullyConnected(nn.Module):
     def __init__(self, flattened_input_dim: int, intermediate_dims: List[int],
-                 output_dim: int, dropout: float = 0.25, hidden_activation = nn.ReLU) -> None:
+                 output_dim: int, dropout: float = 0.25, hidden_activation: str = 'relu') -> None:
         super().__init__()
         self.total_epochs = 0
+
+        if hidden_activation == 'relu':
+            hidden_activation_class = nn.ReLU
+        elif hidden_activation == 'tanh':
+            hidden_activation_class = nn.Tanh
+        else:
+            raise ValueError("Can not interfer hidden activation")
+
         self.flatten = nn.Flatten()
         self.hidden = nn.Sequential()
         for i, dim in enumerate(intermediate_dims):
@@ -21,8 +44,7 @@ class FullyConnected(nn.Module):
                 self.hidden.add_module(f"linear_{i+1}", nn.Linear(flattened_input_dim, dim))
             else:
                 self.hidden.add_module(f"linear_{i+1}", nn.Linear(intermediate_dims[i-1], dim))
-
-            self.hidden.add_module(f"hidden_activation_{i+1}", hidden_activation())
+            self.hidden.add_module(f"hidden_activation_{i+1}", hidden_activation_class())
             self.hidden.add_module(f"dropout_{i+2}", nn.Dropout(dropout))
 
         self.last = nn.Linear(intermediate_dims[-1], output_dim)
