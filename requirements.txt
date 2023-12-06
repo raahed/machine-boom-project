@@ -12,3 +12,4 @@ python-dotenv
 tqdm
 optuna
 ray[tune]
+umap-learn
