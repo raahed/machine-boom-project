@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, List
 
 import numpy as np
 import pandas as pd
@@ -78,3 +78,38 @@ class SlidingWindowTrajectoryDataset(Dataset):
     
     def get_index_offset(self, index: int) -> int:
         return index % self.window_size
+    
+
+class ParallelTrajectoryDataset(Dataset):
+    def __init__(self, datasets: List[TrajectoryDataset]) -> None:
+        super().__init__()
+        self.datasets = datasets
+
+    def __len__(self) -> int:
+        return len(self.datasets[0])
+    
+    def __getitem__(self, index) -> Tuple[torch.Tensor, torch.Tensor]:
+        trajectory_features, trajectory_true_lowpoints = [], []
+        for dataset in self.datasets:
+            features, true_lowpoints = dataset[index]
+            trajectory_features.append(features)
+            trajectory_true_lowpoints.append(true_lowpoints)
+        return torch.stack(trajectory_features), torch.stack(trajectory_true_lowpoints)
+
+
+class ParallelSlidingWindowTrajectoryDataset(Dataset):
+    def __init__(self, datasets: List[SlidingWindowTrajectoryDataset]) -> None:
+        super().__init__()
+        self.datasets = datasets
+
+    def __len__(self) -> int:
+        return len(self.datasets[0])
+    
+    def __getitem__(self, index) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        trajectory_features, trajectory_true_lowpoints, trajectory_last_indices = [], [], []
+        for dataset in self.datasets:
+            features, true_lowpoints, last_index = dataset[index]
+            trajectory_features.append(features)
+            trajectory_true_lowpoints.append(true_lowpoints)
+            trajectory_last_indices.append(last_index)
+        return torch.stack(trajectory_features), torch.stack(trajectory_true_lowpoints), torch.tensor(trajectory_last_indices, dtype=torch.int64)
