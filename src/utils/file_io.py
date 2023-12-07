@@ -105,15 +105,18 @@ def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: 
     return train_set, test_set, validation_set, contigous_split
 
 
-def read_angle_datasets(data_folder: Path, train_split: float, 
-                        standardize_features: bool = False, normalize_features: bool = False) -> Tuple[AngleDataset, AngleDataset]:
+def read_angle_datasets(data_folder: Path, train_split: float, feature_columns: List[str] = None,
+                             label_features: List[Tuple[str, np.ndarray]] = None, 
+                             normalized_features: List[Tuple[str, np.ndarray]] = None, 
+                             standardized_features: List[Tuple[str, np.ndarray]] = None, sample_size: float = 1) -> Tuple[AngleDataset, AngleDataset]:
     """
     Creates a train and test dataset of the data contained in data_folder.
     :param data_folder: The path to the parent folder of the collected data.
     :param train_split: A float between 0 and 1 describing the relative size of the training dataset compared to the test dataset.
+    :param sample_size: Set the percentage amount of total data sets that should be loaded.
     """
-    data = concatenate_data_dumps_in(data_folder, sample_size)
-    preprocessed = reshape_dataframe_for_learning(data, feature_columns, label_columns, label_transformation)
+    data = concatenate_data_dumps_in(data_folder, sample_size=sample_size)
+    preprocessed = reshape_dataframe_for_learning(data, feature_columns, label_features, normalized_features, standardized_features)
     train, test = train_test_split(preprocessed, train_size=train_split, shuffle=False)
     return AngleDataset(train), AngleDataset(test)
 
