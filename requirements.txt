@@ -13,3 +13,4 @@ tqdm
 optuna
 ray[tune]
 ray[client]
+umap-learn

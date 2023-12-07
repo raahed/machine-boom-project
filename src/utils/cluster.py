@@ -1,8 +1,8 @@
-# Import local modules from 'src/utils' as package 'utils'
 import sys; sys.path.insert(0, '../')
 
 import os
 import utils
+import models
 import socket
 import ray
 
@@ -21,9 +21,9 @@ def attach_ray(manager: bool = False) -> None:
         print("Caution: Assign node as manager different from project .env file.")
 
     if manager:
-        ray.init(address='localhost:2099', runtime_env={ "py_modules": [utils] })
+        ray.init(address='localhost:2099', runtime_env={ "py_modules": [utils, models] })
     else:
-        ray.init(runtime_env={ "py_modules": [utils] })
+        ray.init(runtime_env={ "py_modules": [utils, models] })
 
     for node in get_cluster_nodes():
         print(node)
