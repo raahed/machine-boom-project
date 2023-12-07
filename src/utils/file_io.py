@@ -116,7 +116,7 @@ def read_angle_datasets(data_folder: Path, train_split: float, feature_columns: 
     :param sample_size: Set the percentage amount of total data sets that should be loaded.
     """
     data = concatenate_data_dumps_in(data_folder, sample_size=sample_size)
-    preprocessed = reshape_dataframe_for_learning(data, feature_columns, label_features, normalized_features, standardized_features)
+    preprocessed = preprocess_dataframe_for_learning(data, feature_columns, label_features, normalized_features, standardized_features)
     train, test = train_test_split(preprocessed, train_size=train_split, shuffle=False)
     return AngleDataset(train), AngleDataset(test)
 
@@ -189,8 +189,8 @@ def read_data_csv(filepath: Path, separator: str = ";", sample_size: float = 1) 
     Reads a csv file into a pandas dataframe.
     :param sample_size: Set the percentage amount of total data sets that should be loaded.
     """
-    dataframe = pd.read_csv(filepath, sep=separator)
-    dataframe["Timestamp"] = pd.to_datetime(dataframe["Timestamp"], unit="ns")  
+    dataframe = pd.read_csv(filepath, sep=separator, index_col=None)
+    dataframe["Timestamp"] = pd.to_datetime(dataframe["Timestamp"], unit="ns")
     convert_list_columns(dataframe)
 
     if sample_size < 1:
