@@ -49,12 +49,15 @@ def convert_list_columns(dataframe: pd.DataFrame):
     """
     Convert string columns to np.ndarrays.
     """
-    convertible_columns = [column for column in dataframe.columns if column != "Timestamp"]
+    convertible_columns = [column for column in dataframe.columns if column != "Timestamp" and column != "index"]
     for column in convertible_columns:
         # do not convert columns that do not contain a list
-        if dataframe[column][0][0] == "[":
+        cell = dataframe[column].iloc[0]
+        if isinstance(cell, str) and cell[0] == "[":
             dataframe[column] = dataframe[column].apply(convert_list)
-
+        elif not isinstance(cell, np.ndarray):
+            dataframe[column] = dataframe[column].apply(lambda x: np.array([x]))
+    
 
 def convert_list(text: str) -> np.ndarray:
     """
