@@ -37,3 +37,28 @@ def update_lines(num, predictions, ground_truths, lines):
         line.set_data(function[:num, :2].T)
         line.set_3d_properties(function[:num, 2])
     return lines
+
+
+def create_3d_point_trace(data: np.ndarray):
+
+    # y is given as the height dimension, plt expecting z to be the height. swapping the axis 
+    x = data[:, 0]
+    y = data[:, 2]
+    z = data[:, 1]
+
+    ax = plt.figure().add_subplot(projection='3d')
+
+    min_x, min_y, min_z = min(x), min(y), min(z)
+    max_x, max_y, max_z = max(x), max(y), max(z)
+
+    ax.set_xlabel('X-axis')
+    ax.set_ylabel('Y-axis')
+    ax.set_zlabel('Z-axis')
+
+    ax.set_xlim([min_x, max_x])
+    ax.set_ylim([min_y, max_y])
+    ax.set_zlim([min_z, max_z])
+
+    ax.plot(x, y, z, c='red', label='trace')
+    ax.legend()
+    return plt
