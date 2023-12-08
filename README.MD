@@ -9,7 +9,8 @@
 Inside the docker container there are several mounted directories:
 |volume|mounted folder|comment|
 |--|--|--|
-| `/mnt/src/` | `src/` | Contains main sources 
+| `/mnt/src/` | `src/` | Contains main sources |
+| `/mnt/scripts/` | `scripts/` | Python scripts
 | `/mnt/models` | `models/` | Saved models storage |
 | `/mnt/data` | `data/` | Destination of all simulation exports |
 
