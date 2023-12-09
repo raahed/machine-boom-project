@@ -56,7 +56,7 @@ def convert_list_columns(dataframe: pd.DataFrame):
         if isinstance(cell, str) and cell[0] == "[":
             dataframe[column] = dataframe[column].apply(convert_list)
         elif not isinstance(cell, np.ndarray):
-            dataframe[column] = dataframe[column].apply(lambda x: np.array([x]))
+            dataframe[column] = dataframe[column].apply(lambda x: np.array([x], dtype=np.float32))
     
 
 def convert_list(text: str) -> np.ndarray:
