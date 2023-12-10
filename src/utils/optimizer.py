@@ -31,3 +31,7 @@ def get_optimizer_function(optimizer: str, model: nn.Module, learning_rate: floa
         return optim.Adagrad(model.parameters(), lr=learning_rate)
     else:
         raise ValueError("Unsupported optimizer function")
+    
+
+def get_learning_rate_scheduler(optimizer: torch.optim, model_size: int, warmup_steps: int, factor: float = 1) -> torch.optim:
+    return torch.optim.lr_scheduler.LambdaLR(optimizer=optimizer, lr_lambda=lambda step: rate(step, model_size, factor, warmup_steps))
