@@ -7,7 +7,7 @@ from torch import nn, Tensor
 from torch.utils.data import DataLoader
 from pathlib import Path
 from ray import train as ray_train
-from typing import List
+from typing import List, Optional
 
 class FullyConnected(nn.Module):
     def __init__(self, flattened_input_dim: int, intermediate_dims: List[int],
@@ -61,18 +61,19 @@ def train_epoch(train_dataloader: DataLoader, model: nn.Module, loss_function, o
 
 
 def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: DataLoader, model: nn.Module, loss_function, optimizer, 
-          checkpoint_path: Path, device: torch.device = 'cpu', report_interval: int = 1000, tune: bool = False) -> nn.Module:
+          checkpoint_path: Optional[Path], device: torch.device = 'cpu', report_interval: int = 1000, tune: bool = False) -> nn.Module:
 
     best_val_loss = float("inf")
 
-    checkpoint_file = checkpoint_path / "checkpoint.pt"
+    if checkpoint_path != None:
+        checkpoint_file = checkpoint_path / "checkpoint.pt"
 
     if torch.cuda.device_count() > 1:
         model = nn.DataParallel(model)
         
     model.to(device)
 
-    if checkpoint_file.exists():
+    if checkpoint_path != None and checkpoint_file.exists():
         model_state = torch.load(checkpoint_file)
         model.load_state_dict(model_state)
 
@@ -92,7 +93,7 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
 
         model.total_epochs += 1
     
-        if avg_val_loss < best_val_loss or tune:
+        if checkpoint_path != None and avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss            
             
             torch.save(model.state_dict(), checkpoint_file)
