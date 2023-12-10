@@ -4,20 +4,20 @@ from utils.evaluation import compute_loss_on
 
 import torch
 from torch import nn, Tensor
-from torch.util.data import DataLoader
+from torch.utils.data import DataLoader
 from pathlib import Path
 from ray import tune, train as ray_train
-from typing import List
+from typing import List, Optional
 
 class DecoderLSTM(nn.Module):
     def __init__(self, input_dim: int, hidden_dim: int, out_dim: int, dropout_lstm: float = 0.25, dropout_final: float = 0.25,
                  num_lstm_layers: int = 1, bidirectional: bool = False, proj_size: int = 0) -> None:
         super().__init__()
         self.total_epochs = 0
-        self.hidden_dim = hidden_dim
         self.d = 2 if bidirectional else 1
         self.proj_size = proj_size
         self.num_lstm_layers = num_lstm_layers
+        self.hidden_dim = hidden_dim
 
         self.lstm = nn.LSTM(input_dim, hidden_dim, num_layers=num_lstm_layers, dropout=dropout_lstm, bidirectional=bidirectional, proj_size=proj_size)
         
@@ -73,18 +73,19 @@ def train_epoch(train_dataloader: DataLoader, model, loss_function, optimizer,
 
 
 def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: DataLoader, model: nn.Module,
-           loss_function, optimizer, checkpoint_path: Path, device: torch.device = 'cpu', report_interval: int = 1000, tune: bool = False) -> nn.Module:
+           loss_function, optimizer, checkpoint_path: Optional[Path], device: torch.device = 'cpu', report_interval: int = 1000, tune: bool = False) -> nn.Module:
     
     best_val_loss = float("inf")
 
-    checkpoint_file = checkpoint_path / "checkpoint.pt"
+    if checkpoint_path != None:
+        checkpoint_file = checkpoint_path / "checkpoint.pt"
 
     if torch.cuda.device_count() > 1:
         model = nn.DataParallel(model)
         
     model.to(device)
 
-    if checkpoint_file.exists():
+    if checkpoint_path != None and checkpoint_file.exists():
         model_state = torch.load(checkpoint_file)
         model.load_state_dict(model_state)
 
@@ -104,7 +105,7 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
 
         model.total_epochs += 1
 
-        if avg_val_loss < best_val_loss or tune:
+        if checkpoint_path != None and avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss            
             
             torch.save(model.state_dict(), checkpoint_file)
