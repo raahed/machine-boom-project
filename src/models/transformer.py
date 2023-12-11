@@ -10,6 +10,8 @@ from torch.utils.data import DataLoader
 from pathlib import Path
 from ray import tune, train as ray_train
 from typing import List, Optional
+from umap import UMAP
+import math
 
 class PositionalEncoding(nn.Module):
     def __init__(self, d_model: int, dropout: float = 0.1, max_len: int = 1024) -> None:
@@ -32,23 +34,34 @@ class PositionalEncoding(nn.Module):
         return self.dropout(x)
     
         
-class TransformerEncoderOnly(nn.Module):
-    def __init__(self, num_heads: int, model_dim: int, feedforward_hidden_dim: int, output_dim: int,
-                 num_encoder_layers: int = 6, transformer_dropout: float = 0.1, pos_encoder_dropout: float = 0.25, activation: nn.Module = nn.ReLU) -> None:
+class TransformerEncoderModel(nn.Module):
+    def __init__(self, num_heads: int, model_dim: int, feedforward_hidden_dim: int,
+                 num_encoder_layers: int = 6, transformer_dropout: float = 0.1, pos_encoder_dropout: float = 0.25,
+                 downprojection: bool = False, projection_num_neighbors: int = 5, activation: nn.Module = nn.ReLU) -> None:
         super().__init__()
         self.model_type = 'Transformer'
         self.total_epochs = 0
+        self.model_dim = model_dim
+        self.downprojection = downprojection
+        if self.downprojection:
+            self.create_projection(projection_num_neighbors)
         encoder_layers = TransformerEncoderLayer(model_dim, num_heads, feedforward_hidden_dim, transformer_dropout, activation)
         self.transformer_encoder = TransformerEncoder(encoder_layers, num_encoder_layers)   
         self.pos_encoder = PositionalEncoding(model_dim, pos_encoder_dropout)
-        self.head = nn.Linear(model_dim, output_dim)
+
+    def create_projection(self, projection_num_neighbors: int):
+        self.projection_function = UMAP(n_components=self.model_dim, n_neighbors=projection_num_neighbors)            
 
     def forward(self, source: Tensor, source_msk: Tensor = None) -> Tensor:
         # expect input shape to be (S, N, E) with S being the sequence length, N batch size and, E the input dimensionality
-        # target_mask masks out all values right of the diagonal such that information from the target sequence cant bleed into the left hand side at training time
-        source = self.pos_encoder(source)
-        source = self.transformer_encoder(source, source_msk)
-        return self.head(source)
+        source = self.project(source)
+        encoded = self.pos_encoder(source)
+        return self.transformer_encoder(encoded, source_msk)
+    
+    def project(self, source: Tensor) -> Tensor:
+        if self.downprojection:
+            return self.projection_function.transform(source)
+        return source
     
 
 def train_epoch(train_dataloader: DataLoader, model, loss_function, optimizer, lr_scheduler,

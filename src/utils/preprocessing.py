@@ -23,12 +23,12 @@ def preprocess_dataframe_for_learning(dataframe: pd.DataFrame, feature_columns: 
                                       normalized_features: List[Tuple[str, np.ndarray]] = None, 
                                       standardized_features: List[Tuple[str, np.ndarray]] = None):
     print("Preprocessing dataframe")
-    if normalized_features is not None:
-        dataframe = apply_to_column_dimensions(standardize, dataframe, normalized_features)
     if standardized_features is not None:
-        dataframe = apply_to_column_dimensions(normalize, dataframe, standardized_features)
+        dataframe = apply_to_column_dimensions(standardize, dataframe, standardized_features)
+    if normalized_features is not None:
+        dataframe = apply_to_column_dimensions(normalize, dataframe, normalized_features)
 
-    dataframe = reshape_dataframe_for_learning(dataframe, feature_columns, label_features=label_features)
+    dataframe = reshape_dataframe_for_learning(dataframe, feature_columns=feature_columns, label_features=label_features)
     return dataframe
 
 

@@ -29,7 +29,7 @@ class DecoderLSTM(nn.Module):
     def forward(self, x: Tensor) -> Tensor:
         batch_size = x.shape[1]
         # expect x to be of shape (sequence_length, batch_size, input_dim)
-        h0 = torch.randn(self.d * self.num_lstm_layers, batch_size, self.hidden_dim).to(x.device)
+        h0 = torch.randn(self.d * self.num_lstm_layers, batch_size, self.proj_size if self.proj_size > 0 else self.hidden_dim).to(x.device)
         c0 = torch.randn(self.d * self.num_lstm_layers, batch_size, self.hidden_dim).to(x.device)
         # output shape is (sequence_length, batch_size, d * hidden_dim)
         output, (hn, cn) = self.lstm(x, (h0, c0))
@@ -92,6 +92,7 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
     for epoch in range(model.total_epochs, epochs):
         if not tune:
             print(f"Epoch: {epoch + 1}")
+
 
         model.train(True)
         avg_loss = train_epoch(train_dataloader, model, loss_function, optimizer, device, report_interval)
