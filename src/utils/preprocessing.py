@@ -82,7 +82,7 @@ def apply_to_column_dimensions(function: Callable[[np.ndarray], np.ndarray], dat
     for column, indices in positions:
         features = np.stack(dataframe[column].to_numpy())
         features[:, indices] = function(features[:, indices])
-        dataframe[column] = features
+        dataframe[column] = features.tolist() 
     return dataframe
 
 
@@ -129,7 +129,7 @@ def standardize(features: np.ndarray) -> np.ndarray:
 def normalize(features: np.ndarray) -> np.ndarray:
     x_min = features.min(axis=0)
     x_max = features.max(axis=0)
-    return (features - x_min) / (x_max - x_min)
+    return np.where(x_max != x_min, (features - x_min) / (x_max - x_min), 1)
 
 
 def define_concatenator(column_dimensions: List[np.ndarray] = None) -> Callable[[pd.Series], np.ndarray]:
