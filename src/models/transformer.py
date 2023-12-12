@@ -66,7 +66,11 @@ class TransformerEncoderModel(nn.Module):
     
     def project(self, source: Tensor) -> Tensor:
         if self.downprojection:
-            return self.projection_function.transform(source)
+            s = source.size(0)
+            n = source.size(1)
+            source = source.view(s*n, source.size(2))
+            source = self.projection_function.transform(source)
+            source = source.view(s, n, source.size(2))
         return source
     
 
