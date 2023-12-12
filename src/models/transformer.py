@@ -45,6 +45,7 @@ class TransformerEncoderModel(nn.Module):
         self.downprojection = downprojection
         if self.downprojection:
             self.create_projection(projection_num_neighbors)
+        else:
             self.head = nn.Linear(model_dim, output_dim)
             self.head_activation = activation()
         encoder_layers = TransformerEncoderLayer(model_dim, num_heads, feedforward_hidden_dim, transformer_dropout, activation)
@@ -59,7 +60,7 @@ class TransformerEncoderModel(nn.Module):
         source = self.project(source)
         source = self.pos_encoder(source)
         source = self.transformer_encoder(source, source_msk)
-        if self.downprojection:
+        if not self.downprojection:
             source = self.head(source)
             return self.head_activation(source)
         return source
