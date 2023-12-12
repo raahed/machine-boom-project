@@ -48,7 +48,8 @@ class TransformerEncoderModel(nn.Module):
         else:
             self.head = nn.Linear(model_dim, output_dim)
             self.head_activation = activation()
-        encoder_layers = TransformerEncoderLayer(model_dim, num_heads, feedforward_hidden_dim, transformer_dropout, activation)
+        encoder_layers = TransformerEncoderLayer(model_dim, num_heads, dim_feedforward=feedforward_hidden_dim, 
+                                                 dropout=transformer_dropout, activation=activation())
         self.transformer_encoder = TransformerEncoder(encoder_layers, num_encoder_layers)   
         self.pos_encoder = PositionalEncoding(model_dim, pos_encoder_dropout)
 
