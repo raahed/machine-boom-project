@@ -129,14 +129,14 @@ def standardize(features: np.ndarray) -> np.ndarray:
 def normalize(features: np.ndarray) -> np.ndarray:
     x_min = features.min(axis=0)
     x_max = features.max(axis=0)
-    return np.where(x_max != x_min, (features - x_min) / (x_max - x_min), 1)
+    return np.where(x_max != x_min, (features - x_min) / (x_max - x_min), 1).astype(dtype=np.float32)
 
 
 def define_concatenator(column_dimensions: List[np.ndarray] = None) -> Callable[[pd.Series], np.ndarray]:
     if column_dimensions is not None:
         def concatenator(row: pd.Series) -> np.ndarray:
-            return np.concatenate([row.iloc[i][dims] for i, dims in enumerate(column_dimensions)])
+            return np.concatenate([row.iloc[i][dims] for i, dims in enumerate(column_dimensions)], dtype=np.float32)
     else:
         def concatenator(row: pd.Series) -> np.ndarray:
-            return np.concatenate(row.values)
+            return np.concatenate(row.values, dtype=np.float32)
     return concatenator
