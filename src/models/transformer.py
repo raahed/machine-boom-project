@@ -68,10 +68,12 @@ class TransformerEncoderModel(nn.Module):
         if self.downprojection:
             s = source.size(0)
             n = source.size(1)
+            device = source.device
             source = source.flatten(start_dim=0, end_dim=1)
             source = self.projection_function.transform(source)
-            source = source.view(s, n, source.size(2))
-        return source
+            source = torch.from_numpy(source)
+            source = source.view(s, n, source.shape[2])
+        return source.to(device)
     
 
 def train_epoch(train_dataloader: DataLoader, model, loss_function, optimizer, lr_scheduler,
