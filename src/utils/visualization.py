@@ -1,6 +1,7 @@
 from matplotlib import pyplot as plt
 import matplotlib.animation as anim
 import numpy as np
+from typing import Tuple, List
 
 def create_trace_animation(predictions: np.ndarray, ground_truths: np.ndarray):
     """
@@ -62,3 +63,27 @@ def create_3d_point_trace(data: np.ndarray):
     ax.plot(x, y, z, c='red', label='trace')
     ax.legend()
     return plt
+
+def create_plot_for_dimensions(predictions: np.ndarray, ground_truths: np.ndarray, size: int = 4, dpi: int = 80) -> plt:
+    if predictions.shape[1] != ground_truths.shape[1]:
+        raise ValueError()
+    
+
+
+    num_plots = predictions.shape[1]
+
+    min = np.min([predictions, ground_truths]) - 1
+    max = np.max([predictions, ground_truths]) + 1
+
+    _, axs = plt.subplots(nrows=num_plots, figsize=(size*2, size), dpi=dpi, sharex=True)
+
+    for i in range(num_plots):
+        axs[i].plot(predictions[:, i], label='Prediction')
+        axs[i].plot(ground_truths[:, i], label='Ground Truth')
+        axs[i].set_ylim([min, max])
+        axs[i].legend()
+        axs[i].title.set_text(f'Truth of property {i+1}')
+        axs[i].set_xticks([])
+    
+    plt.tight_layout()
+    return plt    
