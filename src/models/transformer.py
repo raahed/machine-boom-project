@@ -46,6 +46,7 @@ class TransformerEncoderModel(nn.Module):
         if self.downprojection:
             self.create_projection(projection_num_neighbors)
             self.head = nn.Linear(model_dim, output_dim)
+            self.head_activation = activation()
         encoder_layers = TransformerEncoderLayer(model_dim, num_heads, feedforward_hidden_dim, transformer_dropout, activation)
         self.transformer_encoder = TransformerEncoder(encoder_layers, num_encoder_layers)   
         self.pos_encoder = PositionalEncoding(model_dim, pos_encoder_dropout)
@@ -59,7 +60,8 @@ class TransformerEncoderModel(nn.Module):
         source = self.pos_encoder(source)
         source = self.transformer_encoder(source, source_msk)
         if self.downprojection:
-            return self.head(source)
+            source = self.head(source)
+            return self.head_activation(source)
         return source
     
     def project(self, source: Tensor) -> Tensor:
@@ -123,7 +125,7 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
             print(f"Epoch: {epoch + 1}")
 
         model.train(True)
-        avg_loss = train_epoch(train_dataloader, model, loss_function, optimizer, device, report_interval)
+        avg_loss = train_epoch(train_dataloader, model, loss_function, optimizer, lr_scheduler, device, report_interval)
         model.eval()
 
         with torch.no_grad():
