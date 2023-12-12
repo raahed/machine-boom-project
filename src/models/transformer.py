@@ -129,8 +129,7 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
     model.to(device)
 
     if checkpoint_path != None and checkpoint_file.exists():
-        model_state = torch.load(checkpoint_file)
-        model.load_state_dict(model_state)
+        model = torch.load(checkpoint_file)
 
     for epoch in range(model.total_epochs, epochs):
         if not tune:
@@ -151,7 +150,7 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
         if checkpoint_path != None and avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss            
             
-            torch.save(model.state_dict(), checkpoint_file)
+            torch.save(model, checkpoint_file)
 
         if tune:
             ray_train.report(metrics={ "loss": float(avg_val_loss) })    
