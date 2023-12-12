@@ -102,11 +102,15 @@ def train_epoch(train_dataloader: DataLoader, model, loss_function, optimizer, l
     return last_loss
 
 
-def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: DataLoader, model: nn.Module,
+def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: DataLoader, model: TransformerEncoderModel,
            loss_function, optimizer, lr_scheduler, checkpoint_path: Optional[Path], device: torch.device = 'cpu', 
-           report_interval: int = 1000, tune: bool = False) -> nn.Module:
+           report_interval: int = 1000, tune: bool = False) -> TransformerEncoderModel:
     
     best_val_loss = float("inf")
+
+    if model.downprojection:
+        print("Fitting downprojection!")
+        train_downprojection(model.projection_function, train_dataloader)
 
     if checkpoint_path != None:
         checkpoint_file = checkpoint_path / "checkpoint.pt"
@@ -145,3 +149,12 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
             ray_train.report(metrics={ "loss": float(avg_val_loss) })    
             
     return model
+
+
+def train_downprojection(projection: UMAP, train_dataloader: DataLoader) -> None:
+    feature_vectors = []
+    for features, labels in train_dataloader:
+        features = torch.flatten(features, start_dim=0, end_dim=-2)
+        feature_vectors.append(features)
+    features = torch.concat(feature_vectors, dim=0)
+    projection = projection.fit(features)
