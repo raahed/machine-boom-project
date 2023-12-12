@@ -3,6 +3,8 @@ import sys; sys.path.insert(0, '../')
 from utils.evaluation import compute_loss_on
 
 import math
+import pickle
+
 import torch
 from torch import nn, Tensor
 from torch.nn import TransformerEncoder, TransformerEncoderLayer
@@ -43,13 +45,14 @@ class TransformerEncoderModel(nn.Module):
         self.total_epochs = 0
         self.model_dim = model_dim
         self.downprojection = downprojection
+        activation_func = activation()
         if self.downprojection:
             self.create_projection(projection_num_neighbors)
         else:
             self.head = nn.Linear(model_dim, output_dim)
-            self.head_activation = activation()
+            self.head_activation = activation_func
         encoder_layers = TransformerEncoderLayer(model_dim, num_heads, dim_feedforward=feedforward_hidden_dim, 
-                                                 dropout=transformer_dropout, activation=activation())
+                                                 dropout=transformer_dropout, activation=activation_func)
         self.transformer_encoder = TransformerEncoder(encoder_layers, num_encoder_layers)   
         self.pos_encoder = PositionalEncoding(model_dim, pos_encoder_dropout)
 
@@ -77,6 +80,25 @@ class TransformerEncoderModel(nn.Module):
             source = source.view(s, n, source.shape[1])
             return source.to(device)
         return source
+    
+    def save(self, path: Path) -> None:
+        torch.save(self.state_dict, path)
+        if self.downprojection:
+            projection_path = self.infer_projection_filepath(path)
+            pickle.dump(self.projection_function, projection_path.open("wb"))
+
+    def load(self, path: Path) -> None:
+        model_state_dict = torch.load(path)
+        if self.downprojection:
+            projection_path = self.infer_projection_filepath(path)
+            self.projection_function = pickle.load(projection_path.open("rb"))
+        self.load_state_dict(model_state_dict)
+
+    def infer_projection_filepath(self, path_to_model_dict: Path) -> Path:
+        projection_filename = path_to_model_dict.stem + ".projection.pkl"
+        projection_path = path_to_model_dict.parent / projection_filename
+        return projection_path
+
     
 
 def train_epoch(train_dataloader: DataLoader, model, loss_function, optimizer, lr_scheduler,
@@ -130,7 +152,7 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
     model.to(device)
 
     if checkpoint_path != None and checkpoint_file.exists():
-        model = torch.load(checkpoint_file)
+        model.load(checkpoint_file)
 
     for epoch in range(model.total_epochs, epochs):
         if not tune:
@@ -150,8 +172,7 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
 
         if checkpoint_path != None and avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss            
-            
-            torch.save(model, checkpoint_file)
+            model.save(checkpoint_file)
 
         if tune:
             ray_train.report(metrics={ "loss": float(avg_val_loss) })    
