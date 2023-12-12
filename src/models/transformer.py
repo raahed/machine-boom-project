@@ -36,7 +36,7 @@ class PositionalEncoding(nn.Module):
         
 class TransformerEncoderModel(nn.Module):
     def __init__(self, num_heads: int, model_dim: int, feedforward_hidden_dim: int,
-                 num_encoder_layers: int = 6, transformer_dropout: float = 0.1, pos_encoder_dropout: float = 0.25,
+                 num_encoder_layers: int, output_dim: int, transformer_dropout: float = 0.1, pos_encoder_dropout: float = 0.25,
                  downprojection: bool = False, projection_num_neighbors: int = 5, activation: nn.Module = nn.ReLU) -> None:
         super().__init__()
         self.model_type = 'Transformer'
@@ -45,6 +45,7 @@ class TransformerEncoderModel(nn.Module):
         self.downprojection = downprojection
         if self.downprojection:
             self.create_projection(projection_num_neighbors)
+            self.head = nn.Linear(model_dim, output_dim)
         encoder_layers = TransformerEncoderLayer(model_dim, num_heads, feedforward_hidden_dim, transformer_dropout, activation)
         self.transformer_encoder = TransformerEncoder(encoder_layers, num_encoder_layers)   
         self.pos_encoder = PositionalEncoding(model_dim, pos_encoder_dropout)
@@ -55,8 +56,11 @@ class TransformerEncoderModel(nn.Module):
     def forward(self, source: Tensor, source_msk: Tensor = None) -> Tensor:
         # expect input shape to be (S, N, E) with S being the sequence length, N batch size and, E the input dimensionality
         source = self.project(source)
-        encoded = self.pos_encoder(source)
-        return self.transformer_encoder(encoded, source_msk)
+        source = self.pos_encoder(source)
+        source = self.transformer_encoder(source, source_msk)
+        if self.downprojection:
+            return self.head(source)
+        return source
     
     def project(self, source: Tensor) -> Tensor:
         if self.downprojection:
