@@ -23,7 +23,7 @@ class EarlyStopping:
         return self.counter == self.patience
 
     def change_smaller_than_delta(self, current_loss: torch.Tensor) -> bool:
-        return self.last_loss - current_loss < self.delta if self.has_last_loss() else True 
+        return torch.norm(self.last_loss - current_loss) > self.delta if self.has_last_loss() else True
 
     def has_last_loss(self) -> bool:
         return self.last_loss is not None

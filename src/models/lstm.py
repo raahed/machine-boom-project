@@ -10,6 +10,7 @@ from pathlib import Path
 from ray import tune, train as ray_train
 from typing import List, Optional
 
+
 class DecoderLSTM(nn.Module):
     def __init__(self, input_dim: int, hidden_dim: int, out_dim: int, dropout_lstm: float = 0.25, dropout_final: float = 0.25,
                  num_lstm_layers: int = 1, bidirectional: bool = False, proj_size: int = 0) -> None:
