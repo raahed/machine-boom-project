@@ -40,25 +40,20 @@ class PositionalEncoding(nn.Module):
 class TransformerEncoderModel(nn.Module):
     def __init__(self, num_heads: int, model_dim: int, feedforward_hidden_dim: int,
                  num_encoder_layers: int, output_dim: int, transformer_dropout: float = 0.1, pos_encoder_dropout: float = 0.25,
-                 downprojection: bool = False, projection_num_neighbors: int = 5, activation: nn.Module = nn.ReLU) -> None:
+                 projection_function: UMAP = None, projection_num_neighbors: int = 5, activation: nn.Module = nn.ReLU) -> None:
         super().__init__()
         self.model_type = 'Transformer'
         self.total_epochs = 0
         self.model_dim = model_dim
-        self.downprojection = downprojection
+        self.projection_function = projection_function
         activation_func = activation()
-        if self.downprojection:
-            self.create_projection(projection_num_neighbors)
-        else:
+        if not self.downprojection:
             self.head = nn.Linear(model_dim, output_dim)
             self.head_activation = activation_func
         encoder_layers = TransformerEncoderLayer(model_dim, num_heads, dim_feedforward=feedforward_hidden_dim, 
                                                  dropout=transformer_dropout, activation=activation_func)
         self.transformer_encoder = TransformerEncoder(encoder_layers, num_encoder_layers)   
-        self.pos_encoder = PositionalEncoding(model_dim, pos_encoder_dropout)
-
-    def create_projection(self, projection_num_neighbors: int):
-        self.projection_function = UMAP(n_components=self.model_dim, n_neighbors=projection_num_neighbors)            
+        self.pos_encoder = PositionalEncoding(model_dim, pos_encoder_dropout)            
 
     def forward(self, source: Tensor, source_msk: Tensor = None) -> Tensor:
         # expect input shape to be (S, N, E) with S being the sequence length, N batch size and, E the input dimensionality
@@ -99,6 +94,10 @@ class TransformerEncoderModel(nn.Module):
         projection_filename = path_to_model_dict.stem + ".projection.pkl"
         projection_path = path_to_model_dict.parent / projection_filename
         return projection_path
+    
+    @property
+    def downprojection(self):
+        return self.projection_function is not None
 
     
 
@@ -139,10 +138,6 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
            report_interval: int = 1000, tune: bool = False, early_stopping: Optional[EarlyStopping] = None) -> TransformerEncoderModel:
     
     best_val_loss = float("inf")
-
-    if model.downprojection:
-        print("Fitting downprojection!")
-        train_downprojection(model.projection_function, train_dataloader)
 
     if checkpoint_path != None:
         checkpoint_file = checkpoint_path / "checkpoint.pt"
