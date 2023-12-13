@@ -14,7 +14,7 @@ class EarlyStopping:
         return self.should_stop()    
     
     def update_counter(self, loss: torch.Tensor) -> None:
-        if self.change_smaller_than_delta(loss):
+        if not self.change_smaller_than_delta(loss):
             self.counter += 1
         else:
             self.counter = 0
