@@ -1,6 +1,7 @@
 import sys; sys.path.insert(0, '../')
 
 from utils.evaluation import compute_loss_on
+from utils.early_stopping import EarlyStopping
 
 import math
 import pickle
@@ -135,7 +136,7 @@ def train_epoch(train_dataloader: DataLoader, model, loss_function, optimizer, l
 
 def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: DataLoader, model: TransformerEncoderModel,
            loss_function, optimizer, lr_scheduler, checkpoint_path: Optional[Path], device: torch.device = 'cpu', 
-           report_interval: int = 1000, tune: bool = False) -> TransformerEncoderModel:
+           report_interval: int = 1000, tune: bool = False, early_stopping: Optional[EarlyStopping] = None) -> TransformerEncoderModel:
     
     best_val_loss = float("inf")
 
@@ -176,6 +177,9 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
 
         if tune:
             ray_train.report(metrics={ "loss": float(avg_val_loss) })    
+
+        if early_stopping != None and early_stopping(avg_val_loss):
+            return model
             
     return model
 
