@@ -74,7 +74,7 @@ class TransformerEncoderModel(nn.Module):
             s = source.size(0)
             n = source.size(1)
             device = source.device
-            source = source.flatten(start_dim=0, end_dim=1)
+            source = source.flatten(start_dim=0, end_dim=1).cpu()
             source = self.projection_function.transform(source)
             source = torch.from_numpy(source)
             source = source.view(s, n, source.shape[1])
