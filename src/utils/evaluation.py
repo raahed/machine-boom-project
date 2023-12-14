@@ -1,4 +1,6 @@
 import torch
+import time
+
 from torch import Tensor
 from torch import nn
 from typing import Tuple
@@ -62,20 +64,24 @@ def compute_sliding_window_predictions(test_dataloader: DataLoader, model: nn.Mo
 
     prediction_batches = []
     ground_truth_batches = []
+    inference_times = []
     model.eval()
     with torch.no_grad():
         for inputs, true_values, last_indices in test_dataloader:
             inputs, true_values = inputs.to(device), true_values.to(device)
+            start_time = time.time()
             predictions = model(inputs)
             
             prediction_batch = []
             for prediction, last_index in zip(predictions, last_indices):
                 prediction_batch.append(prediction[last_index])
+            end_time = time.time()
+            inference_times.append(end_time - start_time)
 
             prediction_batches.append(torch.stack(prediction_batch))
             ground_truth_batches.append(true_values)
     
-    return torch.cat(prediction_batches, axis=0), torch.cat(ground_truth_batches, axis=0)
+    return torch.cat(prediction_batches, axis=0), torch.cat(ground_truth_batches, axis=0), torch.tensor(inference_times)
 
 
 def compute_losses_from(predictions, ground_truths, loss_function):

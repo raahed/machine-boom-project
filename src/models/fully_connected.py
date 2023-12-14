@@ -4,6 +4,8 @@ from utils.evaluation import compute_loss_on
 from utils.early_stopping import EarlyStopping
 
 import torch
+import numpy as np
+
 from torch import nn, Tensor
 from torch.utils.data import DataLoader
 from pathlib import Path
@@ -66,6 +68,7 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
           early_stopping: Optional[EarlyStopping] = None) -> nn.Module:
 
     best_val_loss = float("inf")
+    val_losses = []
 
     if checkpoint_path != None:
         checkpoint_file = checkpoint_path / "checkpoint.pt"
@@ -102,8 +105,10 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
 
         if tune:
             ray_train.report(metrics={ "loss": float(avg_val_loss) })
+        
+        val_losses.append(avg_val_loss)
 
         if early_stopping != None and early_stopping(avg_val_loss):
-            return model
+            return model, np.array(val_losses)
             
-    return model   
+    return model, np.array(val_losses)

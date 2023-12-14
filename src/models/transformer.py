@@ -7,6 +7,8 @@ import math
 import pickle
 
 import torch
+import numpy as np
+
 from torch import nn, Tensor
 from torch.nn import TransformerEncoder, TransformerEncoderLayer
 from torch.utils.data import DataLoader
@@ -40,7 +42,7 @@ class PositionalEncoding(nn.Module):
 class TransformerEncoderModel(nn.Module):
     def __init__(self, num_heads: int, model_dim: int, feedforward_hidden_dim: int,
                  num_encoder_layers: int, output_dim: int, transformer_dropout: float = 0.1, pos_encoder_dropout: float = 0.25,
-                 projection_function: UMAP = None, projection_num_neighbors: int = 5, activation: nn.Module = nn.ReLU) -> None:
+                 projection_function: UMAP = None, activation: nn.Module = nn.ReLU) -> None:
         super().__init__()
         self.model_type = 'Transformer'
         self.total_epochs = 0
@@ -78,7 +80,7 @@ class TransformerEncoderModel(nn.Module):
         return source
     
     def save(self, path: Path) -> None:
-        torch.save(self.state_dict, path)
+        torch.save(self.state_dict(), path)
         if self.downprojection:
             projection_path = self.infer_projection_filepath(path)
             pickle.dump(self.projection_function, projection_path.open("wb"))
@@ -138,6 +140,7 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
            report_interval: int = 1000, tune: bool = False, early_stopping: Optional[EarlyStopping] = None) -> TransformerEncoderModel:
     
     best_val_loss = float("inf")
+    val_losses = []
 
     if checkpoint_path != None:
         checkpoint_file = checkpoint_path / "checkpoint.pt"
@@ -171,12 +174,15 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
             model.save(checkpoint_file)
 
         if tune:
-            ray_train.report(metrics={ "loss": float(avg_val_loss) })    
+            ray_train.report(metrics={ "loss": float(avg_val_loss) })   
+
+        val_losses.append(avg_val_loss) 
 
         if early_stopping != None and early_stopping(avg_val_loss):
-            return model
+            return model, np.array(val_losses)
+        
             
-    return model
+    return model, np.array(val_losses)
 
 
 def train_downprojection(projection: UMAP, train_dataloader: DataLoader) -> None:

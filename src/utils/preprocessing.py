@@ -42,7 +42,7 @@ def reshape_dataframe_for_learning(dataframe: pd.DataFrame, feature_columns: Lis
     dataframe["features"] = create_feature_column(dataframe, feature_columns)
     dataframe["labels"] = create_label_column(dataframe, label_features)
     
-    return dataframe[["features", "labels"]]
+    return dataframe[["features", "labels", "Timestamp"]]
 
 
 def convert_list_columns(dataframe: pd.DataFrame):
