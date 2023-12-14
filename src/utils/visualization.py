@@ -89,7 +89,7 @@ def create_plot_for_dimensions(predictions: np.ndarray, ground_truths: np.ndarra
         diff_max = np.max(diff) + 1
 
         axs[i][1].plot(diff)
-        axs[i][1].plot(np.zeros_like(diff), color='black', linewidth=0.7)
+        axs[i][1].axhline(y=0, color='black', linewidth=0.7)
         axs[i][1].title.set_text(f'Diff of Ground Truth and Prediction {i+1}')
         axs[i][1].set_ylim([diff_min, diff_max])
         axs[i][1].yaxis.tick_right()
