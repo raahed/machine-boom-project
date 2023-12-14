@@ -68,22 +68,31 @@ def create_plot_for_dimensions(predictions: np.ndarray, ground_truths: np.ndarra
     if predictions.shape[1] != ground_truths.shape[1]:
         raise ValueError()
     
-
-
     num_plots = predictions.shape[1]
 
     min = np.min([predictions, ground_truths]) - 1
     max = np.max([predictions, ground_truths]) + 1
 
-    _, axs = plt.subplots(nrows=num_plots, figsize=(size*2, size), dpi=dpi, sharex=True)
+    _, axs = plt.subplots(nrows=num_plots, ncols=2, figsize=(size*2, size), dpi=dpi, sharex=True)
 
     for i in range(num_plots):
-        axs[i].plot(predictions[:, i], label='Prediction')
-        axs[i].plot(ground_truths[:, i], label='Ground Truth')
-        axs[i].set_ylim([min, max])
-        axs[i].legend()
-        axs[i].title.set_text(f'Truth of property {i+1}')
-        axs[i].set_xticks([])
+        axs[i][0].plot(predictions[:, i], label='Prediction')
+        axs[i][0].plot(ground_truths[:, i], label='Ground Truth')
+        axs[i][0].set_ylim([min, max])
+        axs[i][0].legend()
+        axs[i][0].title.set_text(f'Truth of property {i+1}')
+        axs[i][0].set_xticks([])
+
+        # Plot the diff
+        diff = ground_truths[:, i] - predictions[:, i]
+        diff_min = np.min(diff) - 1
+        diff_max = np.max(diff) + 1
+
+        axs[i][1].plot(diff)
+        axs[i][1].title.set_text(f'Diff of Ground Truth and Prediction {i+1}')
+        axs[i][1].set_ylim([diff_min, diff_max])
+        axs[i][1].yaxis.tick_right()
+
     
     plt.tight_layout()
     return plt    
