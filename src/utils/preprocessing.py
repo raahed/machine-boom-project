@@ -23,12 +23,12 @@ def preprocess_dataframe_for_learning(dataframe: pd.DataFrame, feature_columns: 
                                       normalized_features: List[Tuple[str, np.ndarray]] = None, 
                                       standardized_features: List[Tuple[str, np.ndarray]] = None):
     print("Preprocessing dataframe")
-    if normalized_features is not None:
-        dataframe = apply_to_column_dimensions(standardize, dataframe, normalized_features)
     if standardized_features is not None:
-        dataframe = apply_to_column_dimensions(normalize, dataframe, standardized_features)
+        dataframe = apply_to_column_dimensions(standardize, dataframe, standardized_features)
+    if normalized_features is not None:
+        dataframe = apply_to_column_dimensions(normalize, dataframe, normalized_features)
 
-    dataframe = reshape_dataframe_for_learning(dataframe, feature_columns, label_features=label_features)
+    dataframe = reshape_dataframe_for_learning(dataframe, feature_columns=feature_columns, label_features=label_features)
     return dataframe
 
 
@@ -42,7 +42,7 @@ def reshape_dataframe_for_learning(dataframe: pd.DataFrame, feature_columns: Lis
     dataframe["features"] = create_feature_column(dataframe, feature_columns)
     dataframe["labels"] = create_label_column(dataframe, label_features)
     
-    return dataframe[["features", "labels"]]
+    return dataframe[["features", "labels", "Timestamp"]]
 
 
 def convert_list_columns(dataframe: pd.DataFrame):
@@ -56,7 +56,7 @@ def convert_list_columns(dataframe: pd.DataFrame):
         if isinstance(cell, str) and cell[0] == "[":
             dataframe[column] = dataframe[column].apply(convert_list)
         elif not isinstance(cell, np.ndarray):
-            dataframe[column] = dataframe[column].apply(lambda x: np.array([x]))
+            dataframe[column] = dataframe[column].apply(lambda x: np.array([x], dtype=np.float32))
     
 
 def convert_list(text: str) -> np.ndarray:
@@ -82,7 +82,7 @@ def apply_to_column_dimensions(function: Callable[[np.ndarray], np.ndarray], dat
     for column, indices in positions:
         features = np.stack(dataframe[column].to_numpy())
         features[:, indices] = function(features[:, indices])
-        dataframe[column] = features
+        dataframe[column] = features.tolist() 
     return dataframe
 
 
@@ -129,14 +129,14 @@ def standardize(features: np.ndarray) -> np.ndarray:
 def normalize(features: np.ndarray) -> np.ndarray:
     x_min = features.min(axis=0)
     x_max = features.max(axis=0)
-    return (features - x_min) / (x_max - x_min)
+    return np.where(x_max != x_min, (features - x_min) / (x_max - x_min), 1).astype(dtype=np.float32)
 
 
 def define_concatenator(column_dimensions: List[np.ndarray] = None) -> Callable[[pd.Series], np.ndarray]:
     if column_dimensions is not None:
         def concatenator(row: pd.Series) -> np.ndarray:
-            return np.concatenate([row.iloc[i][dims] for i, dims in enumerate(column_dimensions)])
+            return np.concatenate([row.iloc[i][dims] for i, dims in enumerate(column_dimensions)], dtype=np.float32)
     else:
         def concatenator(row: pd.Series) -> np.ndarray:
-            return np.concatenate(row.values)
+            return np.concatenate(row.values, dtype=np.float32)
     return concatenator
