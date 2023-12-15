@@ -179,10 +179,10 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
         val_losses.append(avg_val_loss) 
 
         if early_stopping != None and early_stopping(avg_val_loss):
-            return model, np.array(val_losses)
+            return model, np.array(val_losses.cpu())
         
             
-    return model, np.array(val_losses)
+    return model, np.array(val_losses.cpu())
 
 
 def train_downprojection(projection: UMAP, train_dataloader: DataLoader) -> None:
