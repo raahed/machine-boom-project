@@ -1,42 +1,22 @@
 import sys; sys.path.insert(0, '../')
 
 from utils.evaluation import compute_loss_on
+from utils.early_stopping import EarlyStopping
 
 import torch
+import numpy as np
+
 from torch import nn, Tensor
 from torch.utils.data import DataLoader
 from pathlib import Path
 from ray import train as ray_train
-from typing import List
-
-feature_columns = [
-    'left_boom_base_yaw_joint', 
-    'left_boom_base_pitch_joint',
-    'left_boom_main_prismatic_joint',
-    'left_boom_second_roll_joint',
-    'left_boom_second_yaw_joint',
-    'left_boom_top_pitch_joint'
-]
-
-label_columns = [
-    'cable1_lowest_point',
-    'cable2_lowest_point',
-    'cable3_lowest_point'
-]
+from typing import List, Optional
 
 class FullyConnected(nn.Module):
     def __init__(self, flattened_input_dim: int, intermediate_dims: List[int],
-                 output_dim: int, dropout: float = 0.25, hidden_activation: str = 'relu') -> None:
+                 output_dim: int, dropout: float = 0.25, hidden_activation: nn.Module = nn.ReLU) -> None:
         super().__init__()
         self.total_epochs = 0
-
-        if hidden_activation == 'relu':
-            hidden_activation_class = nn.ReLU
-        elif hidden_activation == 'tanh':
-            hidden_activation_class = nn.Tanh
-        else:
-            raise ValueError("Can not interfer hidden activation")
-
         self.flatten = nn.Flatten()
         self.hidden = nn.Sequential()
         for i, dim in enumerate(intermediate_dims):
@@ -44,7 +24,7 @@ class FullyConnected(nn.Module):
                 self.hidden.add_module(f"linear_{i+1}", nn.Linear(flattened_input_dim, dim))
             else:
                 self.hidden.add_module(f"linear_{i+1}", nn.Linear(intermediate_dims[i-1], dim))
-            self.hidden.add_module(f"hidden_activation_{i+1}", hidden_activation_class())
+            self.hidden.add_module(f"hidden_activation_{i+1}", hidden_activation())
             self.hidden.add_module(f"dropout_{i+2}", nn.Dropout(dropout))
 
         self.last = nn.Linear(intermediate_dims[-1], output_dim)
@@ -54,14 +34,6 @@ class FullyConnected(nn.Module):
         x = self.hidden(x)
         return self.last(x)
     
-
-def get_optimizer_function(model: nn.Module, learning_rate: float) -> torch.optim:
-    return torch.optim.Adam(model.parameters(), lr=learning_rate)
-
-
-def get_loss_function() -> nn.Module:
-    return torch.nn.MSELoss()
-
 
 def train_epoch(train_dataloader: DataLoader, model: nn.Module, loss_function, optimizer, 
                 device: torch.device, report_interval: int = 1000) -> float:
@@ -92,18 +64,21 @@ def train_epoch(train_dataloader: DataLoader, model: nn.Module, loss_function, o
 
 
 def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: DataLoader, model: nn.Module, loss_function, optimizer, 
-          checkpoint_path: Path, device: torch.device = 'cpu', report_interval: int = 1000, tune: bool = False) -> nn.Module:
+          checkpoint_path: Optional[Path], device: torch.device = 'cpu', report_interval: int = 1000, tune: bool = False, 
+          early_stopping: Optional[EarlyStopping] = None) -> nn.Module:
 
     best_val_loss = float("inf")
+    val_losses = []
 
-    checkpoint_file = checkpoint_path / "checkpoint.pt"
+    if checkpoint_path != None:
+        checkpoint_file = checkpoint_path / "checkpoint.pt"
 
     if torch.cuda.device_count() > 1:
         model = nn.DataParallel(model)
         
     model.to(device)
 
-    if checkpoint_file.exists():
+    if checkpoint_path != None and checkpoint_file.exists():
         model_state = torch.load(checkpoint_file)
         model.load_state_dict(model_state)
 
@@ -123,12 +98,17 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
 
         model.total_epochs += 1
     
-        if avg_val_loss < best_val_loss or tune:
+        if checkpoint_path != None and avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss            
             
             torch.save(model.state_dict(), checkpoint_file)
 
         if tune:
             ray_train.report(metrics={ "loss": float(avg_val_loss) })
+        
+        val_losses.append(float(avg_val_loss))
+
+        if early_stopping != None and early_stopping(avg_val_loss):
+            return model, np.array(val_losses)
             
-    return model   
+    return model, np.array(val_losses)

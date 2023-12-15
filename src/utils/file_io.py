@@ -102,7 +102,9 @@ def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: 
     )
     train_set, test_set, validation_set = random_split(shuffled_split, [train_length, test_length, validation_length])
     test_set = SlidingWindowTrajectoryDataset(test_set, window_size)
-    return train_set, test_set, validation_set, contigous_split
+
+    visualization_timestamps = preprocessed.iloc[(shuffled_split_len * window_size):, 2].to_numpy()
+    return train_set, test_set, validation_set, (contigous_split, visualization_timestamps[-len(contigous_split):])
 
 
 def read_angle_datasets(data_folder: Path, train_split: float, feature_columns: List[str] = None,
