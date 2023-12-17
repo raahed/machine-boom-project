@@ -40,16 +40,20 @@ def compute_predictions(test_dataloader: DataLoader, model: nn.Module, device: t
 
     prediction_batches = []
     ground_truth_batches = []
+    inference_times = []
     model.eval()
     with torch.no_grad():
         for inputs, true_values in test_dataloader:
             inputs, true_values = inputs.to(device), true_values.to(device)
+            start_time = time.time()
             predictions = model(inputs)
+            end_time = time.time()
+            inference_times.append(end_time - start_time)
 
             prediction_batches.append(predictions)
             ground_truth_batches.append(true_values)
     
-    return torch.cat(prediction_batches, axis=0), torch.cat(ground_truth_batches, axis=0)
+    return torch.cat(prediction_batches, axis=0), torch.cat(ground_truth_batches, axis=0), torch.tensor(inference_times)
 
 
 def compute_sliding_window_predictions(test_dataloader: DataLoader, model: nn.Module, device: torch.device = 'cpu') -> Tuple[Tensor, Tensor]:
