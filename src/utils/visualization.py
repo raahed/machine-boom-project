@@ -44,8 +44,8 @@ def create_3d_point_trace(data: np.ndarray):
 
     # y is given as the height dimension, plt expecting z to be the height. swapping the axis 
     x = data[:, 0]
-    y = data[:, 2]
-    z = data[:, 1]
+    y = data[:, 1]
+    z = data[:, 2]
 
     ax = plt.figure().add_subplot(projection='3d')
 
@@ -83,7 +83,6 @@ def create_plot_for_dimensions(predictions: np.ndarray, ground_truths: np.ndarra
         axs[i][0].set_ylim([min, max])
         axs[i][0].legend()
         axs[i][0].title.set_text(f'Truth of property {i+1}')
-        axs[i][0].set_xlabel("Time")
 
         # Plot the diff
         diff = ground_truths[:, i] - predictions[:, i]
