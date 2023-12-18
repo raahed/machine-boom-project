@@ -1,4 +1,6 @@
 import torch
+import time
+
 from torch import Tensor
 from torch import nn
 from typing import Tuple
@@ -6,7 +8,7 @@ from typing import Tuple
 from torch.utils.data import DataLoader
 
 
-def compute_loss_on(dataloader: DataLoader, model: nn.Module, loss_function, device: torch.device = 'cpu'):
+def compute_loss_on(dataloader: DataLoader, model: nn.Module, loss_function, reshape: bool = False, device: torch.device = 'cpu'):
     """
     Compute the loss on a torch DataLoader using a torch model and torch loss function.
     """
@@ -19,8 +21,12 @@ def compute_loss_on(dataloader: DataLoader, model: nn.Module, loss_function, dev
             inputs = inputs.to(device)
             true_values = true_values.to(device)
 
+            if reshape:
+                inputs_shape, true_values_shape = inputs.size(), true_values.size()
+                inputs = inputs.view(inputs_shape[1], inputs_shape[2], inputs_shape[0], inputs_shape[3])
+                true_values = true_values.view(true_values_shape[1], true_values_shape[2], true_values_shape[0], true_values_shape[3])
+        
             outputs = model(inputs)
-
             running_loss += loss_function(outputs, true_values)
     return running_loss / (i + 1)
 
@@ -34,16 +40,20 @@ def compute_predictions(test_dataloader: DataLoader, model: nn.Module, device: t
 
     prediction_batches = []
     ground_truth_batches = []
+    inference_times = []
     model.eval()
     with torch.no_grad():
         for inputs, true_values in test_dataloader:
             inputs, true_values = inputs.to(device), true_values.to(device)
+            start_time = time.time()
             predictions = model(inputs)
+            end_time = time.time()
+            inference_times.append(end_time - start_time)
 
             prediction_batches.append(predictions)
             ground_truth_batches.append(true_values)
     
-    return torch.cat(prediction_batches, axis=0), torch.cat(ground_truth_batches, axis=0)
+    return torch.cat(prediction_batches, axis=0), torch.cat(ground_truth_batches, axis=0), torch.tensor(inference_times)
 
 
 def compute_sliding_window_predictions(test_dataloader: DataLoader, model: nn.Module, device: torch.device = 'cpu') -> Tuple[Tensor, Tensor]:
@@ -58,20 +68,24 @@ def compute_sliding_window_predictions(test_dataloader: DataLoader, model: nn.Mo
 
     prediction_batches = []
     ground_truth_batches = []
+    inference_times = []
     model.eval()
     with torch.no_grad():
         for inputs, true_values, last_indices in test_dataloader:
             inputs, true_values = inputs.to(device), true_values.to(device)
+            start_time = time.time()
             predictions = model(inputs)
             
             prediction_batch = []
             for prediction, last_index in zip(predictions, last_indices):
                 prediction_batch.append(prediction[last_index])
+            end_time = time.time()
+            inference_times.append(end_time - start_time)
 
             prediction_batches.append(torch.stack(prediction_batch))
             ground_truth_batches.append(true_values)
     
-    return torch.cat(prediction_batches, axis=0), torch.cat(ground_truth_batches, axis=0)
+    return torch.cat(prediction_batches, axis=0), torch.cat(ground_truth_batches, axis=0), torch.tensor(inference_times)
 
 
 def compute_losses_from(predictions, ground_truths, loss_function):

@@ -1,7 +1,10 @@
 #!/bin/bash
+
 DIR=$(dirname `realpath -s "$0"`)
 
-if [ "$(docker ps -a | grep mbp-runner)" ]; then
+CONTAINER_NAME="$(hostname)-mbp-runner"
+
+if [ "$(docker ps -a | grep $CONTAINER_NAME)" ]; then
   echo "Project container is already running!"; exit 1
 fi
 
@@ -11,12 +14,17 @@ docker run --detach \
            --user root \
            --publish 2059:2059 \
            --publish 2088:2088 \
+           --expose=2092-2099 \
+           --expose=10000-20000 \
            --env-file $DIR/../.env \
            --env USER=root \
+           --hostname $CONTAINER_NAME \
            --volume $DIR/../bin/arguments:/root/bin \
            --volume $DIR/../src:/mnt/src \
            --volume $DIR/../models/:/mnt/models \
            --volume $DIR/../data:/mnt/data \
-           --name mbp-runner \
+           --volume $DIR/../scripts:/mnt/scripts \
+           --name $CONTAINER_NAME \
+           --shm-size=16g \
            $@ \
            machine-boom-project:latest
