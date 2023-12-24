@@ -36,7 +36,10 @@ def draw_z_dimensions_plot(dataframe: pd.DataFrame, filename: str = "canvas.png"
     # Cut down to the first trajectory group
     groups = group_frame_by_labels(dataframe, cable_properties)
     dataframe = dataframe.iloc[next(iter(groups.indices.values()))]
-    
+
+    # Use workaround to get the last index
+    last_index = len(dataframe[boom_tip])
+
     _, axs = plt.subplots(nrows=3, ncols=1, figsize=(size*2, size))
 
     axs[0].plot(cut_down_array(dataframe[boom_tip]), color='black', label="Left Boom Tip")
@@ -58,8 +61,7 @@ def draw_z_dimensions_plot(dataframe: pd.DataFrame, filename: str = "canvas.png"
         ax.set(ylabel="Height/Length in meter", xlabel="Trajectories")
         
         # Set x ticks
-        labels = list(range(0, dataframe.index[-1], 2500))
-        labels.append(dataframe.index[-1])
+        labels = list(range(0, last_index, 2500)) + [last_index]
         ax.set_xticks(np.array(labels, dtype=np.float32))
 
     plt.tight_layout()
