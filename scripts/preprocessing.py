@@ -1,5 +1,7 @@
-from pathlib import Path
-from typing import List
+import sys; sys.path.insert(0, '../src')
+
+from utils.script_functions import *
+
 import re
 import sys
 
@@ -37,33 +39,6 @@ def preprocess_csv_files(files: List[Path]):
     for csv_file in files:
         preprocess_csv_file(csv_file)
     print("Preprocessing complete!")
-
-
-def collect_csv_files(containing_folder: Path):
-    return list(containing_folder.glob("*.csv"))
-
-
-def ask_for_permission(files: List[Path]):
-    file_names = [file.name for file in files]
-    print("Preprocessing the following files:") 
-    print(*file_names, sep=", ")
-    print(f"at path: {files[0].parent}\n")
-
-    return yes_no_input("Are you sure you want to continue?")
-    
-
-def yes_no_input(question: str) -> bool:
-    print(question + " [y/n]")
-    return await_yes_no_input()
-
-    
-def await_yes_no_input():
-    input_str = input()
-    while input_str not in ["y", "n"]:
-        print("Please enter either 'y' for yes or 'n' for no.")
-        input_str = input()
-    return input_str == "y"
-
 
 if __name__ == "__main__":
     if not sys.argv[1]:
