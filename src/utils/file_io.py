@@ -83,13 +83,29 @@ def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: 
     
     :return: The train dataset, test dataset, validation dataset and visualization_dataset.
     """
+    preprocessed = load_trajectory_datasets(data_folder, feature_columns, label_features, normalized_features, standardized_features, sample_size)
+    return build_trajectory_datasets(preprocessed, train_split, test_split, validation_split, visualization_split, window_size)
+
+
+def load_trajectory_datasets(data_folder: Path, feature_columns: List[str] = None, label_features: List[Tuple[str, np.ndarray]] = None, normalized_features: List[Tuple[str, np.ndarray]] = None, 
+                             standardized_features: List[Tuple[str, np.ndarray]] = None, sample_size: float = 1) -> pd.DataFrame:
+    """
+    Split-of-function called by read_trajectory_datasets
+    """
+    data = concatenate_data_dumps_in(data_folder, sample_size=sample_size)
+    return preprocess_dataframe_for_learning(data, feature_columns, label_features, normalized_features, standardized_features)
+
+
+def build_trajectory_datasets(dataframe: pd.DataFrame, train_split: float, test_split: float, validation_split: float, 
+                             visualization_split: float = 0.0, window_size: int = 128) -> Tuple[Subset, SlidingWindowTrajectoryDataset, Subset, SlidingWindowTrajectoryDataset]:
+    """
+    Split-of-function called by read_trajectory_datasets
+    """
     sum_of_splits = train_split + test_split + validation_split + visualization_split
     if not sum_of_splits <= 1:
         raise ValueError(f"The sum of all splits should be smaller than 1.0, given {sum_of_splits}!")
     
-    data = concatenate_data_dumps_in(data_folder, sample_size=sample_size)
-    preprocessed = preprocess_dataframe_for_learning(data, feature_columns, label_features, normalized_features, standardized_features)
-    complete_dataset = TrajectoryDataset(preprocessed, window_size)
+    complete_dataset = TrajectoryDataset(dataframe, window_size)
     dataset_length = len(complete_dataset)
 
     train_length, test_length, validation_length, shuffled_split_len = compute_split_lengths(dataset_length, train_split, 
@@ -103,7 +119,7 @@ def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: 
     train_set, test_set, validation_set = random_split(shuffled_split, [train_length, test_length, validation_length])
     test_set = SlidingWindowTrajectoryDataset(test_set, window_size)
 
-    visualization_timestamps = preprocessed.iloc[(shuffled_split_len * window_size):, 2].to_numpy()
+    visualization_timestamps = dataframe.iloc[(shuffled_split_len * window_size):, 2].to_numpy()
     return train_set, test_set, validation_set, (contigous_split, visualization_timestamps[-len(contigous_split):])
 
 
