@@ -1,4 +1,4 @@
-import re
+import joblib
 
 from pathlib import Path
 from typing import Tuple, List
@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 
 from tqdm import tqdm
+from umap import UMAP
 from sklearn.model_selection import train_test_split
 from torch.utils.data import random_split, Subset, DataLoader
 
@@ -123,6 +124,12 @@ def read_angle_datasets(data_folder: Path, train_split: float, feature_columns: 
     return AngleDataset(train), AngleDataset(test)
 
 
+def save_dataset(dataset: Dataset, dataset_path: Path):
+    dataset_folder = dataset_path.parent
+    dataset_folder.mkdir(parents=True, exist_ok=True)
+    torch.save(dataset, dataset_path)
+
+
 def define_dataloader_from_subset(train_set: Subset, validation_set: Subset, 
                                   test_set: Subset, batch_size: int, shuffle: bool = False) -> List[DataLoader]:
     """
@@ -150,6 +157,24 @@ def define_dataloader_from_angle_dataset(train_data: AngleDataset, test_data: An
     test_dataloader = DataLoader(test_data, batch_size=batch_size, shuffle=shuffle)
 
     return train_dataloader, validation_dataloader, test_dataloader
+
+
+def load_downprojections(downprojections_folder: Path):
+    downprojections = {}
+    for downprojection_path in downprojections_folder.glob("*.sav"):
+        n_neighbors, _ = downprojection_path.name.split("_")
+        downprojections[int(n_neighbors)] = load_downprojection(downprojection_path)
+    return downprojections
+
+
+def save_downprojection(downprojection: UMAP, downprojection_path: Path):
+    joblib.dump(downprojection, downprojection_path)
+
+
+def load_downprojection(downprojection_path: Path):
+    if not downprojection_path.is_file() and not downprojection_path.exists():
+        raise ValueError(f"The chosen path does not exist or is not a file: {downprojection_path}")
+    return joblib.load(downprojection_path)
 
 
 def concatenate_data_dumps_in(data_folder: Path, sample_size: float) -> pd.DataFrame:

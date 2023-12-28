@@ -1,5 +1,4 @@
 import sys; sys.path.insert(0, '../')
-import pickle
 
 from typing import Optional, Tuple
 from pathlib import Path
@@ -7,25 +6,25 @@ from pathlib import Path
 import torch
 import numpy as np
 
+from umap import UMAP
 from torch import nn, Tensor
 from torch.utils.data import DataLoader
 from ray import tune, train as ray_train
 
-from models.transformer import TransformerEncoderModel, train_downprojection
+from models.transformer import TransformerEncoderModel
 from utils.evaluation import compute_loss_on
 from utils.early_stopping import EarlyStopping
 
 
 class ParallelEncoderModel(nn.Module):
     def __init__(self, num_decoders: int, num_heads: int, model_dim: int, feedforward_hidden_dim: int, output_dim: int,
-                 num_encoder_layers: int = 6, transformer_dropout: float = 0.1, pos_encoder_dropout: float = 0.25,
-                 downprojection: bool = False, projection_num_neighbors: int = 5, activation: nn.Module = nn.ReLU) -> None:
+                 num_encoder_layers: int = 6, transformer_dropout: float = 0.1, pos_encoder_dropout: float = 0.25, activation: nn.Module = nn.ReLU,
+                 projection_function: UMAP = None) -> None:
         super().__init__()
         self.model_type = 'Transformer'
         self.total_epochs = 0
         self.encoder = TransformerEncoderModel(num_heads, model_dim, feedforward_hidden_dim, 
-                                               num_encoder_layers, transformer_dropout, pos_encoder_dropout,
-                                               downprojection=downprojection, projection_num_neighbors=projection_num_neighbors, activation=activation)
+                                               num_encoder_layers, transformer_dropout, pos_encoder_dropout, activation=activation, projection_function=projection_function)
         self.decoders = nn.ModuleList([nn.Linear(model_dim, output_dim) for i in range(num_decoders)])
         self.activation = nn.ReLU()
 
@@ -41,25 +40,11 @@ class ParallelEncoderModel(nn.Module):
     
     @property
     def downprojection(self):
-        return self.encoder.downprojection
+        return self.encoder.downprojection is not None
     
-    def save(self, path: Path) -> None:
-        torch.save(self.state_dict(), path)
-        if self.downprojection:
-            projection_path = self.infer_projection_filepath(path)
-            pickle.dump(self.encoder.projection_function, projection_path.open("wb"))
-
-    def load(self, path: Path) -> None:
-        model_state_dict = torch.load(path)
-        if self.downprojection:
-            projection_path = self.infer_projection_filepath(path)
-            self.encoder.projection_function = pickle.load(projection_path.open("rb"))
-        self.load_state_dict(model_state_dict)
-
-    def infer_projection_filepath(self, path_to_model_dict: Path) -> Path:
-        projection_filename = path_to_model_dict.stem + ".projection.pkl"
-        projection_path = path_to_model_dict.parent / projection_filename
-        return projection_path
+    @property
+    def pos_encoder(self):
+        return self.encoder.pos_encoder
     
 
 def train_epoch(train_dataloader: DataLoader, model, loss_function, optimizer, lr_scheduler,
@@ -69,7 +54,6 @@ def train_epoch(train_dataloader: DataLoader, model, loss_function, optimizer, l
     last_loss = 0
     
     for i, (inputs, true_values) in enumerate(train_dataloader):
-        
         inputs = inputs.to(device)
         true_values = true_values.to(device)
     
@@ -99,10 +83,6 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
     best_val_loss = float("inf")
     val_losses = []
 
-    if model.downprojection:
-        print("Fitting downprojection!")
-        train_downprojection(model.projection_function, train_dataloader)
-
     if checkpoint_path != None:
         checkpoint_file = checkpoint_path / "checkpoint.pt"
 
@@ -112,7 +92,8 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
     model.to(device)
 
     if checkpoint_path != None and checkpoint_file.exists():
-        model.load(checkpoint_file)
+        model_state = torch.load(checkpoint_file)
+        model.load_state_dict(model_state)
 
     for epoch in range(model.total_epochs, epochs):
         if not tune:
@@ -132,7 +113,7 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
     
         if checkpoint_path != None and avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss            
-            model.save(checkpoint_file)
+            torch.save(model.state_dict(), checkpoint_file)
 
         if tune:
             ray_train.report(metrics={ "loss": float(avg_val_loss) })   
