@@ -2,7 +2,8 @@ import sys; sys.path.insert(0, '../src')
 from utils.script_functions import *
 
 from pathlib import Path
-
+import pandas as pd
+   
 
 if __name__ == "__main__":
     if not sys.argv[1]:
@@ -13,7 +14,13 @@ if __name__ == "__main__":
 
     if ask_for_permission(files):
         dataframe = read_folder_in(path)
+
+        properties = ["cable1_property(length,youngsmodule(bend,twist))", 
+                    "cable2_property(length,youngsmodule(bend,twist))", 
+                    "cable3_property(length,youngsmodule(bend,twist))"]
+
+        size = group_frame_by_labels(dataframe, properties).count()
     else:
         print("Aborted."); exit(1)
 
-    print(f"Total data shape: {dataframe.shape}")
+    print(size)

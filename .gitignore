@@ -21,6 +21,9 @@ CMakeCache.txt
 *.lic
 *.tmp
 
+# Script results
+scripts/*.png
+
 # Jupyter
 **/.ipynb_checkpoints/*
 
