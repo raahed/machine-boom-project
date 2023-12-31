@@ -21,6 +21,9 @@ CMakeCache.txt
 *.lic
 *.tmp
 
+# Script results
+scripts/*.png
+
 # Jupyter
 **/.ipynb_checkpoints/*
 
@@ -30,6 +33,7 @@ CMakeCache.txt
 # Saved Models
 **/saved/*
 *.pt
+*.sav
 
 # Python cache
 **/__pycache__

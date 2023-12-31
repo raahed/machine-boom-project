@@ -6,21 +6,21 @@ import models
 import socket
 import ray
 
-def attach_ray(manager: bool = False) -> None:
+def attach_ray(use_cluster: bool = False) -> None:
     """
     Start or connect the API to a ray instance.
 
     Note that a running API bind will be closed, if it is a standalone ray instance it will be fully terminated.
 
-    :param manager: In case manager is set, trying to connect to the local instance with port 2099
+    :param use_cluster: In case use_cluster is set, trying to connect to the local instance with port 2099
     """
 
     disconnect_ray()
 
-    if manager and not is_node_head():
-        print("Caution: Assign node as manager different from project .env file.")
+    if use_cluster and not is_node_head():
+        print("Caution: Assign node as use_cluster different from project .env file.")
 
-    if manager:
+    if use_cluster:
         ray.init(address='localhost:2099', runtime_env={ "py_modules": [utils, models] })
     else:
         ray.init(runtime_env={ "py_modules": [utils, models] })
