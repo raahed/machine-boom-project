@@ -1,5 +1,6 @@
 import joblib
 
+from random import randint
 from pathlib import Path
 from typing import Tuple, List
 
@@ -10,7 +11,7 @@ import numpy as np
 from tqdm import tqdm
 from umap import UMAP
 from sklearn.model_selection import train_test_split
-from torch.utils.data import random_split, Subset, DataLoader
+from torch.utils.data import random_split, Subset, DataLoader, ConcatDataset
 
 from .preprocessing import *
 from .angle_dataset import AngleDataset
@@ -58,12 +59,13 @@ def read_parallel_trajectory_datasets(data_folder: Path, train_split: float, tes
         SlidingWindowTrajectoryDataset(Subset(dataset, list(range(shuffled_split_len, dataset_length))), window_size, contigous=True) 
         for dataset in complete_datasets
     ]
+    visualization_set = contigous_split[randint(0, len(contigous_split) - 1)]
     shuffled_split = ParallelTrajectoryDataset(shuffled_split)
     contigous_split = ParallelTrajectoryDataset(contigous_split)
 
     train_set, test_set, validation_set = random_split(shuffled_split, [train_length, test_length, validation_length])
-    test_set = ParallelSlidingWindowTrajectoryDataset([SlidingWindowTrajectoryDataset(ts, window_size) for ts in test_set.dataset.datasets])
-    return train_set, test_set, validation_set, contigous_split
+    test_set = ConcatDataset([SlidingWindowTrajectoryDataset(ts, window_size) for ts in test_set.dataset.datasets])
+    return train_set, test_set, validation_set, visualization_set
 
 
 def read_trajectory_datasets(data_folder: Path, train_split: float, test_split: float, validation_split: float, 

@@ -162,7 +162,6 @@ def train_epoch(train_dataloader: DataLoader, model, loss_function, optimizer, l
             true_values = true_values.view(true_values_shape[1], true_values_shape[0], true_values_shape[2])
             optimizer.zero_grad()
             outputs = model(inputs, target=true_values)
-            print(outputs[0, 0, :], true_values[0, 0, :])
             loss = loss_function(outputs, true_values)
             running_loss += loss
             loss.backward()
