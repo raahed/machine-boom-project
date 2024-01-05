@@ -151,7 +151,7 @@ def define_dataloader_from_subset(train_set: Subset, validation_set: Subset,
 
 
 def define_dataloader_from_angle_dataset(train_data: AngleDataset, test_data: AngleDataset, 
-                                         batch_size: int, split_size: float = 0.95, shuffle: bool = False) -> List[DataLoader]:
+                                         batch_size: int, split_size: float = 0.95, shuffle: bool = False, visualization_split: float = 0.9) -> List[DataLoader]:
     """
     Create a train, test and validation dataloader from given AngleDatasets.    
     """
@@ -160,11 +160,17 @@ def define_dataloader_from_angle_dataset(train_data: AngleDataset, test_data: An
     train_set = Subset(train_data, range(split_count))
     validation_set = Subset(train_data, range(split_count, len(train_data)))
 
+    vis_split_count = int(visualization_split * len(test_data))
+
+    test_set = Subset(test_data, range(vis_split_count))
+    visualization_set = Subset(test_data, range(vis_split_count, len(test_data)))
+
     train_dataloader = DataLoader(train_set, batch_size=batch_size, shuffle=shuffle)
     validation_dataloader = DataLoader(validation_set, batch_size=batch_size, shuffle=shuffle)
-    test_dataloader = DataLoader(test_data, batch_size=batch_size, shuffle=shuffle)
+    test_dataloader = DataLoader(test_set, batch_size=batch_size, shuffle=shuffle)
+    visualization_dataloader = DataLoader(visualization_set, batch_size=batch_size, shuffle=shuffle)
 
-    return train_dataloader, validation_dataloader, test_dataloader
+    return train_dataloader, validation_dataloader, test_dataloader, visualization_dataloader
 
 
 def concatenate_data_dumps_in(data_folder: Path, sample_size: float) -> pd.DataFrame:
