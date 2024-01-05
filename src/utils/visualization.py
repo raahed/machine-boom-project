@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 import matplotlib.animation as anim
 import numpy as np
-from typing import Tuple, List
+from typing import Tuple, List, Sequence
 
 def create_trace_animation(predictions: np.ndarray, ground_truths: np.ndarray):
     """
@@ -83,6 +83,7 @@ def create_plot_for_dimensions(predictions: np.ndarray, ground_truths: np.ndarra
         axs[i][0].set_ylim([min, max])
         axs[i][0].legend()
         axs[i][0].title.set_text(f'Truth of property {i+1}')
+        axs[i][0].set_xticks([])
 
         # Plot the diff
         diff = ground_truths[:, i] - predictions[:, i]
@@ -94,7 +95,26 @@ def create_plot_for_dimensions(predictions: np.ndarray, ground_truths: np.ndarra
         axs[i][1].title.set_text(f'Diff of Ground Truth and Prediction {i+1}')
         axs[i][1].set_ylim([diff_min, diff_max])
         axs[i][1].yaxis.tick_right()
+        axs[i][1].set_xticks([])
 
-    
+
     plt.tight_layout()
     return plt    
+
+
+def create_inference_time_plot(inference_times: np.ndarray, figsize: Sequence[float] = None):
+    fig = plt.figure(figsize=figsize)
+    plt.plot(inference_times)
+    plt.title("Inference time per input in visualization dataset")
+    plt.ylabel("Time in s")
+    plt.xticks([])
+    return plt
+
+
+def create_validation_loss_plot(validation_losses: np.ndarray, figsize: Sequence[float] = None):
+    fig = plt.figure(figsize=figsize)
+    plt.plot(validation_losses)
+    plt.ylabel("Loss")
+    plt.xlabel("Epochs")
+    plt.title("Validation loss over time")
+    return plt
