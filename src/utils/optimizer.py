@@ -2,11 +2,11 @@ import torch
 from torch import nn, optim
 from typing import Optional
 
-# Warmup rate from https://nlp.seas.harvard.edu/annotated-transformer/
 
+# rate function from https://nlp.seas.harvard.edu/annotated-transformer/
 def rate(step, model_size, factor, warmup):
     """
-    we have to default the step to 1 for LambdaLR function
+    We have to default the step to 1 for LambdaLR function
     to avoid zero raising to negative power.
     """
     if step == 0:

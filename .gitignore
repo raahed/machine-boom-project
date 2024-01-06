@@ -33,6 +33,7 @@ scripts/*.png
 # Saved Models
 **/saved/*
 *.pt
+*.sav
 
 # Python cache
 **/__pycache__
