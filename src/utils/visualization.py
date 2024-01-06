@@ -82,9 +82,9 @@ def create_plot_for_dimensions(predictions: np.ndarray, ground_truths: np.ndarra
         axs[i][0].plot(ground_truths[:, i], label='Ground Truth')
         axs[i][0].set_ylim([min, max])
         axs[i][0].legend()
-        axs[i][0].title.set_text(f'Truth of property {i+1}')
+        axs[i][0].title.set_text(f'Lowest z-coordinate of cable {i+1}')
         axs[i][0].set_xticks([])
-
+        
         # Plot the diff
         diff = ground_truths[:, i] - predictions[:, i]
         diff_min = np.min(diff) - 1

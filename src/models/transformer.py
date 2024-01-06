@@ -1,22 +1,25 @@
 import sys; sys.path.insert(0, '../')
 
-from utils.evaluation import compute_loss_on
-from utils.early_stopping import EarlyStopping
-
 import math
 import pickle
+
+from pathlib import Path
+from typing import List, Optional, Tuple
 
 import torch
 import numpy as np
 
+from umap import UMAP
+from tqdm import tqdm
 from torch import nn, Tensor
 from torch.nn import TransformerEncoder, TransformerEncoderLayer
 from torch.utils.data import DataLoader
-from pathlib import Path
+
 from ray import tune, train as ray_train
-from typing import List, Optional
-from umap import UMAP
-import math
+
+from utils.file_io import save_downprojection
+from utils.evaluation import compute_loss_on
+from utils.early_stopping import EarlyStopping
 
 
 class PositionalEncoding(nn.Module):
@@ -137,7 +140,7 @@ def train_epoch(train_dataloader: DataLoader, model, loss_function, optimizer, l
 
 def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: DataLoader, model: TransformerEncoderModel,
            loss_function, optimizer, lr_scheduler, checkpoint_path: Optional[Path], device: torch.device = 'cpu', 
-           report_interval: int = 1000, tune: bool = False, early_stopping: Optional[EarlyStopping] = None) -> TransformerEncoderModel:
+           report_interval: int = 1000, tune: bool = False, early_stopping: Optional[EarlyStopping] = None) -> Tuple[np.ndarray, TransformerEncoderModel]:
     
     best_val_loss = float("inf")
     val_losses = []
@@ -179,16 +182,30 @@ def train(epochs: int, train_dataloader: DataLoader, validation_dataloader: Data
         val_losses.append(float(avg_val_loss)) 
 
         if early_stopping != None and early_stopping(avg_val_loss):
-            return model, np.array(val_losses)
+            return model, np.array(val_losses.cpu())
         
             
-    return model, np.array(val_losses)
+    return model, np.array(val_losses.cpu())
 
 
-def train_downprojection(projection: UMAP, train_dataloader: DataLoader) -> None:
+def pretrain_downprojections(model_dim_params, train_dataloader, downprojections_folder: Path) -> List[UMAP]:
+    downprojections_folder.mkdir(parents=True, exist_ok=True)
+    downprojections = {}
+    for _, _, n_neighbors in tqdm(model_dim_params, desc="Pretraining downprojections"):
+        downprojection = UMAP(n_components=3, n_neighbors=n_neighbors)
+        downprojection = train_downprojection(downprojection, train_dataloader)
+        downprojection_path = downprojections_folder / f"{n_neighbors}_projection.sav"
+        save_downprojection(downprojection, downprojection_path)
+        downprojections[int(n_neighbors)] = downprojection
+
+    return downprojections
+
+
+def train_downprojection(projection: UMAP, train_dataloader: DataLoader) -> UMAP:
     feature_vectors = []
     for features, labels in train_dataloader:
         features = torch.flatten(features, start_dim=0, end_dim=-2)
         feature_vectors.append(features)
     features = torch.concat(feature_vectors, dim=0)
-    projection = projection.fit(features)
+    projection.fit(features)
+    return projection
