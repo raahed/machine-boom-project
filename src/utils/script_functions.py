@@ -5,9 +5,9 @@ from tqdm import tqdm
 from .file_io import concatenate_data_dumps_in
 
 def group_frame_by_labels(dataframe: pd.DataFrame, label: List[str]) -> pd.DataFrame:
-        for prop in tqdm(label, "Grouping trajectories"):
-            dataframe[prop] = dataframe[prop].astype(str)
-        return dataframe.groupby(label)
+    for prop in tqdm(label, "Grouping trajectories"):
+        dataframe[prop] = dataframe[prop].astype(str)
+    return dataframe.groupby(label)
 
 
 def read_folder_in(path: Path) -> pd.DataFrame:
