@@ -1,4 +1,4 @@
-# Machine Boom Lowest Point Prediction
+# Prediction of the lowest cable point of a machine boom
 ## Project spaces
 - Git repository:  [Gitlab NT](https://gitsvn-nt.oru.se/mnfe/machine-boom-project)
 - Project report: [Overleaf project](https://www.overleaf.com/read/ftppxzzkjsmf)
