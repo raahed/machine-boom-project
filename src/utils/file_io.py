@@ -187,7 +187,7 @@ def read_angle_datasets(data_folder: Path, train_split: float, test_split: float
                         visualization_split: float = 0.0, feature_columns: List[str] = None,
                         label_features: List[Tuple[str, np.ndarray]] = None, 
                         normalized_features: List[Tuple[str, np.ndarray]] = None, 
-                        standardized_features: List[Tuple[str, np.ndarray]] = None, sample_size: float = 1) -> Tuple[AngleDataset, AngleDataset]:
+                        standardized_features: List[Tuple[str, np.ndarray]] = None, sample_size: float = 1) -> Tuple[AngleDataset, AngleDataset, AngleDataset, AngleDataset]:
     """
     Creates a train and test dataset of the data contained in data_folder.
     :param data_folder: The path to the parent folder of the collected data.
@@ -304,7 +304,7 @@ def compute_split_lengths(dataset_length: int, train_split: float, test_split: f
     return train_length, test_length, validation_length, shuffled_split_len
 
 
-def pandas_frame_split(dataframe: pd.DataFrame, split: List[int]) -> pd.DataFrame:
+def pandas_frame_split(dataframe: pd.DataFrame, split: List[int]) -> List[pd.DataFrame]:
     if len(dataframe) != sum(split):
         raise ValueError("Dataframe size does not match the split sum!")
 
