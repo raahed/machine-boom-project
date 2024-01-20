@@ -88,8 +88,8 @@ class TransformerEncoderModel(nn.Module):
             projection_path = self.infer_projection_filepath(path)
             pickle.dump(self.projection_function, projection_path.open("wb"))
 
-    def load(self, path: Path) -> None:
-        model_state_dict = torch.load(path)
+    def load(self, path: Path, device: str = 'cpu') -> None:
+        model_state_dict = torch.load(path, map_location=torch.device(device))
         if self.downprojection:
             projection_path = self.infer_projection_filepath(path)
             self.projection_function = pickle.load(projection_path.open("rb"))
