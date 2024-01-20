@@ -183,20 +183,55 @@ def build_trajectory_datasets(dataframe: pd.DataFrame, train_split: float, test_
     return train_set, test_set, validation_set, contigous_split
 
 
-def read_angle_datasets(data_folder: Path, train_split: float, feature_columns: List[str] = None,
-                             label_features: List[Tuple[str, np.ndarray]] = None, 
-                             normalized_features: List[Tuple[str, np.ndarray]] = None, 
-                             standardized_features: List[Tuple[str, np.ndarray]] = None, sample_size: float = 1) -> Tuple[AngleDataset, AngleDataset]:
+def read_angle_datasets(data_folder: Path, train_split: float, test_split: float, validation_split: float, 
+                        visualization_split: float = 0.0, feature_columns: List[str] = None,
+                        label_features: List[Tuple[str, np.ndarray]] = None, 
+                        normalized_features: List[Tuple[str, np.ndarray]] = None, 
+                        standardized_features: List[Tuple[str, np.ndarray]] = None, sample_size: float = 1) -> Tuple[AngleDataset, AngleDataset, AngleDataset, AngleDataset]:
     """
     Creates a train and test dataset of the data contained in data_folder.
     :param data_folder: The path to the parent folder of the collected data.
-    :param train_split: A float between 0 and 1 describing the relative size of the training dataset compared to the test dataset.
+    :param train_split: A float between 0 and 1 describing the relative size of the training dataset compared to the whole dataset.
+    :param test_split: A float between 0 and 1 describing the relative size of the test dataset compared to the whole dataset.
+    :param validation_split: A float between 0 and 1 describing the relative size of the validation dataset compared to the whole dataset.
+    :param visualization_split: A float between 0 and 1 describing the relative size of the visualization dataset compared to the whole dataset.
+    :param standardize_features: Set this to true to standardize the features (subtract the standard deviation and divide by the variance), incompatible with normalize_features
+    :param normalize_features: Set this to true to normalize the features between [-1, 1].
     :param sample_size: Set the percentage amount of total data sets that should be loaded.
     """
-    data = concatenate_data_dumps_in(data_folder, sample_size=sample_size)
-    preprocessed = preprocess_dataframe_for_learning(data, feature_columns, label_features, normalized_features, standardized_features)
-    train, test = train_test_split(preprocessed, train_size=train_split, shuffle=False)
-    return AngleDataset(train), AngleDataset(test)
+    preprocessed = load_angle_datasets(data_folder, feature_columns, label_features, normalized_features, standardized_features, sample_size)
+    return build_angle_datasets(preprocessed, train_split, test_split, validation_split, visualization_split)
+
+
+def load_angle_datasets(data_folder: Path, feature_columns: List[str] = None, label_features: List[Tuple[str, np.ndarray]] = None, normalized_features: List[Tuple[str, np.ndarray]] = None, 
+                             standardized_features: List[Tuple[str, np.ndarray]] = None, sample_size: float = 1) -> pd.DataFrame:
+    """
+    Split-of-function called by read_angle_datasets
+    """                     
+    data = concatenate_data_dumps_in(data_folder, sample_size)
+    return preprocess_dataframe_for_learning(data, feature_columns, label_features, normalized_features, standardized_features)
+
+
+def build_angle_datasets(dataframe: pd.DataFrame, train_split: float, test_split: float, validation_split: float, 
+                             visualization_split: float = 0.0) -> Tuple[AngleDataset, AngleDataset, AngleDataset, AngleDataset]:
+    """
+    Split-of-function called by read_angle_datasets
+    """
+    sum_of_splits = train_split + test_split + validation_split + visualization_split
+    if not sum_of_splits <= 1:
+        raise ValueError(f"The sum of all splits should be smaller than 1.0, given {sum_of_splits}!")
+
+    dataset_length = len(dataframe)
+
+    train_length, test_length, validation_length, overlap = compute_split_lengths(dataset_length, train_split, 
+                                                                                             test_split, validation_split)
+
+    overlap_frame = dataframe.iloc[list(range(0, overlap))]
+    contigous_frame = dataframe.iloc[list(range(overlap, dataset_length))]
+
+    train_frame, test_frame, validation_frame = pandas_frame_split(overlap_frame, [train_length, test_length, validation_length])
+
+    return AngleDataset(train_frame), AngleDataset(test_frame), AngleDataset(validation_frame), AngleDataset(contigous_frame)
 
 
 def save_dataset(dataset: Dataset, dataset_path: Path):
@@ -205,39 +240,16 @@ def save_dataset(dataset: Dataset, dataset_path: Path):
     torch.save(dataset, dataset_path)
 
 
-def define_dataloader_from_subset(train_set: Subset, validation_set: Subset, 
-                                  test_set: Subset, batch_size: int, shuffle: bool = False) -> List[DataLoader]:
+def define_dataloader_from_dataset(train_set: Dataset, validation_set: Dataset, 
+                                  test_set: Dataset, batch_size: int, shuffle: bool = False) -> List[DataLoader]:
     """
-    Create a train, test and validation dataloader from given Subset.   
+    Create a train, test and validation dataloader from given Dataset.   
     """
     train_dataloader = DataLoader(train_set, batch_size=batch_size, shuffle=shuffle)
     validation_dataloader = DataLoader(validation_set, batch_size=batch_size, shuffle=shuffle)
     test_dataloader = DataLoader(test_set, batch_size=batch_size, shuffle=shuffle)
 
     return train_dataloader, validation_dataloader, test_dataloader
-
-
-def define_dataloader_from_angle_dataset(train_data: AngleDataset, test_data: AngleDataset, 
-                                         batch_size: int, split_size: float = 0.95, shuffle: bool = False, visualization_split: float = 0.9) -> List[DataLoader]:
-    """
-    Create a train, test and validation dataloader from given AngleDatasets.    
-    """
-    split_count = int(split_size * len(train_data))
-
-    train_set = Subset(train_data, range(split_count))
-    validation_set = Subset(train_data, range(split_count, len(train_data)))
-
-    vis_split_count = int(visualization_split * len(test_data))
-
-    test_set = Subset(test_data, range(vis_split_count))
-    visualization_set = Subset(test_data, range(vis_split_count, len(test_data)))
-
-    train_dataloader = DataLoader(train_set, batch_size=batch_size, shuffle=shuffle)
-    validation_dataloader = DataLoader(validation_set, batch_size=batch_size, shuffle=shuffle)
-    test_dataloader = DataLoader(test_set, batch_size=batch_size, shuffle=shuffle)
-    visualization_dataloader = DataLoader(visualization_set, batch_size=batch_size, shuffle=shuffle)
-
-    return train_dataloader, validation_dataloader, test_dataloader, visualization_dataloader
 
 
 def load_downprojections(downprojections_folder: Path):
@@ -290,6 +302,16 @@ def compute_split_lengths(dataset_length: int, train_split: float, test_split: f
     validation_length = int(dataset_length * validation_split)
     shuffled_split_len = train_length + test_length + validation_length
     return train_length, test_length, validation_length, shuffled_split_len
+
+
+def pandas_frame_split(dataframe: pd.DataFrame, split: List[int]) -> List[pd.DataFrame]:
+    if len(dataframe) != sum(split):
+        raise ValueError("Dataframe size does not match the split sum!")
+
+    last_start = 0
+    for sample in split:
+        yield dataframe.iloc[list(range(last_start, last_start + sample))]
+        last_start += sample    
 
 
 def read_data_csv(filepath: Path, separator: str = ";", sample_size: float = 1) -> pd.DataFrame:
